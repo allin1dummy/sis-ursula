@@ -15,7 +15,7 @@ public class AspekKeterampilanFragment extends Fragment implements ActionBar.Tab
 	private View root;
 	private ActionBar actionBar;
 	private KeterampilanSimpleTabPagerAdapter tabPagerAdapter;
-	private android.support.v4.view.ViewPager viewPager;
+	private ViewPager viewPager;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

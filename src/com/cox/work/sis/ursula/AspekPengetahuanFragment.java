@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 public class AspekPengetahuanFragment extends Fragment implements OnClickListener, ActionBar.TabListener{
 	private View root;
-	private android.support.v4.view.ViewPager viewPager;
+	private ViewPager viewPager;
 	private SimpleTabPagerAdapter tabPagerAdapter;
 	
 	private ArrayList<View> buttonList;
