@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_top_item_selected"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/detail_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/linechart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/detail_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barchart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/detail_3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Detail 3"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/detail_4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Detail 4"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/detail_5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Detail 5"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/detail_6"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Detail 6"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/detail_7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Detail 7"/>
+    </LinearLayout>
+
+</LinearLayout>

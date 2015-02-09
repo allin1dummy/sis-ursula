@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Main part of button -->
+    <item
+        android:bottom="30dp"
+        android:right="0dp" >
+
+        <shape android:shape="rectangle">
+            <solid android:color="@color/bg_top_item_selected" />
+            <corners android:radius="150dp" />
+        </shape>
+    </item>
+
+    <item
+        android:top="30dp"
+        android:right="0dp" >
+
+        <shape
+            android:shape="rectangle" >
+            <solid android:color="@color/bg_top_item_selected" />
+            <corners android:radius="50dp" />
+        </shape>
+    </item>
+
+    <!-- Patch left middle part of button, which was left empty due to rounded 
+    corners on top and bottom halves of button -->
+    <item
+        android:top="50dp"
+        android:bottom="20dp"
+        android:right="50dp" >
+
+        <shape android:shape="rectangle">
+            <solid android:color="@color/bg_top_item_selected" />
+        </shape>
+    </item>
+
+    <item
+        android:top="20dp"
+        android:bottom="50dp"
+        android:right="50dp" >
+
+        <shape
+            android:shape="rectangle" >
+            <solid android:color="@color/bg_top_item_selected" />
+        </shape>
+    </item>
+
+    <!-- Patch right middle and make right side corners square -->
+    <item
+        android:bottom="20dp"
+        android:left="15dp" >
+
+        <shape android:shape="rectangle">
+            <solid android:color="@color/bg_top_item_selected" />
+        </shape>
+    </item>
+
+    <item
+        android:top="20dp"
+        android:left="15dp" >
+
+        <shape android:shape="rectangle" >
+            <solid android:color="@color/bg_top_item_selected" />
+        </shape>
+    </item>
+</layer-list>
