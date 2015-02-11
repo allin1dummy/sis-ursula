@@ -39,13 +39,10 @@ public class KeterampilanLisanFragment extends Fragment implements OnClickListen
 		
     	initView();
 
-		//createLineChart();
+		createLineChart();
 		//createBarChart();
 		//BarChart chart= (BarChart) root.findViewById(R.id.chart);
 		//chart.setData(getBarData());
-		
-		
-		//createLineChart();
 		
 		return root;
 	}
@@ -139,7 +136,7 @@ public class KeterampilanLisanFragment extends Fragment implements OnClickListen
 		LineChart chart = (LineChart) root.findViewById(R.id.linechart);
 		chart.setData(getDataSet());
 		chart.setDescription("Mata Pelajaran:");
-		chart.setMaxScaleY(10f);
+		//chart.setMaxScaleY(10f);
 
         XLabels xl = chart.getXLabels();
         xl.setPosition(XLabelPosition.BOTTOM);

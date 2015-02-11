@@ -1,12 +1,16 @@
 package com.cox.work.sis.ursula;
 
+import java.lang.reflect.Field;
+
 import com.cox.work.sis.ursula.adapter.KeterampilanSimpleTabPagerAdapter;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,18 @@ public class AspekKeterampilanFragment extends Fragment implements ActionBar.Tab
 	private ActionBar actionBar;
 	private KeterampilanSimpleTabPagerAdapter tabPagerAdapter;
 	private ViewPager viewPager;
+	private static final Field sChildFragmentManagerField;
+	
+	static {
+		Field f = null;
+		try {
+			f = Fragment.class.getDeclaredField("mChildFragmentManager");
+			f.setAccessible(true);
+		} catch (NoSuchFieldException e) {
+			Log.e("SISUR", "Error getting mChildFragmentManager field", e);
+		}
+		sChildFragmentManagerField = f;
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -27,11 +43,24 @@ public class AspekKeterampilanFragment extends Fragment implements ActionBar.Tab
 			Bundle savedInstanceState) {
 		root = inflater.inflate(R.layout.keterampilan_pager, container, false);
 		viewPager = (ViewPager) root.findViewById(R.id.pager);
-		tabPagerAdapter = new KeterampilanSimpleTabPagerAdapter(getActivity().getSupportFragmentManager());
+		tabPagerAdapter = new KeterampilanSimpleTabPagerAdapter(getChildFragmentManager());
 		
     	initView();
 
 		return root;
+	}
+	
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		
+		if (sChildFragmentManagerField != null) {
+            try {
+            	sChildFragmentManagerField.set(this, null);
+            } catch (Exception e) {
+                Log.e("SISUR", "Error setting mChildFragmentManager field", e);
+            }
+        }
 	}
 
 	private void initView() {

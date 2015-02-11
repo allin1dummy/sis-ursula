@@ -5,15 +5,9 @@
     android:background="@drawable/background_repeat_menu"
     android:orientation="vertical" >
     
-	<TextView
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:text="Keterampilan Tulis" />
-    
-    <LinearLayout
-        android:id="@+id/detail_2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </LinearLayout>
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/linechart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" /> 
     
 </LinearLayout>

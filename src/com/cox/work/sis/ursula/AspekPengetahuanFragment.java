@@ -1,7 +1,9 @@
 package com.cox.work.sis.ursula;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import com.cox.work.sis.ursula.adapter.KeterampilanSimpleTabPagerAdapter;
 import com.cox.work.sis.ursula.adapter.SimpleTabPagerAdapter;
 
 import android.app.ActionBar;
@@ -10,8 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v7.app.ActionBar.Tab;
-import android.support.v7.app.ActionBar.TabListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +22,7 @@ import android.widget.TextView;
 public class AspekPengetahuanFragment extends Fragment implements OnClickListener, ActionBar.TabListener{
 	private View root;
 	private ViewPager viewPager;
-	private SimpleTabPagerAdapter tabPagerAdapter;
+	private KeterampilanSimpleTabPagerAdapter tabPagerAdapter;
 	
 	private ArrayList<View> buttonList;
 	private TextView btnDetail1;
@@ -32,8 +32,32 @@ public class AspekPengetahuanFragment extends Fragment implements OnClickListene
 	private TextView btnDetail5;
 	private TextView btnDetail6;
 	private TextView btnDetail7;
-	private int[] arr = {R.id.detail_1, R.id.detail_2, R.id.detail_3, R.id.detail_4, R.id.detail_5, R.id.detail_6, R.id.detail_7};
 	private ActionBar actionBar;
+	private static final Field sChildFragmentManagerField;
+	
+	static {
+		Field f = null;
+		try {
+			f = Fragment.class.getDeclaredField("mChildFragmentManager");
+			f.setAccessible(true);
+		} catch (NoSuchFieldException e) {
+			Log.e("SISUR", "Error getting mChildFragmentManager field", e);
+		}
+		sChildFragmentManagerField = f;
+	}
+	
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		
+		if (sChildFragmentManagerField != null) {
+            try {
+            	sChildFragmentManagerField.set(this, null);
+            } catch (Exception e) {
+                Log.e("SISUR", "Error setting mChildFragmentManager field", e);
+            }
+        }
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +70,7 @@ public class AspekPengetahuanFragment extends Fragment implements OnClickListene
 		
 		root =  inflater.inflate(R.layout.pengetahuan_layout, container, false);
 		viewPager = (ViewPager) root.findViewById(R.id.pager);
-		tabPagerAdapter = new SimpleTabPagerAdapter(getActivity().getSupportFragmentManager());
+		tabPagerAdapter = new KeterampilanSimpleTabPagerAdapter(getChildFragmentManager());
 		viewPager.setAdapter(tabPagerAdapter);
 		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override

@@ -1,5 +1,6 @@
 package com.cox.work.sis.ursula.adapter;
 
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -45,5 +46,9 @@ public class SimpleTabPagerAdapter extends FragmentPagerAdapter {
 		default:
 			return "";				
 		}
+	}
+	
+	@Override
+	public void restoreState(Parcelable state, ClassLoader loader) {
 	}
 }
