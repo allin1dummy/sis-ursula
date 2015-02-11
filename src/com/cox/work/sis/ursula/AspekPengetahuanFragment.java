@@ -1,5 +1,6 @@
 package com.cox.work.sis.ursula;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import com.cox.work.sis.ursula.adapter.SimpleTabPagerAdapter;
@@ -34,6 +35,31 @@ public class AspekPengetahuanFragment extends Fragment implements OnClickListene
 	private TextView btnDetail7;
 	private int[] arr = {R.id.detail_1, R.id.detail_2, R.id.detail_3, R.id.detail_4, R.id.detail_5, R.id.detail_6, R.id.detail_7};
 	private ActionBar actionBar;
+	private static final Field sChildFragmentManagerField;
+	
+	static {
+		Field f = null;
+		try {
+			f = Fragment.class.getDeclaredField("mChildFragmentManager");
+			f.setAccessible(true);
+		} catch (NoSuchFieldException e) {
+			Log.e("SISUR", "Error getting mChildFragmentManager field", e);
+		}
+		sChildFragmentManagerField = f;
+	}
+	
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		
+		if (sChildFragmentManagerField != null) {
+            try {
+            	sChildFragmentManagerField.set(this, null);
+            } catch (Exception e) {
+                Log.e("SISUR", "Error setting mChildFragmentManager field", e);
+            }
+        }
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +72,7 @@ public class AspekPengetahuanFragment extends Fragment implements OnClickListene
 		
 		root =  inflater.inflate(R.layout.pengetahuan_layout, container, false);
 		viewPager = (ViewPager) root.findViewById(R.id.pager);
-		tabPagerAdapter = new SimpleTabPagerAdapter(getActivity().getSupportFragmentManager());
+		tabPagerAdapter = new SimpleTabPagerAdapter(getChildFragmentManager());
 		viewPager.setAdapter(tabPagerAdapter);
 		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
