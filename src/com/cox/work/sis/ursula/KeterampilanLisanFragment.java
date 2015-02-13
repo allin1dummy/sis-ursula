@@ -2,6 +2,7 @@ package com.cox.work.sis.ursula;
 
 import java.util.ArrayList;
 
+import com.cox.work.sis.ursula.util.DummyData;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
@@ -15,6 +16,7 @@ import com.github.mikephil.charting.utils.XLabels;
 import com.github.mikephil.charting.utils.YLabels;
 import com.github.mikephil.charting.utils.Legend.LegendPosition;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -134,7 +136,7 @@ public class KeterampilanLisanFragment extends Fragment implements OnClickListen
 
 	private void createLineChart() {
 		LineChart chart = (LineChart) root.findViewById(R.id.linechart);
-		chart.setData(getDataSet());
+		chart.setData(DummyData.LineChart.getDataSet());
 		chart.setDescription("Mata Pelajaran:");
 		//chart.setMaxScaleY(10f);
 
@@ -150,46 +152,6 @@ public class KeterampilanLisanFragment extends Fragment implements OnClickListen
 	public void onResume() {
 		super.onResume();
 		Log.e("cox", "onResume");
-	}
-	
-	private LineData getDataSet() {
-		ArrayList<Entry> valsComp1 = new ArrayList<Entry>();
-	    ArrayList<Entry> valsComp2 = new ArrayList<Entry>();
-	    
-	    Entry c1e1 = new Entry((float)(Math.random() * 10), 0);
-	    valsComp1.add(c1e1);
-	    Entry c1e2 = new Entry((float)(Math.random() * 10), 1);
-	    valsComp1.add(c1e2);
-	    Entry c1e3 = new Entry((float)(Math.random() * 10), 2);
-	    valsComp1.add(c1e3);
-	    Entry c1e4 = new Entry((float)(Math.random() * 10), 3);
-	    valsComp1.add(c1e4);
-	    // and so on ...
-
-	    Entry c2e1 = new Entry((float)(Math.random() * 10), 0);
-	    valsComp2.add(c2e1);
-	    Entry c2e2 = new Entry((float)(Math.random() * 10), 1);
-	    valsComp2.add(c2e2);
-	    Entry c2e3 = new Entry((float)(Math.random() * 10), 2);
-	    valsComp2.add(c2e3);
-	    Entry c2e4 = new Entry((float)(Math.random() * 10), 3);
-	    valsComp2.add(c2e4);
-	    //...
-	    
-	    LineDataSet setComp1 = new LineDataSet(valsComp1, "Math");
-	    setComp1.setColor(Color.RED);
-	    LineDataSet setComp2 = new LineDataSet(valsComp2, "Social");
-	    setComp2.setColor(Color.BLACK);
-	    
-	    ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
-	    dataSets.add(setComp1);
-	    dataSets.add(setComp2);
-
-	    ArrayList<String> xVals = new ArrayList<String>();
-	    xVals.add("I"); xVals.add("II"); xVals.add("III"); xVals.add("IV"); 
-
-	    LineData data = new LineData(xVals, dataSets);
-	    return data;
 	}
 	
 	@Override

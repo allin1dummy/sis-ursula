@@ -9,6 +9,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class KeterampilanSimpleTabPagerAdapter extends FragmentPagerAdapter {
 	
+	KeterampilanTulisFragment tulisFragment;
+	KeterampilanLisanFragment lisanFragment;
+	
 	public KeterampilanSimpleTabPagerAdapter(FragmentManager fm) {
 		super(fm);
 	}
@@ -17,13 +20,15 @@ public class KeterampilanSimpleTabPagerAdapter extends FragmentPagerAdapter {
 	public Fragment getItem(int i) {
 		switch (i) {
 		case 0:
-			return new KeterampilanTulisFragment();
+			if(tulisFragment == null) {
+				tulisFragment = new KeterampilanTulisFragment();
+			}
+			return tulisFragment;
 		case 1:
-			return new KeterampilanLisanFragment();
-		case 2:
-			return new KeterampilanTulisFragment();
-		case 3:
-			return new KeterampilanLisanFragment();
+			if(lisanFragment == null) {
+				lisanFragment = new KeterampilanLisanFragment();
+			}
+			return lisanFragment;
 		default:
 			return new Fragment();
 		}

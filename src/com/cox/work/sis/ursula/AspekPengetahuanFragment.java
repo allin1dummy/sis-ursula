@@ -65,6 +65,12 @@ public class AspekPengetahuanFragment extends Fragment implements OnClickListene
 	}
 	
 	@Override
+	public void onDestroy() {
+		super.onDestroy();
+    	actionBar.removeAllTabs();
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
@@ -90,7 +96,6 @@ public class AspekPengetahuanFragment extends Fragment implements OnClickListene
 		});
 
     	actionBar = getActivity().getActionBar();
-    	actionBar.removeAllTabs();
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		

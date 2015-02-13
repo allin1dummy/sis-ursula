@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import com.cox.work.sis.ursula.adapter.KeterampilanSimpleTabPagerAdapter;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.ActionBar.Tab;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,10 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class AspekKeterampilanFragment extends Fragment implements ActionBar.TabListener{
-	private View root;
+	private View root = null;
 	private ActionBar actionBar;
 	private KeterampilanSimpleTabPagerAdapter tabPagerAdapter;
 	private ViewPager viewPager;
+
+	public boolean hasInitializedRootView = false;
+	
 	private static final Field sChildFragmentManagerField;
 	
 	static {
@@ -38,16 +42,20 @@ public class AspekKeterampilanFragment extends Fragment implements ActionBar.Tab
 		super.onCreate(savedInstanceState);
 	}
 	
+	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		root = inflater.inflate(R.layout.keterampilan_pager, container, false);
-		viewPager = (ViewPager) root.findViewById(R.id.pager);
-		tabPagerAdapter = new KeterampilanSimpleTabPagerAdapter(getChildFragmentManager());
-		
-    	initView();
-
-		return root;
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return getPersistentView(inflater, container, savedInstanceState, R.layout.keterampilan_pager);
+	}
+	
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		if (!hasInitializedRootView) {
+			hasInitializedRootView = true;
+			// Do initial setup of UI
+			initView();
+		}
 	}
 	
 	@Override
@@ -64,6 +72,7 @@ public class AspekKeterampilanFragment extends Fragment implements ActionBar.Tab
 	}
 
 	private void initView() {
+		tabPagerAdapter = new KeterampilanSimpleTabPagerAdapter(getChildFragmentManager());
 		viewPager.setAdapter(tabPagerAdapter);
 		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
@@ -83,7 +92,6 @@ public class AspekKeterampilanFragment extends Fragment implements ActionBar.Tab
 		});
 
     	actionBar = getActivity().getActionBar();
-    	actionBar.removeAllTabs();
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
@@ -100,6 +108,13 @@ public class AspekKeterampilanFragment extends Fragment implements ActionBar.Tab
 	}
 	
 	@Override
+	public void onDestroy() {
+		super.onDestroy();
+    	actionBar.removeAllTabs();
+	}
+	
+	
+	@Override
 	public void onTabReselected(Tab arg0, android.app.FragmentTransaction arg1) {
 		// TODO Auto-generated method stub
 		
@@ -114,5 +129,25 @@ public class AspekKeterampilanFragment extends Fragment implements ActionBar.Tab
 	public void onTabUnselected(Tab arg0, android.app.FragmentTransaction arg1) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public View getPersistentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layout) {
+		if (root == null) {
+			// Inflate the layout for this fragment
+			root = inflater.inflate(layout, container, false);
+			viewPager = (ViewPager) root.findViewById(R.id.pager);
+		} else {
+			// Do not inflate the layout again.
+			// The returned View of onCreateView will be added into the
+			// fragment.
+			// However it is not allowed to be added twice even if the
+			// parent is same.
+			// So we must remove rootView from the existing parent view
+			// group
+			// (it will be added back).
+			((ViewGroup) root.getParent()).removeView(root);
+		}
+
+		return root;
 	}
 }
