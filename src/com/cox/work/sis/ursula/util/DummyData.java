@@ -15,21 +15,22 @@ public class DummyData {
 	
 	public static class LineChart {
 		public static LineData getDataSet() {
-			int max = 10;
-			String subjects[] = {"MTK", "IPA", "IPS", "Kesenian", "Agama", "Olahraga", "PPKN", "Seni Musik", "Seni Rupa", "Ekskul"};
+			int max = 11;
+			String subjects[] = {"MTK", "IPA", "IPS", "BI", "AGAMA", "PENJAS", "PPKn", "SMUSIK", "PRAKARYA", "BIng", "Komp"};
+			int colors[] = {Color.RED, Color.BLACK, Color.BLUE, Color.GREEN, Color.YELLOW, Color.CYAN, Color.MAGENTA, Color.LTGRAY, Color.DKGRAY, Color.BLUE, Color.RED};
 			ArrayList<String> xVals = new ArrayList<String>();
 			ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
 			LineDataSet setComp = null;
-			ArrayList<Entry> valsComp = new ArrayList<Entry>();
+			ArrayList<Entry> valsComp = null;
 			
 			for(int i=0; i<max; i++) {
-				 xVals.add(""+i+1);
-				 
-				 valsComp.add(new Entry((float)(Math.random() * 10), i));
-				 
+				 xVals.add(""+(i+1));
+				 valsComp = new ArrayList<Entry>();
+				 for(int j=0; j<max-1; j++) {
+					 valsComp.add(new Entry((float)(Math.random() * 10), j));
+				 }
 				 setComp = new LineDataSet(valsComp, subjects[i]);
-				 setComp.setColor(Color.RED);
-				 
+				 setComp.setColor(colors[i]);
 				 dataSets.add(setComp);
 			}
 			
