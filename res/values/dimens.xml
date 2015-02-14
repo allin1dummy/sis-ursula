@@ -8,4 +8,7 @@
     <dimen name="top_statistic_button_height">120dip</dimen>
     <dimen name="top_statistic_margin">80dip</dimen>
     <dimen name="text_padding">15dip</dimen>
+    
+    <dimen name="table_width">100dp</dimen>
+    <dimen name="table_height">40dp</dimen>
 </resources>

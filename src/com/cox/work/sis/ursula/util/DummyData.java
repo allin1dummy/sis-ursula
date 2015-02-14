@@ -13,23 +13,25 @@ public class DummyData {
 	public DummyData() {
 	}
 	
-	public static class LineChart {
-		public static LineData getDataSet() {
-			int max = 11;
-			String subjects[] = {"MTK", "IPA", "IPS", "BI", "AGAMA", "PENJAS", "PPKn", "SMUSIK", "PRAKARYA", "BIng", "Komp"};
+	public static final class LineChart {
+		public static final int NUM_SUBJECTS = 11;
+		public static final int NUM_WEEKS = 10;
+		public static final String SUBJECTS[] = {"MTK", "IPA", "IPS", "BI", "AGAMA", "PENJAS", "PPKn", "SMUSIK", "PRAKARYA", "BIng", "Komp"};
+		
+		public static final LineData getDataSet() {
 			int colors[] = {Color.RED, Color.BLACK, Color.BLUE, Color.GREEN, Color.YELLOW, Color.CYAN, Color.MAGENTA, Color.LTGRAY, Color.DKGRAY, Color.BLUE, Color.RED};
 			ArrayList<String> xVals = new ArrayList<String>();
 			ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
 			LineDataSet setComp = null;
 			ArrayList<Entry> valsComp = null;
 			
-			for(int i=0; i<max; i++) {
+			for(int i=0; i<NUM_SUBJECTS; i++) {
 				 xVals.add(""+(i+1));
 				 valsComp = new ArrayList<Entry>();
-				 for(int j=0; j<max-1; j++) {
+				 for(int j=0; j<NUM_WEEKS; j++) {
 					 valsComp.add(new Entry((float)(Math.random() * 10), j));
 				 }
-				 setComp = new LineDataSet(valsComp, subjects[i]);
+				 setComp = new LineDataSet(valsComp, SUBJECTS[i]);
 				 setComp.setColor(colors[i]);
 				 dataSets.add(setComp);
 			}
