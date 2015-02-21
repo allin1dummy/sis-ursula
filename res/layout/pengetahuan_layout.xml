@@ -2,110 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_repeat_menu"
     android:orientation="horizontal" >
-    
-<android.support.v4.view.ViewPager
+
+    <android.support.v4.view.ViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-<!-- 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:paddingBottom="5dip"
-        android:paddingLeft="5dip"
-        android:paddingRight="0dip" >
+        android:layout_height="match_parent" >
+    </android.support.v4.view.ViewPager>
 
-        <TextView
-            android:id="@+id/tv_pengetahuan_tulis"
-            android:text="T\nU\nL\nI\nS"
-            android:gravity="center"
-            android:layout_width="@dimen/top_statistic_button_width"
-            android:layout_height="@dimen/top_statistic_button_height"
-            android:layout_marginBottom="2dip"
-            android:padding="5dip"
-            android:background="@drawable/button_rounded_left_grey_selected"
-            android:scaleType="centerInside"/>
-
-        <TextView
-            android:id="@+id/tv_pengetahuan_lisan"
-            android:text="L\nI\nS\nA\nN"
-            android:gravity="center"
-            android:layout_width="@dimen/top_statistic_button_width"
-            android:layout_height="@dimen/top_statistic_button_height"
-            android:layout_marginBottom="2dip"
-            android:padding="5dip"
-            android:background="@drawable/button_rounded_left_grey_unselected"
-            android:scaleType="centerInside"/>
-
-        <TextView
-            android:id="@+id/tv_pengetahuan_tugas"
-            android:text="T\nU\nG\nA\nS"
-            android:gravity="center"
-            android:layout_width="@dimen/top_statistic_button_width"
-            android:layout_height="@dimen/top_statistic_button_height"
-            android:layout_marginBottom="2dip"
-            android:padding="5dip"
-            android:background="@drawable/button_rounded_left_grey_unselected"
-            android:scaleType="centerInside"/>
-
-        <TextView
-            android:id="@+id/tv_pengetahuan_kerja"
-            android:text="T\nU\nG\nA\nS"
-            android:gravity="center"
-            android:layout_width="@dimen/top_statistic_button_width"
-            android:layout_height="@dimen/top_statistic_button_height"
-            android:layout_marginBottom="2dip"
-            android:padding="5dip"
-            android:background="@drawable/button_rounded_left_grey_unselected"
-            android:scaleType="centerInside"/>
-
-        <TextView
-            android:id="@+id/tv_pengetahuan_demonstrasi"
-            android:text="T\nU\nG\nA\nS"
-            android:gravity="center"
-            android:layout_width="@dimen/top_statistic_button_width"
-            android:layout_height="@dimen/top_statistic_button_height"
-            android:layout_marginBottom="2dip"
-            android:padding="5dip"
-            android:background="@drawable/button_rounded_left_grey_unselected"
-            android:scaleType="centerInside"/>
-
-        <TextView
-            android:id="@+id/tv_pengetahuan_proyek"
-            android:text="T\nU\nG\nA\nS"
-            android:gravity="center"
-            android:layout_width="@dimen/top_statistic_button_width"
-            android:layout_height="@dimen/top_statistic_button_height"
-            android:layout_marginBottom="2dip"
-            android:padding="5dip"
-            android:background="@drawable/button_rounded_left_grey_unselected"
-            android:scaleType="centerInside"/>
-
-        <TextView
-            android:id="@+id/tv_pengetahuan_portofolio"
-            android:text="T\nU\nG\nA\nS"
-            android:gravity="center"
-            android:layout_width="@dimen/top_statistic_button_width"
-            android:layout_height="@dimen/top_statistic_button_height"
-            android:layout_marginBottom="2dip"
-            android:padding="5dip"
-            android:background="@drawable/button_rounded_left_grey_unselected"
-            android:scaleType="centerInside"/>
-    </LinearLayout>
-    
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/light_green" >
-
-        <include
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            layout="@layout/grade_detail"/>
-    </LinearLayout>
-     -->
 </LinearLayout>

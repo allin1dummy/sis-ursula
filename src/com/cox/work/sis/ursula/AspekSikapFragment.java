@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class AspekSikapFragment extends Fragment implements OnClickListener{
+public class AspekSikapFragment extends Fragment {
 	private View root;
 	private ArrayList<View> buttonList;
 	private TextView btnDetail1;
@@ -28,11 +28,6 @@ public class AspekSikapFragment extends Fragment implements OnClickListener{
 			Bundle savedInstanceState) {
 		
 		return root;
-	}
-	
-
-	@Override
-	public void onClick(View v) {
 	}
 
 }
