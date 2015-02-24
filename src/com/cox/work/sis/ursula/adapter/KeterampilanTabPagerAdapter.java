@@ -5,18 +5,16 @@ import com.cox.work.sis.ursula.KeterampilanTulisFragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 
-public class KeterampilanSimpleTabPagerAdapter extends FragmentPagerAdapter {
+public class KeterampilanTabPagerAdapter extends AspekBaseTabPagerAdapter {
 	
 	KeterampilanTulisFragment tulisFragment;
 	KeterampilanLisanFragment lisanFragment;
 	
-	public KeterampilanSimpleTabPagerAdapter(FragmentManager fm) {
+	public KeterampilanTabPagerAdapter(FragmentManager fm) {
 		super(fm);
 	}
 
-	@Override
 	public Fragment getItem(int i) {
 		switch (i) {
 		case 0:
@@ -31,33 +29,6 @@ public class KeterampilanSimpleTabPagerAdapter extends FragmentPagerAdapter {
 			return lisanFragment;
 		default:
 			return new Fragment();
-		}
-	}
-
-	@Override
-	public int getCount() {
-		return 7;
-	}
-
-	@Override
-	public CharSequence getPageTitle(int position) {
-		switch (position) {
-		case 0:
-			return "Tes Tertulis";
-		case 1:
-			return "Tes Lisan";
-		case 2:
-			return "Tugas";
-		case 3:
-			return "Unjuk Kerja";
-		case 4:
-			return "Demonstrasi";
-		case 5:
-			return "Proyek";
-		case 6:
-			return "Portfolio";
-		default:
-			return "";				
 		}
 	}
 }

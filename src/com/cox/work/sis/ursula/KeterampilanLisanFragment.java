@@ -1,32 +1,17 @@
 package com.cox.work.sis.ursula;
 
-import java.util.ArrayList;
-
-import com.cox.work.sis.ursula.util.DummyData;
-import com.github.mikephil.charting.charts.BarChart;
+import com.cox.work.sis.ursula.util.Util;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.utils.Legend;
 import com.github.mikephil.charting.utils.XLabels;
-import com.github.mikephil.charting.utils.YLabels;
-import com.github.mikephil.charting.utils.Legend.LegendPosition;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-public class KeterampilanLisanFragment extends Fragment implements OnClickListener {
+public class KeterampilanLisanFragment extends Fragment {
 	private View root;
 	
 	@Override
@@ -39,8 +24,6 @@ public class KeterampilanLisanFragment extends Fragment implements OnClickListen
 			Bundle savedInstanceState) {
 		root = inflater.inflate(R.layout.keterampilan_lisan_layout, container, false);
 		
-    	initView();
-
 		createLineChart();
 		//createBarChart();
 		//BarChart chart= (BarChart) root.findViewById(R.id.chart);
@@ -136,27 +119,12 @@ public class KeterampilanLisanFragment extends Fragment implements OnClickListen
 
 	private void createLineChart() {
 		LineChart chart = (LineChart) root.findViewById(R.id.linechart);
-		chart.setData(DummyData.LineChart.getDataSet());
+		chart.setData(Util.LineChart.getDataSet());
 		chart.setDescription("Mata Pelajaran:");
 		//chart.setMaxScaleY(10f);
 
         XLabels xl = chart.getXLabels();
         xl.setPosition(XLabelPosition.BOTTOM);
-	}
-
-	private void initView() {
-		
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-		Log.e("cox", "onResume");
-	}
-	
-	@Override
-	public void onClick(View v) {
-		Log.e("cox", "onClick - id = " + v.getId());
 	}
 
 }

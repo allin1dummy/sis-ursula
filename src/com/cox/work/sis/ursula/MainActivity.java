@@ -69,7 +69,7 @@ public class MainActivity extends FragmentActivity {
 		// Photos
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
 		// Communities, Will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "99"));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
 		// Pages
 
 		// Recycle the typed array
@@ -179,7 +179,10 @@ public class MainActivity extends FragmentActivity {
 			fragment = keterampilanFragment;
 			break;
 		case 3:
-			fragment = new AspekSikapFragment();
+			if(sikapFragment == null) {
+				sikapFragment = new AspekSikapFragment();
+			}
+			fragment = sikapFragment;
 			break;
 		case 4:
 			fragment = new PagesFragment();

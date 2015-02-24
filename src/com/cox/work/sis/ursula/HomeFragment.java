@@ -1,7 +1,7 @@
 package com.cox.work.sis.ursula;
 
 import com.cox.work.sis.ursula.adapter.SampleTableAdapter;
-import com.cox.work.sis.ursula.util.DummyData;
+import com.cox.work.sis.ursula.util.Util;
 import com.inqbarna.tablefixheaders.TableFixHeaders;
 
 import android.support.v4.app.Fragment;
@@ -48,12 +48,12 @@ public class HomeFragment extends Fragment {
 
 		@Override
 		public int getRowCount() {
-			return DummyData.LineChart.NUM_SUBJECTS;
+			return Util.Properties.NUM_SUBJECTS;
 		}
 
 		@Override
 		public int getColumnCount() {
-			return DummyData.LineChart.NUM_WEEKS;
+			return Util.Properties.NUM_WEEKS;
 		}
 
 		@Override
@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
 			} else if(row==-1 && column>-1) {
 				return ""+(column+1);
 			} else if(row>-1 && column==-1) {
-				return DummyData.LineChart.SUBJECTS[row];
+				return Util.Properties.SUBJECTS[row];
 			}
 			
 			return String.format("%.2f", Math.random() * 10);
