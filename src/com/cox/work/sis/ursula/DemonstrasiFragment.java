@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class SikapTulisFragment extends Fragment {
+public class DemonstrasiFragment extends Fragment {
 	private View root;
 	
 	@Override

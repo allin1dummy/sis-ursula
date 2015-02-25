@@ -20,17 +20,10 @@ public class AspekSikapFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 	}
 	
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return getPersistentView(inflater, container, savedInstanceState, R.layout.sikap_layout);
 	}
-	
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-	}
-	
 
 	public View getPersistentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layout) {
 		if (root == null) {

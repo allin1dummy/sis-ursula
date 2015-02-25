@@ -1,7 +1,5 @@
 package com.cox.work.sis.ursula.adapter;
 
-import com.cox.work.sis.ursula.util.Util;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,7 +12,7 @@ public class AspekBaseTabPagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public int getCount() {
-		return Util.Properties.SUBJECTS.length;
+		return 7;
 	}
 
 	@Override

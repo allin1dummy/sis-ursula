@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class SikapTulisFragment extends Fragment {
+public class KeterampilanPortfolioFragment extends Fragment {
 	private View root;
 	
 	@Override
@@ -16,7 +16,7 @@ public class SikapTulisFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		root = inflater.inflate(R.layout.sikap_tulis_layout, container, false);
+		root = inflater.inflate(R.layout.pengetahuan_portfolio_layout, container, false);
 		
 		return root;
 	}

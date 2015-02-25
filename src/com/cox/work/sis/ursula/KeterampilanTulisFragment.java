@@ -2,13 +2,11 @@ package com.cox.work.sis.ursula;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-public class KeterampilanTulisFragment extends Fragment implements OnClickListener {
+public class KeterampilanTulisFragment extends Fragment {
 	private View root;
 	
 	@Override
@@ -22,11 +20,6 @@ public class KeterampilanTulisFragment extends Fragment implements OnClickListen
 		root = inflater.inflate(R.layout.keterampilan_tulis_layout, container, false);
 		
 		return root;
-	}
-
-	@Override
-	public void onClick(View v) {
-		Log.e("cox", "onClick - id = " + v.getId());
 	}
 
 }

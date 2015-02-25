@@ -20,18 +20,11 @@ public class AspekKeterampilanFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 	}
 	
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return getPersistentView(inflater, container, savedInstanceState, R.layout.keterampilan_pager);
 	}
 	
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-	}
-	
-
 	public View getPersistentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layout) {
 		if (root == null) {
 			// Inflate the layout for this fragment

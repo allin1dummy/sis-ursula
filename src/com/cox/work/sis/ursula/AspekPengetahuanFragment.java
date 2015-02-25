@@ -26,12 +26,6 @@ public class AspekPengetahuanFragment extends Fragment {
 		return getPersistentView(inflater, container, savedInstanceState, R.layout.pengetahuan_layout);
 	}
 	
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-	}
-	
-
 	public View getPersistentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, int layout) {
 		if (root == null) {
 			// Inflate the layout for this fragment
