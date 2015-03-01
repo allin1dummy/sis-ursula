@@ -10,9 +10,9 @@ import com.cox.work.sis.ursula.SikapTulisFragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-public class SikapTabPagerAdapter extends FragmentPagerAdapter {
+public class SikapTabPagerAdapter extends FragmentStatePagerAdapter {
 	
 	SikapTulisFragment tulisFragment;
 	SikapLisanFragment lisanFragment;

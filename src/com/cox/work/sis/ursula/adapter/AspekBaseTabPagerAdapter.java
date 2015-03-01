@@ -2,9 +2,9 @@ package com.cox.work.sis.ursula.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-public class AspekBaseTabPagerAdapter extends FragmentPagerAdapter {
+public class AspekBaseTabPagerAdapter extends FragmentStatePagerAdapter {
 	
 	public AspekBaseTabPagerAdapter(FragmentManager fm) {
 		super(fm);

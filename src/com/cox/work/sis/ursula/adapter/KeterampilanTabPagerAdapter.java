@@ -2,7 +2,7 @@ package com.cox.work.sis.ursula.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.cox.work.sis.ursula.KeterampilanDemoFragment;
 import com.cox.work.sis.ursula.KeterampilanKerjaFragment;
@@ -12,7 +12,7 @@ import com.cox.work.sis.ursula.KeterampilanProyekFragment;
 import com.cox.work.sis.ursula.KeterampilanTugasFragment;
 import com.cox.work.sis.ursula.KeterampilanTulisFragment;
 
-public class KeterampilanTabPagerAdapter extends FragmentPagerAdapter {
+public class KeterampilanTabPagerAdapter extends FragmentStatePagerAdapter {
 	
 	KeterampilanTulisFragment tulisFragment;
 	KeterampilanLisanFragment lisanFragment;

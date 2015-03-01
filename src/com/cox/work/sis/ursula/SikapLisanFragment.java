@@ -31,7 +31,7 @@ public class SikapLisanFragment extends Fragment {
 
 	private void createLineChart() {
 		LineChart chart = (LineChart) root.findViewById(R.id.linechart);
-		chart.setData(Util.LineChart.getDataSet());
+		chart.setData(Util.LineChart.getDataSetFromJSON());
 		chart.setDescription("Mata Pelajaran:");
 		//chart.setMaxScaleY(10f);
 
