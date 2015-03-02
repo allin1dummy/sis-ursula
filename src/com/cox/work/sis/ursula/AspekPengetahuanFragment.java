@@ -2,6 +2,7 @@ package com.cox.work.sis.ursula;
 
 import com.cox.work.sis.ursula.adapter.PengetahuanTabPagerAdapter;
 
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -13,10 +14,12 @@ public class AspekPengetahuanFragment extends Fragment {
 	private View root;
 	private ViewPager viewPager;
 	private PengetahuanTabPagerAdapter tabPagerAdapter;
+	private FragmentActivity mFrgActivity;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		tabPagerAdapter = new PengetahuanTabPagerAdapter(getActivity().getSupportFragmentManager());
+		mFrgActivity = getActivity();
+		tabPagerAdapter = new PengetahuanTabPagerAdapter(getActivity().getSupportFragmentManager(), mFrgActivity.getApplicationContext());
 		super.onCreate(savedInstanceState);
 	}
 	

@@ -1,5 +1,6 @@
 package com.cox.work.sis.ursula.adapter;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -13,6 +14,10 @@ import com.cox.work.sis.ursula.PengetahuanTulisFragment;
 
 public class PengetahuanTabPagerAdapter extends AspekBaseTabPagerAdapter {
 	
+	public PengetahuanTabPagerAdapter(FragmentManager fm, Context context) {
+		super(fm, context);
+	}
+
 	PengetahuanTulisFragment tulisFragment;
 	PengetahuanLisanFragment lisanFragment;
 	PengetahuanTugasFragment tugasFragment;
@@ -21,10 +26,6 @@ public class PengetahuanTabPagerAdapter extends AspekBaseTabPagerAdapter {
 	PengetahuanProyekFragment proyekFragment;
 	PengetahuanPortfolioFragment portFragment;
 	
-	public PengetahuanTabPagerAdapter(FragmentManager fm) {
-		super(fm);
-	}
-
 	public Fragment getItem(int i) {
 		switch (i) {
 		case 0:
