@@ -16,7 +16,7 @@ public class KeterampilanDemoFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		root = inflater.inflate(R.layout.sikap_portfolio_layout, container, false);
+		root = inflater.inflate(R.layout.keterampilan_demonstrasi_layout, container, false);
 		
 		return root;
 	}

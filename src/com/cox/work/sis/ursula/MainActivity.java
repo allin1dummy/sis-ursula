@@ -185,6 +185,7 @@ public class MainActivity extends FragmentActivity {
 			fragment = sikapFragment;
 			break;
 		default:
+			fragment = new Fragment();
 			break;
 		}
 

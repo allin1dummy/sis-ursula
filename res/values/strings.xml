@@ -34,4 +34,13 @@
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
 
+    <string-array name="tabs_title">
+        <item >Test Tertulis</item>
+        <item >Test Lisan</item>
+        <item >Tugas</item>
+        <item >Unjuk Kerja</item>
+        <item >Demonstrasi</item>
+        <item >Proyek</item>
+        <item >Portfolio</item>
+    </string-array>
 </resources>

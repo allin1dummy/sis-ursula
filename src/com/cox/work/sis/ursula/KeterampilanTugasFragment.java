@@ -16,7 +16,7 @@ public class KeterampilanTugasFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		root = inflater.inflate(R.layout.pengetahuan_tugas_layout, container, false);
+		root = inflater.inflate(R.layout.keterampilan_tugas_layout, container, false);
 		
 		return root;
 	}
