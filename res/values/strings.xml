@@ -8,11 +8,18 @@
     <string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
     <string name="user_name">User Name:</string>
+    <string name="old_pwd">Password Awal:</string>
+    <string name="new_pwd">Password Baru:</string>
     <string name="password">Password:</string>
-    <string name="forgot_pwd">Forgot Password?</string>
+    <string name="email">Email:</string>
+    <string name="forgot_pwd">Lupa Password?</string>
     <string name="login">LOGIN</string>
     <string name="login_page">Please login.</string>
     <string name="subject">Mata Pelajaran</string>
+    <string name="reset_pwd">Reset Password</string>
+    <string name="reset_pwd_desc">Password baru akan dikirim ke email Anda, silakan cek Inbox email Anda lalu login kembali menggunakan password baru.</string>
+    <string name="resend_pwd">Kirim Ulang Password</string>
+    <string name="forgot_pwd_msg">Password akan dikirim ke email Anda, silakan cek Inbox email Anda lalu login kembali menggunakan password baru.</string>
     
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">

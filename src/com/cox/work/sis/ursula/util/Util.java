@@ -1,21 +1,24 @@
 package com.cox.work.sis.ursula.util;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 
+import com.cox.work.sis.ursula.R;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 public class Util {
 	
@@ -61,7 +64,7 @@ public class Util {
 			int numOfWeeks = 0;
 			
 			try {
-				JSONObject obj =  new JSONObject(JSON.doGetRequest(""));
+				JSONObject obj =  new JSONObject(JSON.doGetRequest("www.ursula.com"));
 				JSONArray arr = obj.getJSONArray("data");
 				numOfWeeks = arr.length();
 			} catch (JSONException e) {
@@ -98,15 +101,31 @@ public class Util {
 				"		{'subject':'MAT', 'nilai':'[8.50,9.40,6.90,4.00,5.80]'}]" +
 				"}";
 		
-		public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+		//public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
 		public static final String doGetRequest(String url) throws IOException {
-			//OkHttpClient client = new OkHttpClient();
+			OkHttpClient client = new OkHttpClient();
+			HttpURLConnection con = client.open(new URL(url));
+			
 			//Request request = new Request.Builder().url(url).build();
 			//Response response = client.newCall(request).execute();
 			//return response.body().string();
 			return DATA_ASPEK_PENGETAHUAN;
 		}
 		
+	}
+	
+	public static class CommonDialog {
+		public static final void show(Context ctx, int title, int msg) {
+			AlertDialog.Builder alertbox = new AlertDialog.Builder(ctx);
+			alertbox.setTitle(ctx.getResources().getString(title));
+			alertbox.setMessage(ctx.getResources().getString(msg));
+			alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int which) {
+		        	dialog.dismiss();
+		        }
+			});
+			alertbox.show();
+		}
 	}
 }
