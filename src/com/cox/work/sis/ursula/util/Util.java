@@ -3,6 +3,8 @@ package com.cox.work.sis.ursula.util;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -23,6 +25,13 @@ import com.squareup.okhttp.OkHttpClient;
 public class Util {
 	
 	public Util() {
+	}
+	
+	public static boolean isNumeric(String str)	{
+	  NumberFormat formatter = NumberFormat.getInstance();
+	  ParsePosition pos = new ParsePosition(0);
+	  formatter.parse(str, pos);
+	  return str.length() == pos.getIndex();
 	}
 	
 	public static final class Properties {

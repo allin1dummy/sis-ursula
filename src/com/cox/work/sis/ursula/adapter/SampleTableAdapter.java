@@ -55,7 +55,7 @@ public abstract class SampleTableAdapter extends BaseTableAdapter {
 		if (converView == null) {
 			converView = inflater.inflate(getLayoutResource(row, column), parent, false);
 		}
-		setText(converView, getCellString(row, column));
+		setText1(converView, getCellString(row, column));
 		return converView;
 	}
 
@@ -65,8 +65,20 @@ public abstract class SampleTableAdapter extends BaseTableAdapter {
 	 * @param view
 	 * @param text
 	 */
-	private void setText(View view, String text) {
+	protected void setText1(View view, String text) {
 		((TextView) view.findViewById(android.R.id.text1)).setText(text);
+	}
+
+	/**
+	 * Sets the text to the view.
+	 * 
+	 * @param view
+	 * @param text
+	 */
+	protected void setText2(View view, String text) {
+		if(view.findViewById(android.R.id.text2) != null) {
+			((TextView) view.findViewById(android.R.id.text2)).setText(text);
+		}
 	}
 
 	/**

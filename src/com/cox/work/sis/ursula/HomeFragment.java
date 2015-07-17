@@ -1,5 +1,8 @@
 package com.cox.work.sis.ursula;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.cox.work.sis.ursula.adapter.SampleTableAdapter;
 import com.cox.work.sis.ursula.util.Util;
 import com.inqbarna.tablefixheaders.TableFixHeaders;
@@ -8,12 +11,22 @@ import android.support.v4.app.Fragment;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class HomeFragment extends Fragment {
+	
+	private Spinner sp;
 
 	public HomeFragment() {
 	}
@@ -27,8 +40,34 @@ public class HomeFragment extends Fragment {
 		
 		TableFixHeaders tableFixHeaders = (TableFixHeaders) rootView.findViewById(R.id.table);
 		tableFixHeaders.setAdapter(new MyAdapter(getActivity()));
+		
+		sp = (Spinner) rootView.findViewById(R.id.spin_class_smst);
+		loadDataToSpinner();
 
 		return rootView;
+	}
+	
+	private void loadDataToSpinner() {
+		List<String> list = new ArrayList<String>();
+		list.add("- Silakan Pilih -");
+		list.add("1");
+		list.add("2");
+		list.add("3");
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
+		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		sp.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				Toast.makeText(getActivity(), "Item #" + arg2, Toast.LENGTH_SHORT).show();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				
+			}
+		});
+		sp.setAdapter(dataAdapter);
 	}
 	
 
@@ -36,6 +75,7 @@ public class HomeFragment extends Fragment {
 
 		private final int width;
 		private final int height;
+		private float total = 0f;
 
 		public MyAdapter(Context context) {
 			super(context);
@@ -48,7 +88,7 @@ public class HomeFragment extends Fragment {
 
 		@Override
 		public int getRowCount() {
-			return Util.Properties.NUM_SUBJECTS;
+			return Util.Properties.NUM_SUBJECTS + 1;
 		}
 
 		@Override
@@ -68,15 +108,27 @@ public class HomeFragment extends Fragment {
 
 		@Override
 		public String getCellString(int row, int column) {
+			// looping per rows then columns
 			if(row==-1 && column==-1) {
-				return "Minggu Ke \\ Mata Pelajaran";
+				return "Mata Pelajaran \\ Minggu Ke ";
 			} else if(row==-1 && column>-1) {
-				return ""+(column+1);
+				return Util.Properties.SUBJECTS[column];
 			} else if(row>-1 && column==-1) {
-				return Util.Properties.SUBJECTS[row];
+				if(row == getRowCount()-1) {
+					return "Rata-Rata";
+				}
+				return ""+(row+1);
 			}
 			
-			return String.format("%.2f", Math.random() * 10);
+			if(row == getRowCount()-1) {
+				float tot = total / (getRowCount() - 1);
+				total = 0f;
+				return String.format("%.2f", tot);
+			}
+			
+			float num = (float) (Math.random() * 10);
+			total += num;
+			return String.format("%.2f", num) + ("");
 		}
 
 		@Override
@@ -107,6 +159,49 @@ public class HomeFragment extends Fragment {
 		@Override
 		public int getViewTypeCount() {
 			return 2;
+		}
+		
+		@Override
+		public View getView(int row, int column, View converView, ViewGroup parent) {
+			if (converView == null) {
+				converView = getInflater().inflate(getLayoutResource(row, column), parent, false);
+			}
+			
+			setText1(converView, getCellString(row, column));
+			if(row == getRowCount() || column > -1) {
+				if(Util.isNumeric(getCellString(row, column))) {
+					Log.e("cox","NUMBER row = " + row + " col = " + column + " val = " + getCellString(row, column));
+				}
+
+//				float val = Float.valueOf(getCellString(row, column));
+//					if(val < 6f) {
+//						Log.e("cox","row = " + row + " col = " + column + " val = " + val);
+//						setText1Red(converView);
+//					}
+				
+				setText2(converView, "(01-Sept-2015)");
+			}
+			return converView;
+		}
+		
+//		@Override
+//		protected void setText1(View view, String text) {
+//			TextView tv = ((TextView) view.findViewById(android.R.id.text1));
+//			tv.setText(text);
+//			
+//			try {
+//				float val = Float.valueOf(text);
+//				if(val < 6f) {
+//					tv.setTextColor(Color.RED);
+//				}
+//			} catch (NumberFormatException e) {
+//			
+//			}
+//		}
+
+		void setText1Red(View view) {
+			TextView tv = ((TextView) view.findViewById(android.R.id.text1));
+			tv.setTextColor(Color.RED);
 		}
 	}
 }
