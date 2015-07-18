@@ -107,31 +107,6 @@ public class HomeFragment extends Fragment {
 		}
 
 		@Override
-		public String getCellString(int row, int column) {
-			// looping per rows then columns
-			if(row==-1 && column==-1) {
-				return "Mata Pelajaran \\ Minggu Ke ";
-			} else if(row==-1 && column>-1) {
-				return Util.Properties.SUBJECTS[column];
-			} else if(row>-1 && column==-1) {
-				if(row == getRowCount()-1) {
-					return "Rata-Rata";
-				}
-				return ""+(row+1);
-			}
-			
-//			if(row == getRowCount()-1) {
-//				float tot = total / (getRowCount() - 1);
-//				total = 0f;
-//				return String.format("%.2f", tot);
-//			}
-			
-			float num = (float) (Math.random() * 10);
-			total += num;
-			return String.format("%.2f", num) + ("");
-		}
-
-		@Override
 		public int getLayoutResource(int row, int column) {
 			final int layoutResource;
 			switch (getItemViewType(row, column)) {
@@ -171,30 +146,7 @@ public class HomeFragment extends Fragment {
 			return converView;
 		}
 		
-//		@Override
-//		protected void setText1(View view, String text) {
-//			TextView tv = ((TextView) view.findViewById(android.R.id.text1));
-//			tv.setText(text);
-//			
-//			try {
-//				float val = Float.valueOf(text);
-//				if(val < 6f) {
-//					tv.setTextColor(Color.RED);
-//				}
-//			} catch (NumberFormatException e) {
-//			
-//			}
-//		}
-
 		private void setStudentMark(int row, int column, View v) {
-			TextView tv_date = ((TextView) v.findViewById(android.R.id.text2));
-			if(tv_date != null) {
-				if(row == getRowCount()-1 || column == -1) {
-					tv_date.setText("");
-				} else {
-					tv_date.setText("(01-Sept-2015)");}
-			}
-
 			TextView tv_mark = ((TextView) v.findViewById(android.R.id.text1));
 			if(row==-1 && column==-1) {
 				tv_mark.setText("Mata Pelajaran \\ Minggu Ke ");
@@ -213,6 +165,14 @@ public class HomeFragment extends Fragment {
 //				total = 0f;
 //				return String.format("%.2f", tot);
 //			}
+
+			TextView tv_date = ((TextView) v.findViewById(android.R.id.text2));
+			if(tv_date != null) {
+				if(row == getRowCount()-1 || column == -1) {
+					tv_date.setText("");
+				} else {
+					tv_date.setText("(01-Sept-2015)");}
+			}
 		}
 
 		void setText1Red(View view) {

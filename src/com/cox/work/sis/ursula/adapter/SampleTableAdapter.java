@@ -55,7 +55,7 @@ public abstract class SampleTableAdapter extends BaseTableAdapter {
 		if (converView == null) {
 			converView = inflater.inflate(getLayoutResource(row, column), parent, false);
 		}
-		setText1(converView, getCellString(row, column));
+		//setText1(converView, getCellString(row, column));
 		return converView;
 	}
 
@@ -90,7 +90,7 @@ public abstract class SampleTableAdapter extends BaseTableAdapter {
 	 *            returns the title of the column header.
 	 * @return the string for the cell [row, column]
 	 */
-	public abstract String getCellString(int row, int column);
+	//public abstract String getCellString(int row, int column);
 
 	public abstract int getLayoutResource(int row, int column);
 }
