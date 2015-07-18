@@ -88,12 +88,14 @@ public class HomeFragment extends Fragment {
 
 		@Override
 		public int getRowCount() {
-			return Util.Properties.NUM_WEEKS + 1;
+			return Util.Properties.NUM_SUBJECTS;
+			//return Util.Properties.NUM_WEEKS + 1;
 		}
 
 		@Override
 		public int getColumnCount() {
-			return Util.Properties.NUM_SUBJECTS;
+			return Util.Properties.NUM_WEEKS + 1;
+			//return Util.Properties.NUM_SUBJECTS;
 		}
 
 		@Override
@@ -147,31 +149,32 @@ public class HomeFragment extends Fragment {
 		}
 		
 		private void setStudentMark(int row, int column, View v) {
+			Log.e("cox","row = " + row + "column = " + column);
 			TextView tv_mark = ((TextView) v.findViewById(android.R.id.text1));
 			if(row==-1 && column==-1) {
-				tv_mark.setText("Mata Pelajaran \\ Minggu Ke ");
+				tv_mark.setText("Mata Pelajaran");
 			} else if(row==-1 && column>-1) {
-				tv_mark.setText(Util.Properties.SUBJECTS[column]);
+				tv_mark.setText(column == getColumnCount()-1 ? "Rata-Rata" : String.valueOf(column + 1));
+				//tv_mark.setText(Util.Properties.SUBJECTS[column]);
 			} else if(row>-1 && column==-1) {
-				tv_mark.setText(row == getRowCount()-1 ? "Rata-Rata" : String.valueOf(row + 1));
+				tv_mark.setText(Util.Properties.SUBJECTS[row]);
+				//tv_mark.setText(row == getRowCount()-1 ? "Rata-Rata" : String.valueOf(row + 1));
+			} else if(column == getColumnCount()-1) { // latest column
+				tv_mark.setText(String.format("%.2f", total / (getColumnCount() - 1)));
+				total = 0f;
 			} else {
 				float num = (float) (Math.random() * 10);
 				total += num;
 				tv_mark.setText(String.format("%.2f", num) + (""));
 			}
 			
-//			if(row == getRowCount()-1) {
-//				float tot = total / (getRowCount() - 1);
-//				total = 0f;
-//				return String.format("%.2f", tot);
-//			}
-
 			TextView tv_date = ((TextView) v.findViewById(android.R.id.text2));
 			if(tv_date != null) {
-				if(row == getRowCount()-1 || column == -1) {
+				if(column == getColumnCount()-1 || column == -1) {
 					tv_date.setText("");
 				} else {
-					tv_date.setText("(01-Sept-2015)");}
+					tv_date.setText("(01-Sept-2015)");
+				}
 			}
 		}
 
