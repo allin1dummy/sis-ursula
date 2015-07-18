@@ -9,7 +9,7 @@
         android:id="@+id/tv_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Nama: "
+        android:text="Nama: Mr. X"
         android:textStyle="bold" >
     </TextView>
 
@@ -17,7 +17,7 @@
         android:id="@+id/tv_teacher"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Wali Murid: "
+        android:text="Wali Murid: Mrs. Y"
         android:textStyle="bold" >
     </TextView>
 
