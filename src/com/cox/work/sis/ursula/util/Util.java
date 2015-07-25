@@ -16,11 +16,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 
-import com.cox.work.sis.ursula.R;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 public class Util {
 	
@@ -114,12 +115,12 @@ public class Util {
 
 		public static final String doGetRequest(String url) throws IOException {
 			OkHttpClient client = new OkHttpClient();
-			HttpURLConnection con = client.open(new URL(url));
+			//HttpURLConnection con = client.open(new URL(url));
 			
-			//Request request = new Request.Builder().url(url).build();
-			//Response response = client.newCall(request).execute();
-			//return response.body().string();
-			return DATA_ASPEK_PENGETAHUAN;
+			Request request = new Request.Builder().url(url).build();
+			Response response = client.newCall(request).execute();
+			return response.body().string();
+			//return DATA_ASPEK_PENGETAHUAN;
 		}
 		
 	}

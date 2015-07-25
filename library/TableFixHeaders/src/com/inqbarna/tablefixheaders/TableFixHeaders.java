@@ -579,7 +579,7 @@ public class TableFixHeaders extends ViewGroup {
 
 				scrollBounds();
 				adjustFirstCellsAndScroll();
-
+				
 				left = widths[0] - scrollX;
 				for (int i = firstColumn; i < columnCount && left < width; i++) {
 					right = left + widths[i + 1];

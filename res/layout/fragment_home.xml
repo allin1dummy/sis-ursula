@@ -22,6 +22,56 @@
     </TextView>
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+	    <View android:layout_width="fill_parent"
+	        android:layout_height="1dp"
+	        android:background="@color/green_base_color"/>
+	</LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tv_aspect"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="Aspek: "
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spin_aspect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tv_aspect_category"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:text="Kategori Aspek: "
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spin_aspect_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold" />
+    </LinearLayout>
+    
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
@@ -31,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
-            android:text="Kelas | Semester: "
+            android:text="Kelas &#38; Semester: "
             android:textStyle="bold" />
 
         <Spinner

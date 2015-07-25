@@ -1,9 +1,15 @@
 package com.cox.work.sis.ursula;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import com.cox.work.service.Contributor;
+import com.cox.work.service.GitHubClient;
+import com.cox.work.service.ServiceGenerator;
 import com.cox.work.sis.ursula.adapter.NavDrawerListAdapter;
 import com.cox.work.sis.ursula.model.NavDrawerItem;
+import com.cox.work.sis.ursula.util.Util;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.Fragment;
@@ -19,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
 	private DrawerLayout mDrawerLayout;
@@ -109,6 +116,12 @@ public class MainActivity extends FragmentActivity {
 			// on first time display view for first nav item
 			displayView(0);
 		}
+		
+		// test API 
+		//String API_URL = "https://developer.github.com/v3/";
+		//String result = Util.JSON.doGetRequest("https://api.github.com/users/basil2style");
+		//GitHubClient client = ServiceGenerator.createService(GitHubClient.class, "https://api.github.com/users/basil2style");
+		//Log.e("cox", "result = " + result);
 	}
 
 	/**
@@ -138,7 +151,8 @@ public class MainActivity extends FragmentActivity {
 		}
 		// Handle action bar actions click
 		switch (item.getItemId()) {
-		case R.id.action_settings:
+		case R.id.action_refresh:
+			Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -152,7 +166,7 @@ public class MainActivity extends FragmentActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// if nav drawer is opened, hide the action items
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+		menu.findItem(R.id.action_refresh).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
