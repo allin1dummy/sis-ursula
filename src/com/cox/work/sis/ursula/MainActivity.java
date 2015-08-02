@@ -1,23 +1,17 @@
 package com.cox.work.sis.ursula;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-import com.cox.work.service.Contributor;
-import com.cox.work.service.GitHubClient;
-import com.cox.work.service.ServiceGenerator;
-import com.cox.work.sis.ursula.adapter.NavDrawerListAdapter;
-import com.cox.work.sis.ursula.model.NavDrawerItem;
-import com.cox.work.sis.ursula.util.Util;
-
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -26,6 +20,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.cox.work.service.MobileServiceClient;
+import com.cox.work.service.MobileServiceGenerator;
+import com.cox.work.sis.ursula.adapter.NavDrawerListAdapter;
+import com.cox.work.sis.ursula.model.NavDrawerItem;
+import com.cox.work.sis.ursula.model.json.DataUser;
+import com.cox.work.sis.ursula.model.json.ResponseUser;
+import com.cox.work.sis.ursula.util.Util;
 
 public class MainActivity extends FragmentActivity {
 	private DrawerLayout mDrawerLayout;
@@ -117,11 +119,20 @@ public class MainActivity extends FragmentActivity {
 			displayView(0);
 		}
 		
-		// test API 
-		//String API_URL = "https://developer.github.com/v3/";
-		//String result = Util.JSON.doGetRequest("https://api.github.com/users/basil2style");
-		//GitHubClient client = ServiceGenerator.createService(GitHubClient.class, "https://api.github.com/users/basil2style");
-		//Log.e("cox", "result = " + result);
+		//=========================== TEST API ===========================//
+		DataUser user = new DataUser("anastasia.calista", "bjToKX");
+		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_STG);
+		client.login(user, new Callback<ResponseUser>() {
+			@Override
+			public void success(ResponseUser arg0, Response arg1) {
+				Log.e("cox", "SUCCESS #  = " + arg0.User.Email);
+			}
+			@Override
+			public void failure(RetrofitError arg0) {
+				Log.e("cox", "FAIL!!! # message = " + arg0.getMessage());
+			}
+		});
+		//=========================== TEST API ===========================//
 	}
 
 	/**
