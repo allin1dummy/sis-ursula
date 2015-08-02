@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:text="anastasia.calista"
         android:ems="10">
         <requestFocus />
     </EditText>
@@ -57,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:text="bjToKX"
         android:inputType="textPassword" />
 
     <Button

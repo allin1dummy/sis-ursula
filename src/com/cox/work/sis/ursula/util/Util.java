@@ -19,9 +19,6 @@ import android.graphics.Color;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 public class Util {
 	
@@ -115,22 +112,24 @@ public class Util {
 		//public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
 		public static final String doGetRequest(String url) throws IOException {
-			OkHttpClient client = new OkHttpClient();
-			//HttpURLConnection con = client.open(new URL(url));
-			
-			Request request = new Request.Builder().url(url).build();
-			Response response = client.newCall(request).execute();
-			return response.body().string();
-			//return DATA_ASPEK_PENGETAHUAN;
+//			OkHttpClient client = new OkHttpClient();
+//			//HttpURLConnection con = client.open(new URL(url));
+//			
+//			Request request = new Request.Builder().url(url).build();
+//			Response response = client.newCall(request).execute();
+//			return response.body().string();
+			return DATA_ASPEK_PENGETAHUAN;
 		}
 		
 	}
 	
 	public static class CommonDialog {
-		public static final void show(Context ctx, int title, int msg) {
+		public static final void show(Context ctx, String title, String msg) {
 			AlertDialog.Builder alertbox = new AlertDialog.Builder(ctx);
-			alertbox.setTitle(ctx.getResources().getString(title));
-			alertbox.setMessage(ctx.getResources().getString(msg));
+			//alertbox.setTitle(ctx.getResources().getString(string));
+			//alertbox.setMessage(ctx.getResources().getString(string2));
+			alertbox.setTitle(title);
+			alertbox.setMessage(msg);
 			alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int which) {
 		        	dialog.dismiss();

@@ -118,21 +118,6 @@ public class MainActivity extends FragmentActivity {
 			// on first time display view for first nav item
 			displayView(0);
 		}
-		
-		//=========================== TEST API ===========================//
-		DataUser user = new DataUser("anastasia.calista", "bjToKX");
-		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_STG);
-		client.login(user, new Callback<ResponseUser>() {
-			@Override
-			public void success(ResponseUser arg0, Response arg1) {
-				Log.e("cox", "SUCCESS #  = " + arg0.User.Email);
-			}
-			@Override
-			public void failure(RetrofitError arg0) {
-				Log.e("cox", "FAIL!!! # message = " + arg0.getMessage());
-			}
-		});
-		//=========================== TEST API ===========================//
 	}
 
 	/**
