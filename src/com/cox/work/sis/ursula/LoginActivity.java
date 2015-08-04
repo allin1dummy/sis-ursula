@@ -11,6 +11,9 @@ import com.cox.work.sis.ursula.model.json.ResponseUser;
 import com.cox.work.sis.ursula.util.Util;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,28 +64,53 @@ public class LoginActivity extends Activity implements OnClickListener{
 	}
 
 	private void doLoginAction() {
-		//=========================== TEST API ===========================//
+		final ProgressDialog dialog = new ProgressDialog(this);
+		dialog.setMessage("Login...");
+		dialog.setCancelable(false);
+		dialog.show();
+		
 		DataUser user = new DataUser(etUsername.getText().toString(), etPassword.getText().toString());
 		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_STG);
 		client.login(user, new Callback<ResponseUser>() {
 			@Override
 			public void success(ResponseUser user, Response arg1) {
+				dialog.dismiss();
 				if(user != null && user.Message == null) {
 					Log.e("cox", "SUCCESS #  = " + user.User.Email);
-					Intent i = new Intent(activity, MainActivity.class);
-					startActivity(i);
+					if(user.User.IsFirstTime) {
+						Intent i = new Intent(activity, ResetPasswordActivity.class);
+						startActivity(i);
+					} else {
+						Intent i = new Intent(activity, MainActivity.class);
+						startActivity(i);
+					}
 				} else {
 					Log.e("cox", "FAIL!!! # message = " + user.Message);
-					Util.CommonDialog.show(getBaseContext(), "Login", "Login Gagal");
+					AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
+					alertbox.setTitle("Login");
+					alertbox.setMessage("User ID atau Password salah. Cek kembali User ID dan Password Anda.");
+					alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int which) {
+				        	dialog.dismiss();
+				        }
+					});
+					alertbox.show();
 				}
 			}
 			@Override
 			public void failure(RetrofitError arg0) {
 				Log.e("cox", "ERROR!!! # message = " + arg0.getMessage());
-				Util.CommonDialog.show(getApplicationContext(), "Login", "Login Gagal");
+				AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
+				alertbox.setTitle("Login");
+				alertbox.setMessage("Login Gagal!");
+				alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) {
+			        	dialog.dismiss();
+			        }
+				});
+				alertbox.show();
 			}
 		});
-		//=========================== TEST API ===========================//
 		
 //		if(isFirstLogin()) {
 //			Intent i = new Intent(this, ResetPasswordActivity.class);

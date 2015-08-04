@@ -37,6 +37,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:text="anastasia.calista"
+        android:singleLine="true"
         android:ems="10">
         <requestFocus />
     </EditText>
