@@ -23,7 +23,9 @@ import android.widget.TextView;
 
 import com.cox.work.service.MobileServiceClient;
 import com.cox.work.service.MobileServiceGenerator;
+import com.cox.work.sis.ursula.model.json.ClassAndAspect;
 import com.cox.work.sis.ursula.model.json.DataUser;
+import com.cox.work.sis.ursula.model.json.ReqUserClassAspect;
 import com.cox.work.sis.ursula.model.json.ResponseUser;
 import com.cox.work.sis.ursula.util.DateSerializerDeserializer;
 import com.cox.work.sis.ursula.util.Util;
@@ -99,8 +101,9 @@ public class LoginActivity extends Activity implements OnClickListener{
 						Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, ds).create();
 						Log.e("cox","Date = " + gson.fromJson(json, Date.class));
 						
-						Intent i = new Intent(activity, ResetPasswordActivity.class);
-						startActivity(i);
+						//Intent i = new Intent(activity, ResetPasswordActivity.class);
+						//startActivity(i);
+						doGetClassAndAspect();
 					} else {
 						Intent i = new Intent(activity, MainActivity.class);
 						startActivity(i);
@@ -142,6 +145,21 @@ public class LoginActivity extends Activity implements OnClickListener{
 
 	private boolean isFirstLogin() {
 		return true;
+	}
+	
+	private void doGetClassAndAspect() {
+		ReqUserClassAspect user = new ReqUserClassAspect(etUsername.getText().toString(), "400");
+		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_STG);
+		client.getClassAndAspect(user, new Callback<ClassAndAspect>() {
+			@Override
+			public void success(ClassAndAspect user, Response arg1) {
+				Log.e("cox", "success user = " + user.ListAspekPenilain.get(0).Nama);
+			}
+			@Override
+			public void failure(RetrofitError arg0) {
+				Log.e("cox", "failure = " + arg0.getMessage());
+			}
+		});
 	}
 	
 }
