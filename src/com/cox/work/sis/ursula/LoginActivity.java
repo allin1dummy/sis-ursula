@@ -79,7 +79,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 		dialog.show();
 		
 		DataUser user = new DataUser(etUsername.getText().toString(), etPassword.getText().toString());
-		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_STG);
+		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MASTER_STG);
 		client.login(user, new Callback<ResponseUser>() {
 			@Override
 			public void success(ResponseUser user, Response arg1) {
@@ -90,22 +90,24 @@ public class LoginActivity extends Activity implements OnClickListener{
 
 //						try {
 //					        GsonBuilder gsonb = new GsonBuilder();
-					        DateSerializerDeserializer ds = new DateSerializerDeserializer();
+//					        DateSerializerDeserializer ds = new DateSerializerDeserializer();
 //					        gsonb.registerTypeAdapter(Date.class, ds);
 //					        Gson gson = gsonb.create();
 //					        JSONObject json = new JSONObject(gson.toJson(user.User.BaseEntity.CreateDate));
 //					    } catch (JSONException e) {
 //					        e.printStackTrace();
 //					    }
-						String json = "\"\\/Date(736032869080)\\/\"";
-						Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, ds).create();
-						Log.e("cox","Date = " + gson.fromJson(json, Date.class));
+//						String json = "\"\\/Date(736032869080)\\/\"";
+//						Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, ds).create();
+//						Log.e("cox","Date = " + gson.fromJson(json, Date.class));
 						
-						//Intent i = new Intent(activity, ResetPasswordActivity.class);
-						//startActivity(i);
-						doGetClassAndAspect();
+						Intent i = new Intent(activity, ResetPasswordActivity.class);
+						startActivity(i);
+						//doGetClassAndAspect();
 					} else {
-						Intent i = new Intent(activity, MainActivity.class);
+						Intent i = new Intent();
+						i.setClass(activity, MainActivity.class);
+						i.putExtra(Util.Constant.USERNAME, user.User.Username);
 						startActivity(i);
 					}
 				} else {
@@ -149,7 +151,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 	
 	private void doGetClassAndAspect() {
 		ReqUserClassAspect user = new ReqUserClassAspect(etUsername.getText().toString(), "400");
-		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_STG);
+		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
 		client.getClassAndAspect(user, new Callback<ClassAndAspect>() {
 			@Override
 			public void success(ClassAndAspect user, Response arg1) {

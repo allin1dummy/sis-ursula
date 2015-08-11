@@ -36,7 +36,13 @@ public class Util {
 		public static final int NUM_SUBJECTS = 11;
 		public static final int NUM_WEEKS = 10;
 		public static final String SUBJECTS[] = {"MTK", "IPA", "IPS", "BI", "AGAMA", "PENJAS", "PPKn", "SMUSIK", "PRAKARYA", "BIng", "Komp"};
-		public static final String SERVICE_URL_STG = "http://112.78.145.43/sini-sdursula/Master";
+		//public static final String SERVICE_URL_STG = "http://112.78.145.43/sini-sdursula/Master";
+		public static final String SERVICE_URL_MASTER_STG = "http://stg-api.santaursulajakarta.sch.id/sini-sdursula/Master";
+		public static final String SERVICE_URL_MOBILE_STG = "http://stg-api.santaursulajakarta.sch.id/sini-sdursula/Mobile";
+	}
+	
+	public static final class Constant {
+		public static final String USERNAME = "username";
 	}
 	
 	public static final class LineChart {
