@@ -5,4 +5,5 @@ import java.util.List;
 public class ClassAndAspect extends ResponseBase {
 	public ResponseBase ResponseBase;
 	public List<AspekPenilaian> ListAspekPenilain;
+	public List<MuridKelas> ListMuridKelas;
 }

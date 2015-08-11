@@ -149,20 +149,4 @@ public class LoginActivity extends Activity implements OnClickListener{
 	private boolean isFirstLogin() {
 		return true;
 	}
-	
-	private void doGetClassAndAspect() {
-		ReqUserClassAspect user = new ReqUserClassAspect(etUsername.getText().toString(), "400");
-		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
-		client.getClassAndAspect(user, new Callback<ClassAndAspect>() {
-			@Override
-			public void success(ClassAndAspect user, Response arg1) {
-				Log.e("cox", "success user = " + user.ListAspekPenilain.get(0).Nama);
-			}
-			@Override
-			public void failure(RetrofitError arg0) {
-				Log.e("cox", "failure = " + arg0.getMessage());
-			}
-		});
-	}
-	
 }

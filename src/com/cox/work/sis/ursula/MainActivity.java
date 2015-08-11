@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +27,9 @@ import com.cox.work.service.MobileServiceClient;
 import com.cox.work.service.MobileServiceGenerator;
 import com.cox.work.sis.ursula.adapter.NavDrawerListAdapter;
 import com.cox.work.sis.ursula.model.NavDrawerItem;
+import com.cox.work.sis.ursula.model.json.ClassAndAspect;
 import com.cox.work.sis.ursula.model.json.DataUser;
+import com.cox.work.sis.ursula.model.json.ReqUserClassAspect;
 import com.cox.work.sis.ursula.model.json.ResponseUser;
 import com.cox.work.sis.ursula.util.Util;
 
@@ -50,6 +54,8 @@ public class MainActivity extends FragmentActivity {
 	private AspekPengetahuanFragment pengetahuanFragment;
 	private AspekKeterampilanFragment keterampilanFragment;
 	private AspekSikapFragment sikapFragment;
+	
+	private String userName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +125,13 @@ public class MainActivity extends FragmentActivity {
 			displayView(0);
 		}
 	}
-
+	
+	@Override
+	public View onCreateView(String name, Context context, AttributeSet attrs) {
+		userName = getIntent().getStringExtra(Util.Constant.USERNAME);
+		return super.onCreateView(name, context, attrs);
+	}
+	
 	/**
 	 * Slide menu item click listener
 	 * */
@@ -175,6 +187,9 @@ public class MainActivity extends FragmentActivity {
 		switch (position) {
 		case 0:
 			fragment = new HomeFragment();
+			Bundle b = new Bundle();
+			b.putString(Util.Constant.USERNAME, userName);
+			fragment.setArguments(b);
 			break;
 		case 1:
 			if(pengetahuanFragment == null) {

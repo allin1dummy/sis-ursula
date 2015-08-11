@@ -3,7 +3,17 @@ package com.cox.work.sis.ursula;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+import com.cox.work.service.MobileServiceClient;
+import com.cox.work.service.MobileServiceGenerator;
 import com.cox.work.sis.ursula.adapter.StudentMarkTableAdapter;
+import com.cox.work.sis.ursula.model.json.AspekPenilaian;
+import com.cox.work.sis.ursula.model.json.ClassAndAspect;
+import com.cox.work.sis.ursula.model.json.MuridKelas;
+import com.cox.work.sis.ursula.model.json.ReqUserClassAspect;
 import com.cox.work.sis.ursula.util.Util;
 import com.inqbarna.tablefixheaders.TableFixHeaders;
 
@@ -27,6 +37,9 @@ public class HomeFragment extends Fragment {
 	
 	private Spinner spClassSmst;
 	private Spinner spAspect, spCategory;
+	private List<MuridKelas> listMuridKelas;
+	private List<AspekPenilaian> listAspekPenilain;
+	private String userName;
 
 	public HomeFragment() {
 	}
@@ -38,15 +51,40 @@ public class HomeFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 		getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		
+		userName = getArguments().getString(Util.Constant.USERNAME);
+		
 		TableFixHeaders tableFixHeaders = (TableFixHeaders) rootView.findViewById(R.id.table);
 		tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), loadDataStudentMark()));
 		
 		spClassSmst = (Spinner) rootView.findViewById(R.id.spin_class_smst);
 		spAspect = (Spinner) rootView.findViewById(R.id.spin_aspect);
 		spCategory = (Spinner) rootView.findViewById(R.id.spin_aspect_category);
-		loadDataToSpinner();
 
 		return rootView;
+	}
+	
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		doGetClassAndAspect();
+	}
+	
+	private void doGetClassAndAspect() {
+		ReqUserClassAspect user = new ReqUserClassAspect(userName, "400");
+		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MASTER_STG);
+		client.getClassAndAspect(user, new Callback<ClassAndAspect>() {
+			@Override
+			public void success(ClassAndAspect classAndAspect, Response arg1) {
+				listMuridKelas = classAndAspect.ListMuridKelas;
+				listAspekPenilain = classAndAspect.ListAspekPenilain;
+				loadDataToSpinner();
+				Log.e("cox", "success user = " + classAndAspect.ListAspekPenilain.get(0).Nama);
+			}
+			@Override
+			public void failure(RetrofitError arg0) {
+				Log.e("cox", "failure = " + arg0.getMessage());
+			}
+		});
 	}
 	
 	private float[][] loadDataStudentMark() {
@@ -72,9 +110,12 @@ public class HomeFragment extends Fragment {
 	private void loadDataToSpinner() {
 		List<String> list = new ArrayList<String>();
 		list.add("- Silakan Pilih -");
-		list.add("1");
-		list.add("2");
-		list.add("3");
+		for(int i = 0; i < listMuridKelas.size(); i ++) {
+			list.add(listMuridKelas.get(i).TahunPelajaranDisplayMember);
+		}
+//		list.add("1");
+//		list.add("2");
+//		list.add("3");
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spClassSmst.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -93,9 +134,13 @@ public class HomeFragment extends Fragment {
 		
 		list = new ArrayList<String>();
 		list.add("- Silakan Pilih -");
-		list.add("Pengetahuan");
-		list.add("Keterampilan");
-		list.add("Sikap");dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
+		for(int i = 0; i < listAspekPenilain.size(); i ++) {
+			list.add(listAspekPenilain.get(i).Nama);
+		}
+//		list.add("Pengetahuan");
+//		list.add("Keterampilan");
+//		list.add("Sikap");
+		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spAspect.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
