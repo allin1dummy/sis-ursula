@@ -86,6 +86,9 @@ public class LoginActivity extends Activity implements OnClickListener{
 				dialog.dismiss();
 				if(user != null && user.Message == null) {
 					Log.e("cox", "SUCCESS #  = " + user.User.Email);
+					
+					Intent i = new Intent();
+					i.putExtra(Util.Constant.USERNAME, user.User.Username);
 					if(user.User.IsFirstTime) {
 
 //						try {
@@ -100,16 +103,14 @@ public class LoginActivity extends Activity implements OnClickListener{
 //						String json = "\"\\/Date(736032869080)\\/\"";
 //						Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, ds).create();
 //						Log.e("cox","Date = " + gson.fromJson(json, Date.class));
-						
-						Intent i = new Intent(activity, ResetPasswordActivity.class);
-						startActivity(i);
+
+						i.setClass(activity, ResetPasswordActivity.class);
 						//doGetClassAndAspect();
 					} else {
-						Intent i = new Intent();
 						i.setClass(activity, MainActivity.class);
-						i.putExtra(Util.Constant.USERNAME, user.User.Username);
-						startActivity(i);
 					}
+
+					startActivity(i);
 				} else {
 					Log.e("cox", "FAIL!!! # message = " + user.Message);
 					AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);

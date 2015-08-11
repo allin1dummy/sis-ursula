@@ -70,7 +70,20 @@ public class ResetPasswordActivity extends Activity implements OnClickListener{
 				@Override
 				public void success(ResponseUser user, Response arg1) {
 					dialog.dismiss();
+					
+					AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
+					alertbox.setTitle(getResources().getString(R.string.reset_pwd));
+					alertbox.setMessage(getResources().getString(R.string.reset_pwd_desc));
+					alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int which) {
+				        	dialog.dismiss();
+				        	Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+				        	startActivity(i);
+				        }
+					});
+					alertbox.show();
 				}
+				
 				@Override
 				public void failure(RetrofitError arg0) {
 					dialog.dismiss();
