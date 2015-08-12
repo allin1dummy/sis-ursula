@@ -12,6 +12,7 @@ import com.cox.work.service.MobileServiceGenerator;
 import com.cox.work.sis.ursula.adapter.StudentMarkTableAdapter;
 import com.cox.work.sis.ursula.model.json.AspekPenilaian;
 import com.cox.work.sis.ursula.model.json.ClassAndAspect;
+import com.cox.work.sis.ursula.model.json.JenisNilai;
 import com.cox.work.sis.ursula.model.json.MuridKelas;
 import com.cox.work.sis.ursula.model.json.ReqUserClassAspect;
 import com.cox.work.sis.ursula.util.Util;
@@ -31,15 +32,19 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomeFragment extends Fragment {
 	
-	private Spinner spClassSmst;
-	private Spinner spAspect, spCategory;
+	private Spinner spClass, spAspect, spCategory, spSemester;
+	private List<AspekPenilaian> listAspekPenilaian;
+	private List<JenisNilai> listJenisNilai;
 	private List<MuridKelas> listMuridKelas;
-	private List<AspekPenilaian> listAspekPenilain;
-	private String userName;
+	private int selAspek = 0, selJenis = 0, selKelas = 0;
+	private String userName, namaSiswa;
+	
+	private TextView tv_NamaSiswa;
 
 	public HomeFragment() {
 	}
@@ -52,13 +57,18 @@ public class HomeFragment extends Fragment {
 		getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		
 		userName = getArguments().getString(Util.Constant.USERNAME);
+		namaSiswa = getArguments().getString(Util.Constant.NAMASISWA);
+		
+		tv_NamaSiswa = (TextView) rootView.findViewById(R.id.tv_name);
+		tv_NamaSiswa.setText("Nama: " + namaSiswa);
 		
 		TableFixHeaders tableFixHeaders = (TableFixHeaders) rootView.findViewById(R.id.table);
 		tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), loadDataStudentMark()));
 		
-		spClassSmst = (Spinner) rootView.findViewById(R.id.spin_class_smst);
+		spClass = (Spinner) rootView.findViewById(R.id.spin_class);
 		spAspect = (Spinner) rootView.findViewById(R.id.spin_aspect);
 		spCategory = (Spinner) rootView.findViewById(R.id.spin_aspect_category);
+		spSemester = (Spinner) rootView.findViewById(R.id.spin_semester);
 
 		return rootView;
 	}
@@ -70,15 +80,15 @@ public class HomeFragment extends Fragment {
 	}
 	
 	private void doGetClassAndAspect() {
-		ReqUserClassAspect user = new ReqUserClassAspect(userName, "400");
-		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MASTER_STG);
+		ReqUserClassAspect user = new ReqUserClassAspect("andrea.sutanto", "400");
+		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
 		client.getClassAndAspect(user, new Callback<ClassAndAspect>() {
 			@Override
 			public void success(ClassAndAspect classAndAspect, Response arg1) {
+				listAspekPenilaian = classAndAspect.ListAspekPenilaian;
 				listMuridKelas = classAndAspect.ListMuridKelas;
-				listAspekPenilain = classAndAspect.ListAspekPenilain;
 				loadDataToSpinner();
-				Log.e("cox", "success user = " + classAndAspect.ListAspekPenilain.get(0).Nama);
+				Log.e("cox", "success user = " + classAndAspect.ListAspekPenilaian.get(0).Nama);
 			}
 			@Override
 			public void failure(RetrofitError arg0) {
@@ -108,21 +118,24 @@ public class HomeFragment extends Fragment {
 	}
 
 	private void loadDataToSpinner() {
-		List<String> list = new ArrayList<String>();
-		list.add("- Silakan Pilih -");
-		for(int i = 0; i < listMuridKelas.size(); i ++) {
-			list.add(listMuridKelas.get(i).TahunPelajaranDisplayMember);
-		}
-//		list.add("1");
-//		list.add("2");
-//		list.add("3");
-		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
+		final List<String> listSemester = new ArrayList<String>();
+		listSemester.add("- Pilih Semester -");
+		final List<String> list = new ArrayList<String>();
+		list.add("- Pilih Aspek -");
+		final List<String> listKategori = new ArrayList<String>();
+		listKategori.add("- Pilih Kategori -");
+		final List<String> listKelas = new ArrayList<String>();
+		listKelas.add("- Pilih Kelas -");
+		
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listSemester);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spClassSmst.setOnItemSelectedListener(new OnItemSelectedListener() {
+		listSemester.add("1");
+		listSemester.add("2");
+		spSemester.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				Toast.makeText(getActivity(), "Item #" + arg2, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getActivity(), "Item #" + arg2, Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
@@ -130,23 +143,29 @@ public class HomeFragment extends Fragment {
 				
 			}
 		});
-		spClassSmst.setAdapter(dataAdapter);
+		spSemester.setAdapter(dataAdapter);
 		
-		list = new ArrayList<String>();
-		list.add("- Silakan Pilih -");
-		for(int i = 0; i < listAspekPenilain.size(); i ++) {
-			list.add(listAspekPenilain.get(i).Nama);
-		}
-//		list.add("Pengetahuan");
-//		list.add("Keterampilan");
-//		list.add("Sikap");
+		
+		
 		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		for(int i = 0; i < listAspekPenilaian.size(); i ++) {
+			list.add(listAspekPenilaian.get(i).Nama);
+		}
 		spAspect.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				Toast.makeText(getActivity(), "Item #" + arg2, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getActivity(), "Item #" + arg2, Toast.LENGTH_SHORT).show();
+				selAspek = arg2;
+				if (selAspek != 0) {
+					listJenisNilai = listAspekPenilaian.get(selAspek - 1).ListJenisNilai;
+					for(int i = 0; i < listJenisNilai.size(); i ++) {
+						listKategori.add(listJenisNilai.get(i).Nama);
+					}
+				}
+				spCategory.setSelection(0);
 			}
 
 			@Override
@@ -156,22 +175,14 @@ public class HomeFragment extends Fragment {
 		});
 		spAspect.setAdapter(dataAdapter);
 		
-		list = new ArrayList<String>();
-		list.add("- Silakan Pilih -");
-		list.add("Tertulis");
-		list.add("Lisan");
-		list.add("Tugas");
-		list.add("Unjuk Kerja");
-		list.add("Demonstrasi");
-		list.add("Proyek");
-		list.add("Portfolio");
-		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
+		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listKategori);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spCategory.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				Toast.makeText(getActivity(), "Item #" + arg2, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getActivity(), "Item #" + arg2, Toast.LENGTH_SHORT).show();
+				selJenis = arg2;
 			}
 
 			@Override
@@ -180,5 +191,25 @@ public class HomeFragment extends Fragment {
 			}
 		});
 		spCategory.setAdapter(dataAdapter);
+
+		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listKelas);
+		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		for(int i = 0; i < listMuridKelas.size(); i ++) {
+			listKelas.add(listMuridKelas.get(i).KelasDisplayMember);
+		}
+		spClass.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				//Toast.makeText(getActivity(), "Item #" + arg2, Toast.LENGTH_SHORT).show();
+				selKelas = arg2;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				
+			}
+		});
+		spClass.setAdapter(dataAdapter);
 	}
 }

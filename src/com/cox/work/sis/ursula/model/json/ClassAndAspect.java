@@ -2,8 +2,8 @@ package com.cox.work.sis.ursula.model.json;
 
 import java.util.List;
 
-public class ClassAndAspect extends ResponseBase {
+public class ClassAndAspect {
 	public ResponseBase ResponseBase;
-	public List<AspekPenilaian> ListAspekPenilain;
+	public List<AspekPenilaian> ListAspekPenilaian;
 	public List<MuridKelas> ListMuridKelas;
 }

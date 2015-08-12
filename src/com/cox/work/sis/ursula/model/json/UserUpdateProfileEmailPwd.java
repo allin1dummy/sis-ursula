@@ -10,13 +10,13 @@ public class UserUpdateProfileEmailPwd {
 }
 
 class DtUser {
-	public String UserName;
+	public String Username;
 	public String Email;
 	public String PasswordLama;
 	public String Password;
 	
 	public DtUser(String usrName, String email, String pwdLama, String pwdBaru) {
-		this.UserName = usrName;
+		this.Username = usrName;
 		this.Email = email;
 		this.PasswordLama = pwdLama;
 		this.Password = pwdBaru;

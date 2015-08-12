@@ -65,7 +65,7 @@ public class ResetPasswordActivity extends Activity implements OnClickListener{
 			dialog.show();
 			
 			UserUpdateProfileEmailPwd user = new UserUpdateProfileEmailPwd(etUsername.getText().toString(), etEmail.getText().toString(), etPwdLama.getText().toString(), etPwdBaru.getText().toString());
-			MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MASTER_STG);
+			MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
 			client.updateProfileEmailPwd(user, new Callback<ResponseUser>() {
 				@Override
 				public void success(ResponseUser user, Response arg1) {

@@ -55,7 +55,7 @@ public class MainActivity extends FragmentActivity {
 	private AspekKeterampilanFragment keterampilanFragment;
 	private AspekSikapFragment sikapFragment;
 	
-	private String userName;
+	private String userName, namaSiswa;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +129,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public View onCreateView(String name, Context context, AttributeSet attrs) {
 		userName = getIntent().getStringExtra(Util.Constant.USERNAME);
+		namaSiswa = getIntent().getStringExtra(Util.Constant.NAMASISWA);
 		return super.onCreateView(name, context, attrs);
 	}
 	
@@ -189,6 +190,7 @@ public class MainActivity extends FragmentActivity {
 			fragment = new HomeFragment();
 			Bundle b = new Bundle();
 			b.putString(Util.Constant.USERNAME, userName);
+			b.putString(Util.Constant.NAMASISWA, namaSiswa);
 			fragment.setArguments(b);
 			break;
 		case 1:

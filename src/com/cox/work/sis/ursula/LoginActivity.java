@@ -89,6 +89,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 					
 					Intent i = new Intent();
 					i.putExtra(Util.Constant.USERNAME, user.User.Username);
+					i.putExtra(Util.Constant.NAMASISWA, user.User.MutasiMasuk.NamaSiswa);
 					if(user.User.IsFirstTime) {
 
 //						try {
