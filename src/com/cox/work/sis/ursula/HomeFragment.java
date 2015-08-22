@@ -27,24 +27,35 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	
-	private Spinner spClass, spAspect, spCategory, spSemester;
+	private Spinner spClass, spAspect, spCategory, spSemester, spTahun;
 	private List<AspekPenilaian> listAspekPenilaian;
 	private List<JenisNilai> listJenisNilai;
 	private List<MuridKelas> listMuridKelas;
-	private int selAspek = 0, selJenis = 0, selKelas = 0;
+	private int selAspek = 0, selJenis = 0, selTahun = 0;
+	private String selKelas = "";
 	private String userName, namaSiswa;
-	
 	private TextView tv_NamaSiswa;
+	private Button btnShowMarks;
+
+	ArrayAdapter<String> dataAdapter;
+	List<String> listSemester = new ArrayList<String>();
+	List<String> listAspek = new ArrayList<String>();
+	List<String> listKelas = new ArrayList<String>();
+	List<String> listTahun = new ArrayList<String>();
+	List<String> listKategori = new ArrayList<String>();
+	
 
 	public HomeFragment() {
 	}
@@ -62,14 +73,24 @@ public class HomeFragment extends Fragment {
 		tv_NamaSiswa = (TextView) rootView.findViewById(R.id.tv_name);
 		tv_NamaSiswa.setText("Nama: " + namaSiswa);
 		
-		TableFixHeaders tableFixHeaders = (TableFixHeaders) rootView.findViewById(R.id.table);
+		final TableFixHeaders tableFixHeaders = (TableFixHeaders) rootView.findViewById(R.id.table);
 		tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), loadDataStudentMark()));
+		tableFixHeaders.setVisibility(View.GONE);
 		
 		spClass = (Spinner) rootView.findViewById(R.id.spin_class);
 		spAspect = (Spinner) rootView.findViewById(R.id.spin_aspect);
 		spCategory = (Spinner) rootView.findViewById(R.id.spin_aspect_category);
+		spTahun = (Spinner) rootView.findViewById(R.id.spin_tahun);
 		spSemester = (Spinner) rootView.findViewById(R.id.spin_semester);
 
+		btnShowMarks = (Button) rootView.findViewById(R.id.btn_show_marks);
+		btnShowMarks.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				tableFixHeaders.setVisibility(View.VISIBLE);
+			}
+		});
+		
 		return rootView;
 	}
 	
@@ -118,98 +139,91 @@ public class HomeFragment extends Fragment {
 	}
 
 	private void loadDataToSpinner() {
-		final List<String> listSemester = new ArrayList<String>();
-		listSemester.add("- Pilih Semester -");
-		final List<String> list = new ArrayList<String>();
-		list.add("- Pilih Aspek -");
-		final List<String> listKategori = new ArrayList<String>();
-		listKategori.add("- Pilih Kategori -");
-		final List<String> listKelas = new ArrayList<String>();
-		listKelas.add("- Pilih Kelas -");
-		
-		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listSemester);
-		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		listSemester.add("-Pilih Semester-");
 		listSemester.add("1");
 		listSemester.add("2");
-		spSemester.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				//Toast.makeText(getActivity(), "Item #" + arg2, Toast.LENGTH_SHORT).show();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				
-			}
-		});
+		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listSemester);
+		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spSemester.setOnItemSelectedListener(this);
 		spSemester.setAdapter(dataAdapter);
 		
-		
-		
-		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
+		listAspek.add("-Pilih Aspek-");
+		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listAspek);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		
 		for(int i = 0; i < listAspekPenilaian.size(); i ++) {
-			list.add(listAspekPenilaian.get(i).Nama);
+			listAspek.add(listAspekPenilaian.get(i).Nama);
 		}
-		spAspect.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				//Toast.makeText(getActivity(), "Item #" + arg2, Toast.LENGTH_SHORT).show();
-				selAspek = arg2;
-				if (selAspek != 0) {
-					listJenisNilai = listAspekPenilaian.get(selAspek - 1).ListJenisNilai;
-					for(int i = 0; i < listJenisNilai.size(); i ++) {
-						listKategori.add(listJenisNilai.get(i).Nama);
-					}
-				}
-				spCategory.setSelection(0);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				
-			}
-		});
+		spAspect.setOnItemSelectedListener(this);
 		spAspect.setAdapter(dataAdapter);
 		
+		listKategori.add("-Pilih Kategori-");
 		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listKategori);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spCategory.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				//Toast.makeText(getActivity(), "Item #" + arg2, Toast.LENGTH_SHORT).show();
-				selJenis = arg2;
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				
-			}
-		});
+		spCategory.setOnItemSelectedListener(this);
 		spCategory.setAdapter(dataAdapter);
 
+		listKelas.add("-Pilih Kelas-");
 		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listKelas);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		for(int i = 0; i < listMuridKelas.size(); i ++) {
 			listKelas.add(listMuridKelas.get(i).KelasDisplayMember);
 		}
-		spClass.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				//Toast.makeText(getActivity(), "Item #" + arg2, Toast.LENGTH_SHORT).show();
-				selKelas = arg2;
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				
-			}
-		});
+		spClass.setOnItemSelectedListener(this);
 		spClass.setAdapter(dataAdapter);
+		
+		listTahun.add("-Pilih Tahun-");
+		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listTahun);
+		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spTahun.setAdapter(dataAdapter);
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		switch (arg0.getId()) {
+		case R.id.spin_class:
+			selKelas = arg0.getItemAtPosition(arg2).toString();
+			// get tahun pelajaran
+			listTahun = new ArrayList<String>();
+			listTahun.add("- Pilih Tahun -");
+			for(int i = 0; i < listMuridKelas.size(); i ++) {
+				if(selKelas.equalsIgnoreCase(listMuridKelas.get(i).KelasDisplayMember)) {
+					listTahun.add(listMuridKelas.get(i).TahunPelajaranDisplayMember);
+				}
+			}
+			dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listTahun);
+			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			spTahun.setAdapter(dataAdapter);
+			break;
+
+		case R.id.spin_aspect:
+			selAspek = arg2;
+			if (selAspek != 0) {
+				listJenisNilai = listAspekPenilaian.get(selAspek - 1).ListJenisNilai;
+				listKategori = new ArrayList<String>();
+				listKategori.add("- Pilih Kategori -");
+				for(int i = 0; i < listJenisNilai.size(); i ++) {
+					listKategori.add(listJenisNilai.get(i).Nama);
+				}
+				dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listKategori);
+				dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				spCategory.setAdapter(dataAdapter);
+			}
+			spCategory.setSelection(0);
+		
+			break;
+			
+		case R.id.spin_aspect_category:
+			selJenis = arg2;
+			break;
+			
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

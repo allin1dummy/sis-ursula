@@ -14,7 +14,7 @@ public interface MobileServiceClient {
 	@POST("/UserMobileService.svc/login")
 	public void login(@Body DataUser user, Callback<ResponseUser> cb);
 
-	@POST("/MobileService.svc/getClassAndAspect")
+	@POST("/MobileService.svc/getKelasDanAspek")
 	public void getClassAndAspect(@Body ReqUserClassAspect reqUserClassAspect, Callback<ClassAndAspect> cb);
 	
 	@POST("/MobileService.svc/updateProfile")
