@@ -69,6 +69,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 
 	private void doForgotPwdAction() {
 		Intent i = new Intent(this, ForgotPasswordActivity.class);
+		i.putExtra(Util.Constant.USERNAME, etUsername.getText().toString());
 		startActivity(i);
 	}
 

@@ -14,6 +14,9 @@ public interface MobileServiceClient {
 	@POST("/UserMobileService.svc/login")
 	public void login(@Body DataUser user, Callback<ResponseUser> cb);
 
+	@POST("/EmailService.svc/resetPassword")
+	public void resetPassword(@Body String user, Callback<ResponseUser> cb);
+
 	@POST("/MobileService.svc/getKelasDanAspek")
 	public void getClassAndAspect(@Body ReqUserClassAspect reqUserClassAspect, Callback<ClassAndAspect> cb);
 	
