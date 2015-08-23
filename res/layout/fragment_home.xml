@@ -41,7 +41,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.4"
             android:orientation="horizontal" >
 
             <TextView
@@ -51,7 +51,8 @@
                 android:gravity="center_vertical"
                 android:text="Kelas:"
                 android:textStyle="bold" />
-            <Spinner
+
+            <Spinner
                 android:id="@+id/spin_class"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,45 +62,25 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.6"
             android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/tv_tahun"
+                android:id="@+id/tv_semester"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Tahun:"
+                android:text="Semester:"
                 android:textStyle="bold" />
 
             <Spinner
-                android:id="@+id/spin_tahun"
+                android:id="@+id/spin_semester"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/tv_semester"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="Semester:"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/spin_semester"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold" />
-    </LinearLayout>
-        
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -144,18 +125,19 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-		<Button
-	        android:id="@+id/btn_show_marks"
-	        android:layout_width="fill_parent"
-	        android:layout_height="40dp"
-	        android:layout_margin="9dp"
-	        android:background="@drawable/button_rounded_bg"
-	        android:enabled="true"
-	        android:text="Tampilkan Nilai"
-	        android:textColor="#000000"
-	        android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btn_show_marks"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_margin="9dp"
+            android:background="@drawable/button_rounded_bg"
+            android:enabled="true"
+            android:text="Tampilkan Nilai"
+            android:textColor="#000000"
+            android:textStyle="bold" />
     </LinearLayout>
-    
+
     <com.inqbarna.tablefixheaders.TableFixHeaders
         android:id="@+id/table"
         android:layout_width="match_parent"

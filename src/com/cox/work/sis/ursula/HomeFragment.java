@@ -53,7 +53,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	List<String> listSemester = new ArrayList<String>();
 	List<String> listAspek = new ArrayList<String>();
 	List<String> listKelas = new ArrayList<String>();
-	List<String> listTahun = new ArrayList<String>();
 	List<String> listKategori = new ArrayList<String>();
 	
 
@@ -80,7 +79,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		spClass = (Spinner) rootView.findViewById(R.id.spin_class);
 		spAspect = (Spinner) rootView.findViewById(R.id.spin_aspect);
 		spCategory = (Spinner) rootView.findViewById(R.id.spin_aspect_category);
-		spTahun = (Spinner) rootView.findViewById(R.id.spin_tahun);
 		spSemester = (Spinner) rootView.findViewById(R.id.spin_semester);
 
 		btnShowMarks = (Button) rootView.findViewById(R.id.btn_show_marks);
@@ -166,15 +164,10 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listKelas);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		for(int i = 0; i < listMuridKelas.size(); i ++) {
-			listKelas.add(listMuridKelas.get(i).KelasDisplayMember);
+			listKelas.add(listMuridKelas.get(i).KelasDisplayMember + " (" + listMuridKelas.get(i).TahunPelajaranDisplayMember + ")");
 		}
 		spClass.setOnItemSelectedListener(this);
 		spClass.setAdapter(dataAdapter);
-		
-		listTahun.add("-Pilih Tahun-");
-		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listTahun);
-		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spTahun.setAdapter(dataAdapter);
 	}
 
 	@Override
@@ -182,17 +175,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		switch (arg0.getId()) {
 		case R.id.spin_class:
 			selKelas = arg0.getItemAtPosition(arg2).toString();
-			// get tahun pelajaran
-			listTahun = new ArrayList<String>();
-			listTahun.add("- Pilih Tahun -");
-			for(int i = 0; i < listMuridKelas.size(); i ++) {
-				if(selKelas.equalsIgnoreCase(listMuridKelas.get(i).KelasDisplayMember)) {
-					listTahun.add(listMuridKelas.get(i).TahunPelajaranDisplayMember);
-				}
-			}
-			dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listTahun);
-			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			spTahun.setAdapter(dataAdapter);
 			break;
 
 		case R.id.spin_aspect:
