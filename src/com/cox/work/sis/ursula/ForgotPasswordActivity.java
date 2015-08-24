@@ -53,6 +53,14 @@ public class ForgotPasswordActivity extends Activity implements OnClickListener{
 			break;
 		}
 	}
+	
+	public class Username {
+		String Username;
+		
+		Username(String usr) {
+			Username = usr;
+		}
+	}
 
 	private void doResendPwdAction(final Context ctx) {
 		final ProgressDialog dialog = new ProgressDialog(this);
@@ -61,7 +69,7 @@ public class ForgotPasswordActivity extends Activity implements OnClickListener{
 		dialog.show();
 		
 		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MASTER_STG);
-		client.resetPassword(Username, new Callback<ResponseUser>() {
+		client.resetPassword(new Username(Username), new Callback<ResponseUser>() {
 			@Override
 			public void success(ResponseUser user, Response arg1) {
 				dialog.dismiss();

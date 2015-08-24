@@ -1,5 +1,6 @@
 package com.cox.work.service;
 
+import com.cox.work.sis.ursula.ForgotPasswordActivity.Username;
 import com.cox.work.sis.ursula.model.json.ClassAndAspect;
 import com.cox.work.sis.ursula.model.json.DataUser;
 import com.cox.work.sis.ursula.model.json.ReqGetNilai;
@@ -17,7 +18,7 @@ public interface MobileServiceClient {
 	public void login(@Body DataUser user, Callback<ResponseUser> cb);
 
 	@POST("/EmailService.svc/resetPassword")
-	public void resetPassword(@Body String user, Callback<ResponseUser> cb);
+	public void resetPassword(@Body Username user, Callback<ResponseUser> cb);
 
 	@POST("/MobileService.svc/getKelasDanAspek")
 	public void getClassAndAspect(@Body ReqUserClassAspect reqUserClassAspect, Callback<ClassAndAspect> cb);
