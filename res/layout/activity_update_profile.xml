@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="fill_parent"
+        android:layout_height="16dp"
+        android:background="#DFB056" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/logo_ursula" />
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/user_name"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/et_username"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10"
+        android:enabled="false"
+        android:singleLine="true" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/tv_email"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10"
+        android:text="@string/email"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:inputType="textEmailAddress"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/tv_old_pwd"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10"
+        android:text="@string/old_pwd"
+        android:textColor="#000000"
+        android:textStyle="bold" >
+
+        <requestFocus />
+    </TextView>
+
+    <EditText
+        android:id="@+id/et_old_pwd"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/tv_new_pwd"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10"
+        android:text="@string/new_pwd"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/et_new_pwd"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btn_reset_pwd"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_rounded_bg"
+        android:enabled="true"
+        android:text="Update Profile"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="fill_parent"
+        android:layout_height="16dp"
+        android:background="#DFB056" />
+
+</LinearLayout>

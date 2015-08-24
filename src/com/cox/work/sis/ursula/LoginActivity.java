@@ -1,10 +1,5 @@
 package com.cox.work.sis.ursula;
 
-import java.util.Date;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -23,14 +18,9 @@ import android.widget.TextView;
 
 import com.cox.work.service.MobileServiceClient;
 import com.cox.work.service.MobileServiceGenerator;
-import com.cox.work.sis.ursula.model.json.ClassAndAspect;
 import com.cox.work.sis.ursula.model.json.DataUser;
-import com.cox.work.sis.ursula.model.json.ReqUserClassAspect;
 import com.cox.work.sis.ursula.model.json.ResponseUser;
-import com.cox.work.sis.ursula.util.DateSerializerDeserializer;
 import com.cox.work.sis.ursula.util.Util;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class LoginActivity extends Activity implements OnClickListener{
 	Activity activity;
@@ -86,8 +76,6 @@ public class LoginActivity extends Activity implements OnClickListener{
 			public void success(ResponseUser user, Response arg1) {
 				dialog.dismiss();
 				if(user != null && user.Message == null) {
-					Log.e("cox", "SUCCESS #  = " + user.User.Email);
-					
 					Intent i = new Intent();
 					i.putExtra(Util.Constant.USERNAME, user.User.Username);
 					i.putExtra(Util.Constant.NAMASISWA, user.User.MutasiMasuk.NamaSiswa);
@@ -106,7 +94,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 //						Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, ds).create();
 //						Log.e("cox","Date = " + gson.fromJson(json, Date.class));
 
-						i.setClass(activity, ResetPasswordActivity.class);
+						i.setClass(activity, UpdateProfileActivity.class);
 						//doGetClassAndAspect();
 					} else {
 						i.setClass(activity, MainActivity.class);
@@ -141,14 +129,5 @@ public class LoginActivity extends Activity implements OnClickListener{
 				alertbox.show();
 			}
 		});
-		
-//		if(isFirstLogin()) {
-//			Intent i = new Intent(this, ResetPasswordActivity.class);
-//			startActivity(i);
-//		}
-	}
-
-	private boolean isFirstLogin() {
-		return true;
 	}
 }
