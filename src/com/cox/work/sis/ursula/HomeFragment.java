@@ -20,6 +20,7 @@ import com.inqbarna.tablefixheaders.TableFixHeaders;
 
 import android.support.v4.app.Fragment;
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -99,18 +100,24 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	}
 	
 	private void doGetClassAndAspect() {
+		final ProgressDialog dialog = new ProgressDialog(getActivity());
+		dialog.setMessage("Memuat data...");
+		dialog.setCancelable(false);
+		dialog.show();
+		
 		ReqUserClassAspect user = new ReqUserClassAspect("andrea.sutanto", "400");
 		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
 		client.getClassAndAspect(user, new Callback<ClassAndAspect>() {
 			@Override
 			public void success(ClassAndAspect classAndAspect, Response arg1) {
+				dialog.dismiss();
 				listAspekPenilaian = classAndAspect.ListAspekPenilaian;
 				listMuridKelas = classAndAspect.ListMuridKelas;
 				loadDataToSpinner();
-				Log.e("cox", "success user = " + classAndAspect.ListAspekPenilaian.get(0).Nama);
 			}
 			@Override
 			public void failure(RetrofitError arg0) {
+				dialog.dismiss();
 				Log.e("cox", "failure = " + arg0.getMessage());
 			}
 		});
