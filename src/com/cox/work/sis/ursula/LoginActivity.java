@@ -26,21 +26,23 @@ public class LoginActivity extends Activity implements OnClickListener{
 	Activity activity;
 	Button btnLogin;
 	TextView tvForgotPwd;
+	TextView tvChangePwd;
 	EditText etUsername, etPassword;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		activity = this;
-		
 		setContentView(R.layout.activity_login);
+		
 		etUsername = (EditText) findViewById(R.id.et_username);
 		etPassword = (EditText) findViewById(R.id.et_password);
 		btnLogin = (Button) findViewById(R.id.btn_login);
 		btnLogin.setOnClickListener(this);
 		tvForgotPwd = (TextView) findViewById(R.id.tv_forgotpwd);
 		tvForgotPwd.setOnClickListener(this);
+		tvChangePwd = (TextView) findViewById(R.id.tv_changepwd);
+		tvChangePwd.setOnClickListener(this);
 	}
 
 	@Override
@@ -52,6 +54,9 @@ public class LoginActivity extends Activity implements OnClickListener{
 		case R.id.tv_forgotpwd:
 			doForgotPwdAction();
 			break;
+		case R.id.tv_changepwd:
+			doChangePwdAction();
+			break;
 		default:
 			break;
 		}
@@ -59,6 +64,12 @@ public class LoginActivity extends Activity implements OnClickListener{
 
 	private void doForgotPwdAction() {
 		Intent i = new Intent(this, ForgotPasswordActivity.class);
+		i.putExtra(Util.Constant.USERNAME, etUsername.getText().toString());
+		startActivity(i);
+	}
+
+	private void doChangePwdAction() {
+		Intent i = new Intent(this, ChangePasswordActivity.class);
 		i.putExtra(Util.Constant.USERNAME, etUsername.getText().toString());
 		startActivity(i);
 	}

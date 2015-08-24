@@ -29,15 +29,15 @@
             android:label="@string/app_name">
         </activity>
         <activity 
-            android:name="com.cox.work.sis.ursula.ResetPasswordActivity"
-            android:label="@string/app_name">
-        </activity>
-        <activity 
             android:name="com.cox.work.sis.ursula.ForgotPasswordActivity"
             android:label="@string/app_name">
         </activity>
         <activity 
             android:name="com.cox.work.sis.ursula.UpdateProfileActivity"
+            android:label="@string/app_name">
+        </activity>
+        <activity 
+            android:name="com.cox.work.sis.ursula.ChangePasswordActivity"
             android:label="@string/app_name">
         </activity>
     </application>

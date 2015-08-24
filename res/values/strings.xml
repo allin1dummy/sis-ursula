@@ -18,6 +18,8 @@
     <string name="subject">Mata Pelajaran</string>
     <string name="reset_pwd">Reset Password</string>
     <string name="reset_pwd_desc">Password baru akan dikirim ke email Anda, silakan cek Inbox email Anda lalu login kembali menggunakan password baru.</string>
+    <string name="change_pwd">Ubah Password</string>
+    <string name="change_pwd_desc">Password Anda berhasil diubah, silakan login kembali menggunakan password baru.</string>
     <string name="resend_pwd">Kirim Ulang Password</string>
     <string name="forgot_pwd_msg">Password akan dikirim ke email Anda, silakan cek Inbox email Anda lalu login kembali menggunakan password baru.</string>
     
