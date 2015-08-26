@@ -14,7 +14,10 @@ import com.cox.work.sis.ursula.model.json.AspekPenilaian;
 import com.cox.work.sis.ursula.model.json.ClassAndAspect;
 import com.cox.work.sis.ursula.model.json.JenisNilai;
 import com.cox.work.sis.ursula.model.json.MuridKelas;
+import com.cox.work.sis.ursula.model.json.Nilai;
+import com.cox.work.sis.ursula.model.json.ReqGetNilai;
 import com.cox.work.sis.ursula.model.json.ReqUserClassAspect;
+import com.cox.work.sis.ursula.model.json.ResponseGetNilai;
 import com.cox.work.sis.ursula.util.Util;
 import com.inqbarna.tablefixheaders.TableFixHeaders;
 
@@ -44,9 +47,12 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	private List<AspekPenilaian> listAspekPenilaian;
 	private List<JenisNilai> listJenisNilai;
 	private List<MuridKelas> listMuridKelas;
+	private List<Nilai> listNilai;
 	private int selAspek = 0, selJenis = 0, selTahun = 0;
+	private String strSelAspek = "", strSelJenis = "", strSelTahun = "";
 	private String selKelas = "";
 	private String userName, namaSiswa;
+	private int muridKelasId;
 	private TextView tv_NamaSiswa;
 	private Button btnShowMarks;
 
@@ -55,7 +61,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	List<String> listAspek = new ArrayList<String>();
 	List<String> listKelas = new ArrayList<String>();
 	List<String> listKategori = new ArrayList<String>();
-	
+
+	private TableFixHeaders tableFixHeaders;
 
 	public HomeFragment() {
 	}
@@ -73,7 +80,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		tv_NamaSiswa = (TextView) rootView.findViewById(R.id.tv_name);
 		tv_NamaSiswa.setText("Nama: " + namaSiswa);
 		
-		final TableFixHeaders tableFixHeaders = (TableFixHeaders) rootView.findViewById(R.id.table);
+		tableFixHeaders = (TableFixHeaders) rootView.findViewById(R.id.table);
 		tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), loadDataStudentMark()));
 		tableFixHeaders.setVisibility(View.GONE);
 		
@@ -86,7 +93,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		btnShowMarks.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				tableFixHeaders.setVisibility(View.VISIBLE);
+				showStudentMarks();
 			}
 		});
 		
@@ -97,6 +104,13 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		doGetClassAndAspect();
+	}
+
+	private void showStudentMarks() {
+		tableFixHeaders.setVisibility(View.VISIBLE);
+		if(listNilai != null && listNilai.size() > 0) {
+			//listNilai.get(0).
+		}
 	}
 	
 	private void doGetClassAndAspect() {
@@ -124,6 +138,27 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	}
 	
 	private float[][] loadDataStudentMark() {
+		final ProgressDialog dialog = new ProgressDialog(getActivity());
+		dialog.setMessage("Memuat nilai siswa...");
+		dialog.setCancelable(false);
+		dialog.show();
+		
+		ReqGetNilai req = new ReqGetNilai(String.valueOf(muridKelasId), "2", "1");
+		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
+		client.getNilai(req, new Callback<ResponseGetNilai>() {
+			@Override
+			public void success(ResponseGetNilai resp, Response arg1) {
+				dialog.dismiss();
+				//listNilai = resp.ListNilai;
+			}
+			@Override
+			public void failure(RetrofitError arg0) {
+				dialog.dismiss();
+			}
+		});
+	
+		
+		
 		// this is dummy data
 		int rows = Util.Properties.NUM_SUBJECTS;
 		int cols = Util.Properties.NUM_WEEKS;
@@ -182,10 +217,12 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		switch (arg0.getId()) {
 		case R.id.spin_class:
 			selKelas = arg0.getItemAtPosition(arg2).toString();
+			//muridKelasId = ;
 			break;
 
 		case R.id.spin_aspect:
 			selAspek = arg2;
+			strSelAspek = arg0.getItemAtPosition(selAspek).toString();
 			if (selAspek != 0) {
 				listJenisNilai = listAspekPenilaian.get(selAspek - 1).ListJenisNilai;
 				listKategori = new ArrayList<String>();
@@ -203,6 +240,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 			
 		case R.id.spin_aspect_category:
 			selJenis = arg2;
+			strSelJenis = arg0.getItemAtPosition(selJenis).toString();
 			break;
 			
 		default:
