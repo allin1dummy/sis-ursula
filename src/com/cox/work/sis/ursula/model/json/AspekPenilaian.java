@@ -11,4 +11,9 @@ public class AspekPenilaian {
 	public boolean Status;
 	public TipeKKM TipeKKM;
 	public List<JenisNilai> ListJenisNilai;
+	
+	@Override
+	public String toString() {
+		return Nama;
+	}
 }

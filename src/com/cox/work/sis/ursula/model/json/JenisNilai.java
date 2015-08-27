@@ -6,4 +6,9 @@ public class JenisNilai {
 	public int JumlahNilaiRubrik;
 	public String Nama;
 	public boolean Status;
+	
+	@Override
+	public String toString() {
+		return Nama;
+	}
 }

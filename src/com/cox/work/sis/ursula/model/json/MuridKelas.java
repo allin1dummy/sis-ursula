@@ -10,4 +10,9 @@ public class MuridKelas {
 	public boolean Status;
 	public int TahunPelajaran;
 	public String TahunPelajaranDisplayMember;
+	
+	@Override
+	public String toString() {
+		return KelasDisplayMember + " (" + TahunPelajaranDisplayMember + ")";
+	}
 }

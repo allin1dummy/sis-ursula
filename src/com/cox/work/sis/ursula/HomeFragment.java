@@ -48,11 +48,11 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	private List<JenisNilai> listJenisNilai;
 	private List<MuridKelas> listMuridKelas;
 	private List<Nilai> listNilai;
-	private int selAspek = 0, selJenis = 0, selTahun = 0;
+	private int selAspek = 0, selJenis = 0, selTahun = 0, selSemester = 0;
 	private String strSelAspek = "", strSelJenis = "", strSelTahun = "";
 	private String selKelas = "";
 	private String userName, namaSiswa;
-	private int muridKelasId;
+	private int muridKelasId = -1;
 	private TextView tv_NamaSiswa;
 	private Button btnShowMarks;
 
@@ -62,6 +62,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	List<String> listKelas = new ArrayList<String>();
 	List<String> listKategori = new ArrayList<String>();
 
+	ArrayAdapter spninnerAdapter;
+	
 	private TableFixHeaders tableFixHeaders;
 
 	public HomeFragment() {
@@ -81,7 +83,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		tv_NamaSiswa.setText("Nama: " + namaSiswa);
 		
 		tableFixHeaders = (TableFixHeaders) rootView.findViewById(R.id.table);
-		tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), loadDataStudentMark()));
 		tableFixHeaders.setVisibility(View.GONE);
 		
 		spClass = (Spinner) rootView.findViewById(R.id.spin_class);
@@ -108,6 +109,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 
 	private void showStudentMarks() {
 		tableFixHeaders.setVisibility(View.VISIBLE);
+		tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), loadDataStudentMark()));
 		if(listNilai != null && listNilai.size() > 0) {
 			//listNilai.get(0).
 		}
@@ -138,48 +140,51 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	}
 	
 	private float[][] loadDataStudentMark() {
-		final ProgressDialog dialog = new ProgressDialog(getActivity());
-		dialog.setMessage("Memuat nilai siswa...");
-		dialog.setCancelable(false);
-		dialog.show();
+		if(spClass != null) {
+			MuridKelas mk = (MuridKelas) spClass.getSelectedItem();
+			final ProgressDialog dialog = new ProgressDialog(getActivity());
+			dialog.setMessage("Memuat nilai siswa...");
+			dialog.setCancelable(false);
+			dialog.show();
+			
+			muridKelasId = mk.Id;
+			ReqGetNilai req = new ReqGetNilai(String.valueOf(muridKelasId), "2", String.valueOf(selSemester));
+			MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
+			client.getNilai(req, new Callback<ResponseGetNilai>() {
+				@Override
+				public void success(ResponseGetNilai resp, Response arg1) {
+					dialog.dismiss();
+					//listNilai = resp.ListNilai;
+				}
+				@Override
+				public void failure(RetrofitError arg0) {
+					dialog.dismiss();
+				}
+			});
 		
-		ReqGetNilai req = new ReqGetNilai(String.valueOf(muridKelasId), "2", "1");
-		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
-		client.getNilai(req, new Callback<ResponseGetNilai>() {
-			@Override
-			public void success(ResponseGetNilai resp, Response arg1) {
-				dialog.dismiss();
-				//listNilai = resp.ListNilai;
-			}
-			@Override
-			public void failure(RetrofitError arg0) {
-				dialog.dismiss();
-			}
-		});
-	
-		
-		
-		// this is dummy data
-		int rows = Util.Properties.NUM_SUBJECTS;
-		int cols = Util.Properties.NUM_WEEKS;
-		float tot = 0f;
-		float[][] result = new float[rows][cols + 1]; // add 1 column to insert means value each Subject
-		for(int i = 0; i < result.length; i ++) {
-			tot = 0f;
-			for(int j = 0; j < result[0].length; j ++) {
-				if(j < result.length - 1) {
-					result[i][j] = (float) (Math.random() * 10);
-					tot = tot + result[i][j];
-				} else {
-					result[i][j] = tot / Util.Properties.NUM_WEEKS;
+			
+			
+			// this is dummy data
+			int rows = Util.Properties.NUM_SUBJECTS;
+			int cols = Util.Properties.NUM_WEEKS;
+			float tot = 0f;
+			float[][] result = new float[rows][cols + 1]; // add 1 column to insert means value each Subject
+			for(int i = 0; i < result.length; i ++) {
+				tot = 0f;
+				for(int j = 0; j < result[0].length; j ++) {
+					if(j < result.length - 1) {
+						result[i][j] = (float) (Math.random() * 10);
+						tot = tot + result[i][j];
+					} else {
+						result[i][j] = tot / Util.Properties.NUM_WEEKS;
+					}
 				}
 			}
-		}
-		return result;
+			return result;
+		} else return null;
 	}
 
 	private void loadDataToSpinner() {
-		listSemester.add("-Pilih Semester-");
 		listSemester.add("1");
 		listSemester.add("2");
 		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listSemester);
@@ -187,62 +192,37 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		spSemester.setOnItemSelectedListener(this);
 		spSemester.setAdapter(dataAdapter);
 		
-		listAspek.add("-Pilih Aspek-");
-		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listAspek);
-		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		for(int i = 0; i < listAspekPenilaian.size(); i ++) {
-			listAspek.add(listAspekPenilaian.get(i).Nama);
-		}
+		spninnerAdapter = new ArrayAdapter(getActivity(), R.layout.simple_spinner, listAspekPenilaian);
 		spAspect.setOnItemSelectedListener(this);
-		spAspect.setAdapter(dataAdapter);
-		
-		listKategori.add("-Pilih Kategori-");
-		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listKategori);
-		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spCategory.setOnItemSelectedListener(this);
-		spCategory.setAdapter(dataAdapter);
+		spAspect.setAdapter(spninnerAdapter);
 
-		listKelas.add("-Pilih Kelas-");
-		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listKelas);
-		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		for(int i = 0; i < listMuridKelas.size(); i ++) {
-			listKelas.add(listMuridKelas.get(i).KelasDisplayMember + " (" + listMuridKelas.get(i).TahunPelajaranDisplayMember + ")");
-		}
+		listJenisNilai = listAspekPenilaian.get(selAspek).ListJenisNilai;
+		spninnerAdapter = new ArrayAdapter(getActivity(), R.layout.simple_spinner, listJenisNilai);
+		spCategory.setAdapter(spninnerAdapter);
+		spCategory.setSelection(0);
+		
+		spninnerAdapter = new ArrayAdapter(getActivity(), R.layout.simple_spinner, listMuridKelas);
 		spClass.setOnItemSelectedListener(this);
-		spClass.setAdapter(dataAdapter);
+		spClass.setAdapter(spninnerAdapter);
 	}
 
 	@Override
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		switch (arg0.getId()) {
-		case R.id.spin_class:
-			selKelas = arg0.getItemAtPosition(arg2).toString();
-			//muridKelasId = ;
-			break;
-
 		case R.id.spin_aspect:
 			selAspek = arg2;
-			strSelAspek = arg0.getItemAtPosition(selAspek).toString();
-			if (selAspek != 0) {
-				listJenisNilai = listAspekPenilaian.get(selAspek - 1).ListJenisNilai;
-				listKategori = new ArrayList<String>();
-				listKategori.add("- Pilih Kategori -");
-				for(int i = 0; i < listJenisNilai.size(); i ++) {
-					listKategori.add(listJenisNilai.get(i).Nama);
-				}
-				dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listKategori);
-				dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spCategory.setAdapter(dataAdapter);
-			}
+			listJenisNilai = listAspekPenilaian.get(selAspek).ListJenisNilai;
+			spninnerAdapter = new ArrayAdapter(getActivity(), R.layout.simple_spinner, listJenisNilai);
+			spCategory.setAdapter(spninnerAdapter);
 			spCategory.setSelection(0);
-		
 			break;
-			
 		case R.id.spin_aspect_category:
 			selJenis = arg2;
 			strSelJenis = arg0.getItemAtPosition(selJenis).toString();
 			break;
-			
+		case R.id.spin_semester:
+			selSemester = arg2;
+			break;
 		default:
 			break;
 		}
