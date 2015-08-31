@@ -44,6 +44,7 @@ public class Util {
 	public static final class Constant {
 		public static final String USERNAME = "username";
 		public static final String NAMASISWA = "namasiswa";
+		public static final String MUTASIID = "mutasiid";
 	}
 	
 	public static final class LineChart {

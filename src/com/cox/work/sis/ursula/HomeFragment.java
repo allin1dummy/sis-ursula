@@ -1,7 +1,9 @@
 package com.cox.work.sis.ursula;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -10,11 +12,13 @@ import retrofit.client.Response;
 import com.cox.work.service.MobileServiceClient;
 import com.cox.work.service.MobileServiceGenerator;
 import com.cox.work.sis.ursula.adapter.StudentMarkTableAdapter;
+import com.cox.work.sis.ursula.model.DataNilaiTableAdapter;
 import com.cox.work.sis.ursula.model.json.AspekPenilaian;
 import com.cox.work.sis.ursula.model.json.ClassAndAspect;
 import com.cox.work.sis.ursula.model.json.JenisNilai;
 import com.cox.work.sis.ursula.model.json.MuridKelas;
 import com.cox.work.sis.ursula.model.json.Nilai;
+import com.cox.work.sis.ursula.model.json.NilaiDetilNonRubrik;
 import com.cox.work.sis.ursula.model.json.ReqGetNilai;
 import com.cox.work.sis.ursula.model.json.ReqUserClassAspect;
 import com.cox.work.sis.ursula.model.json.ResponseGetNilai;
@@ -48,10 +52,10 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	private List<JenisNilai> listJenisNilai;
 	private List<MuridKelas> listMuridKelas;
 	private List<Nilai> listNilai;
-	private int selAspek = 0, selJenis = 0, selTahun = 0, selSemester = 0;
+	private long selAspek = 0, selKategori = 0, selTahun = 0, selSemester = 0;
 	private String strSelAspek = "", strSelJenis = "", strSelTahun = "";
-	private String selKelas = "";
-	private String userName, namaSiswa;
+	private long selKelas;
+	private String userName, namaSiswa, mutasiId;
 	private int muridKelasId = -1;
 	private TextView tv_NamaSiswa;
 	private Button btnShowMarks;
@@ -63,6 +67,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	List<String> listKategori = new ArrayList<String>();
 
 	ArrayAdapter spninnerAdapter;
+	
+	Map<String, DataNilaiTableAdapter> map = new HashMap<String, DataNilaiTableAdapter>();
 	
 	private TableFixHeaders tableFixHeaders;
 
@@ -78,6 +84,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		
 		userName = getArguments().getString(Util.Constant.USERNAME);
 		namaSiswa = getArguments().getString(Util.Constant.NAMASISWA);
+		mutasiId = getArguments().getString(Util.Constant.MUTASIID);
 		
 		tv_NamaSiswa = (TextView) rootView.findViewById(R.id.tv_name);
 		tv_NamaSiswa.setText("Nama: " + namaSiswa);
@@ -121,7 +128,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		dialog.setCancelable(false);
 		dialog.show();
 		
-		ReqUserClassAspect user = new ReqUserClassAspect("andrea.sutanto", "400");
+		ReqUserClassAspect user = new ReqUserClassAspect(userName, mutasiId);
 		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
 		client.getClassAndAspect(user, new Callback<ClassAndAspect>() {
 			@Override
@@ -134,7 +141,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 			@Override
 			public void failure(RetrofitError arg0) {
 				dialog.dismiss();
-				Log.e("cox", "failure = " + arg0.getMessage());
+				Log.e("cox", "getClassAndAspect failure = " + arg0.getMessage());
 			}
 		});
 	}
@@ -148,40 +155,68 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 			dialog.show();
 			
 			muridKelasId = mk.Id;
-			ReqGetNilai req = new ReqGetNilai(String.valueOf(muridKelasId), "2", String.valueOf(selSemester));
+			AspekPenilaian ap = (AspekPenilaian) spAspect.getSelectedItem();
+			String smstr = (String) spSemester.getSelectedItem();
+			
+			ReqGetNilai req = new ReqGetNilai(String.valueOf(muridKelasId), String.valueOf(ap.Id), smstr);
 			MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
 			client.getNilai(req, new Callback<ResponseGetNilai>() {
 				@Override
 				public void success(ResponseGetNilai resp, Response arg1) {
+					Log.e("cox","getNilai success");
 					dialog.dismiss();
-					//listNilai = resp.ListNilai;
+					listNilai = resp.ListNilai;
+					
+					selKelas = spClass.getSelectedItemId();
+					selSemester = spSemester.getSelectedItemId();
+					selAspek = spAspect.getSelectedItemId();
+					selKategori = spCategory.getSelectedItemId();
+					
+//					int rows = listNilai.size(); //Util.Properties.NUM_SUBJECTS;
+//					int cols = Util.Properties.NUM_WEEKS;
+//					float[][] result = new float[rows][cols + 1]; // add 1 column to insert means value each Subject
+//					
+//					for(Nilai nilai : listNilai) {
+//						if(selAspek == nilai.AspekPenilaian.Id && selSemester == nilai.Semester) {
+//							for(NilaiDetilNonRubrik detilNonRubrik : nilai.ListNilaiDetilNonRubrik) {
+//								if(selKategori == detilNonRubrik.Id) {
+//									rows++;
+//									// add nilai
+//								}
+//							}
+//						}
+//					}
+					
+
+					/*
+					// this is dummy data
+					float tot = 0f;
+					for(int i = 0; i < result.length; i ++) {
+						tot = 0f;
+						for(int j = 0; j < result[0].length; j ++) {
+							if(j < result.length - 1) {
+								result[i][j] = (float) (Math.random() * 10);
+								tot = tot + result[i][j];
+							} else {
+								result[i][j] = tot / Util.Properties.NUM_WEEKS;
+							}
+						}
+					}
+					*/
 				}
 				@Override
 				public void failure(RetrofitError arg0) {
+					Log.e("cox","getNilai failure = " + arg0.getMessage());
 					dialog.dismiss();
 				}
 			});
 		
 			
 			
-			// this is dummy data
-			int rows = Util.Properties.NUM_SUBJECTS;
-			int cols = Util.Properties.NUM_WEEKS;
-			float tot = 0f;
-			float[][] result = new float[rows][cols + 1]; // add 1 column to insert means value each Subject
-			for(int i = 0; i < result.length; i ++) {
-				tot = 0f;
-				for(int j = 0; j < result[0].length; j ++) {
-					if(j < result.length - 1) {
-						result[i][j] = (float) (Math.random() * 10);
-						tot = tot + result[i][j];
-					} else {
-						result[i][j] = tot / Util.Properties.NUM_WEEKS;
-					}
-				}
-			}
-			return result;
-		} else return null;
+		}
+
+		float result[][] = new float[1][1];
+		return result;
 	}
 
 	private void loadDataToSpinner() {
@@ -196,7 +231,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		spAspect.setOnItemSelectedListener(this);
 		spAspect.setAdapter(spninnerAdapter);
 
-		listJenisNilai = listAspekPenilaian.get(selAspek).ListJenisNilai;
+		listJenisNilai = listAspekPenilaian.get((int)selAspek).ListJenisNilai;
 		spninnerAdapter = new ArrayAdapter(getActivity(), R.layout.simple_spinner, listJenisNilai);
 		spCategory.setAdapter(spninnerAdapter);
 		spCategory.setSelection(0);
@@ -211,14 +246,14 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		switch (arg0.getId()) {
 		case R.id.spin_aspect:
 			selAspek = arg2;
-			listJenisNilai = listAspekPenilaian.get(selAspek).ListJenisNilai;
+			listJenisNilai = listAspekPenilaian.get(arg2).ListJenisNilai;
 			spninnerAdapter = new ArrayAdapter(getActivity(), R.layout.simple_spinner, listJenisNilai);
 			spCategory.setAdapter(spninnerAdapter);
 			spCategory.setSelection(0);
 			break;
 		case R.id.spin_aspect_category:
-			selJenis = arg2;
-			strSelJenis = arg0.getItemAtPosition(selJenis).toString();
+			selKategori = arg2;
+			strSelJenis = arg0.getItemAtPosition(arg2).toString();
 			break;
 		case R.id.spin_semester:
 			selSemester = arg2;

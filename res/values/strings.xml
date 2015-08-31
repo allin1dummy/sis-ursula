@@ -26,9 +26,7 @@
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item >Home</item>
-        <item >Aspek Pengetahuan</item>
-        <item >Aspek Keterampilan</item>
-        <item >Aspek Sikap</item>
+        <item >Statistik</item>
     </string-array>
     
     <!-- Nav Drawer List Item Icons -->

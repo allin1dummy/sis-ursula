@@ -5,7 +5,7 @@ public class NilaiDetilNonRubrik {
 	public boolean IsRemidi;
 	public JenisNilai JenisNilai;
 	public String Keterangan;
-	public int NilaiAngka;
+	public float NilaiAngka;
 	public int NilaiKe;
 	public float Ratarata;
 	public boolean Status;

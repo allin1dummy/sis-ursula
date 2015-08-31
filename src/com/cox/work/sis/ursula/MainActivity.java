@@ -2,9 +2,6 @@ package com.cox.work.sis.ursula;
 
 import java.util.ArrayList;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -23,14 +20,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.cox.work.service.MobileServiceClient;
-import com.cox.work.service.MobileServiceGenerator;
 import com.cox.work.sis.ursula.adapter.NavDrawerListAdapter;
 import com.cox.work.sis.ursula.model.NavDrawerItem;
-import com.cox.work.sis.ursula.model.json.ClassAndAspect;
-import com.cox.work.sis.ursula.model.json.DataUser;
-import com.cox.work.sis.ursula.model.json.ReqUserClassAspect;
-import com.cox.work.sis.ursula.model.json.ResponseUser;
 import com.cox.work.sis.ursula.util.Util;
 
 public class MainActivity extends FragmentActivity {
@@ -52,10 +43,8 @@ public class MainActivity extends FragmentActivity {
 	private NavDrawerListAdapter adapter;
 	
 	private AspekPengetahuanFragment pengetahuanFragment;
-	private AspekKeterampilanFragment keterampilanFragment;
-	private AspekSikapFragment sikapFragment;
 	
-	private String userName, namaSiswa;
+	private String userName, namaSiswa, mutasiId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,15 +66,8 @@ public class MainActivity extends FragmentActivity {
 		navDrawerItems = new ArrayList<NavDrawerItem>();
 
 		// adding nav drawer items to array
-		// Home
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-		// Find People
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-		// Photos
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-		// Communities, Will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
-		// Pages
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
@@ -130,6 +112,7 @@ public class MainActivity extends FragmentActivity {
 	public View onCreateView(String name, Context context, AttributeSet attrs) {
 		userName = getIntent().getStringExtra(Util.Constant.USERNAME);
 		namaSiswa = getIntent().getStringExtra(Util.Constant.NAMASISWA);
+		mutasiId = getIntent().getStringExtra(Util.Constant.MUTASIID);
 		return super.onCreateView(name, context, attrs);
 	}
 	
@@ -191,6 +174,7 @@ public class MainActivity extends FragmentActivity {
 			Bundle b = new Bundle();
 			b.putString(Util.Constant.USERNAME, userName);
 			b.putString(Util.Constant.NAMASISWA, namaSiswa);
+			b.putString(Util.Constant.MUTASIID, mutasiId);
 			fragment.setArguments(b);
 			break;
 		case 1:
@@ -198,18 +182,6 @@ public class MainActivity extends FragmentActivity {
 				pengetahuanFragment = new AspekPengetahuanFragment();
 			}
 			fragment = pengetahuanFragment;
-			break;
-		case 2:
-			if(keterampilanFragment == null) {
-				keterampilanFragment = new AspekKeterampilanFragment();
-			}
-			fragment = keterampilanFragment;
-			break;
-		case 3:
-			if(sikapFragment == null) {
-				sikapFragment = new AspekSikapFragment();
-			}
-			fragment = sikapFragment;
 			break;
 		default:
 			fragment = new Fragment();
