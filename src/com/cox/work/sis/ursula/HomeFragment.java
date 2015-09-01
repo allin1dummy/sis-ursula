@@ -1,10 +1,7 @@
 package com.cox.work.sis.ursula;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -16,7 +13,6 @@ import com.cox.work.sis.ursula.model.DataNilaiTableAdapter;
 import com.cox.work.sis.ursula.model.json.AspekPenilaian;
 import com.cox.work.sis.ursula.model.json.ClassAndAspect;
 import com.cox.work.sis.ursula.model.json.JenisNilai;
-import com.cox.work.sis.ursula.model.json.Kelas;
 import com.cox.work.sis.ursula.model.json.MuridKelas;
 import com.cox.work.sis.ursula.model.json.Nilai;
 import com.cox.work.sis.ursula.model.json.NilaiDetilNonRubrik;
@@ -28,13 +24,13 @@ import com.inqbarna.tablefixheaders.TableFixHeaders;
 
 import android.support.v4.app.Fragment;
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -44,7 +40,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	
@@ -61,7 +56,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	private TextView tv_NamaSiswa;
 	private Button btnShowMarks;
 
-	ArrayAdapter<String> dataAdapter;
 	List<String> listSemester = new ArrayList<String>();
 	List<String> listAspek = new ArrayList<String>();
 	List<String> listKelas = new ArrayList<String>();
@@ -121,12 +115,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		doGetClassAndAspect();
 	}
 
-	private void showStudentMarks() {
-		if(listNilai != null && listNilai.size() > 0) {
-			//listNilai.get(0).
-		}
-	}
-	
 	private void doGetClassAndAspect() {
 		final ProgressDialog dialog = new ProgressDialog(getActivity());
 		dialog.setMessage("Memuat data...");
@@ -163,6 +151,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 			final AspekPenilaian ap = (AspekPenilaian) spAspect.getSelectedItem();
 			String smstr = (String) spSemester.getSelectedItem();
 			final JenisNilai jn = (JenisNilai) spCategory.getSelectedItem();
+			listNilaiSiswa = new ArrayList<DataNilaiTableAdapter>();
 
 			ReqGetNilai req = new ReqGetNilai(String.valueOf(muridKelasId), String.valueOf(ap.Id), smstr);
 			MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
@@ -188,8 +177,25 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 
 					showLog4ListNilai();
 					
-					tableFixHeaders.setVisibility(View.VISIBLE);
-					tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), listNilaiSiswa));
+					if(listNilaiSiswa == null || listNilaiSiswa.size() == 0) {
+						tableFixHeaders.setVisibility(View.GONE);
+						tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), new ArrayList<DataNilaiTableAdapter>()));
+						
+						AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+						alert.setTitle("Nilai Siswa");
+						alert.setMessage("List nilai tidak tersedia.")
+							.setCancelable(false)
+							.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,int id) {
+									dialog.dismiss();
+								}
+							})
+							.show();
+					} else {
+						tableFixHeaders.setVisibility(View.VISIBLE);
+						tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), listNilaiSiswa));
+					}
+					
 				}
 				
 				@Override
@@ -213,10 +219,9 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	private void loadDataToSpinner() {
 		listSemester.add("1");
 		listSemester.add("2");
-		dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, listSemester);
-		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spninnerAdapter = new ArrayAdapter(getActivity(), R.layout.simple_spinner, listSemester);
 		spSemester.setOnItemSelectedListener(this);
-		spSemester.setAdapter(dataAdapter);
+		spSemester.setAdapter(spninnerAdapter);
 		
 		spninnerAdapter = new ArrayAdapter(getActivity(), R.layout.simple_spinner, listAspekPenilaian);
 		spAspect.setOnItemSelectedListener(this);
