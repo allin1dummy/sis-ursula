@@ -1,28 +1,35 @@
 package com.cox.work.sis.ursula.model;
 
+import java.util.ArrayList;
+
 public class DataNilaiTableAdapter {
-
+	private int Id;
 	private String mataPelajaran;
-	private float[][] nilai;
+	private ArrayList<Float> nilai;
 
-	public DataNilaiTableAdapter(String m, float[][] n) {
+	public DataNilaiTableAdapter(int i, String m) {
+		Id = i;
 		mataPelajaran = m;
-		nilai = n;
+		nilai = null;
 	}
-
+	
 	public String getMataPelajaran() {
 		return mataPelajaran;
 	}
-
 	public void setMataPelajaran(String mataPelajaran) {
 		this.mataPelajaran = mataPelajaran;
 	}
-	
-	public float[][] getNilai() {
+	public int getId() {
+		return Id;
+	}
+	public void setId(int id) {
+		Id = id;
+	}
+	public ArrayList<Float> getNilai() {
 		return nilai;
 	}
-
-	public void setNilai(float[][] nilai) {
-		this.nilai = nilai;
+	public void setNilai(ArrayList<Float> n) {
+		nilai = n;
 	}
+	
 }

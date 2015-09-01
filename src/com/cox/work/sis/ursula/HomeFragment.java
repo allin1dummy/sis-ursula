@@ -16,6 +16,7 @@ import com.cox.work.sis.ursula.model.DataNilaiTableAdapter;
 import com.cox.work.sis.ursula.model.json.AspekPenilaian;
 import com.cox.work.sis.ursula.model.json.ClassAndAspect;
 import com.cox.work.sis.ursula.model.json.JenisNilai;
+import com.cox.work.sis.ursula.model.json.Kelas;
 import com.cox.work.sis.ursula.model.json.MuridKelas;
 import com.cox.work.sis.ursula.model.json.Nilai;
 import com.cox.work.sis.ursula.model.json.NilaiDetilNonRubrik;
@@ -68,8 +69,14 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 
 	ArrayAdapter spninnerAdapter;
 	
-	Map<String, DataNilaiTableAdapter> map = new HashMap<String, DataNilaiTableAdapter>();
-	
+	private ArrayList<DataNilaiTableAdapter> listNilaiSiswa = new ArrayList<DataNilaiTableAdapter>();
+	public ArrayList<DataNilaiTableAdapter> getListNilaiSiswa() {
+		return listNilaiSiswa;
+	}
+	public void setListNilaiSiswa(ArrayList<DataNilaiTableAdapter> listNilaiSiswa) {
+		this.listNilaiSiswa = listNilaiSiswa;
+	}
+
 	private TableFixHeaders tableFixHeaders;
 
 	public HomeFragment() {
@@ -146,7 +153,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		});
 	}
 	
-	private float[][] loadDataStudentMark() {
+	private ArrayList<DataNilaiTableAdapter> loadDataStudentMark() {
 		if(spClass != null) {
 			MuridKelas mk = (MuridKelas) spClass.getSelectedItem();
 			final ProgressDialog dialog = new ProgressDialog(getActivity());
@@ -155,68 +162,54 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 			dialog.show();
 			
 			muridKelasId = mk.Id;
-			AspekPenilaian ap = (AspekPenilaian) spAspect.getSelectedItem();
+			final AspekPenilaian ap = (AspekPenilaian) spAspect.getSelectedItem();
 			String smstr = (String) spSemester.getSelectedItem();
-			
+			final JenisNilai jn = (JenisNilai) spCategory.getSelectedItem();
+
+			final ArrayList<DataNilaiTableAdapter> alTmpNilai = new ArrayList<DataNilaiTableAdapter>();
 			ReqGetNilai req = new ReqGetNilai(String.valueOf(muridKelasId), String.valueOf(ap.Id), smstr);
 			MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
 			client.getNilai(req, new Callback<ResponseGetNilai>() {
 				@Override
 				public void success(ResponseGetNilai resp, Response arg1) {
-					Log.e("cox","getNilai success");
 					dialog.dismiss();
 					listNilai = resp.ListNilai;
+					selKategori = jn.Id;
+					Log.e("cox","getNilai success selKategori = " + selKategori);
 					
-					selKelas = spClass.getSelectedItemId();
-					selSemester = spSemester.getSelectedItemId();
-					selAspek = spAspect.getSelectedItemId();
-					selKategori = spCategory.getSelectedItemId();
-					
-//					int rows = listNilai.size(); //Util.Properties.NUM_SUBJECTS;
-//					int cols = Util.Properties.NUM_WEEKS;
-//					float[][] result = new float[rows][cols + 1]; // add 1 column to insert means value each Subject
-//					
-//					for(Nilai nilai : listNilai) {
-//						if(selAspek == nilai.AspekPenilaian.Id && selSemester == nilai.Semester) {
-//							for(NilaiDetilNonRubrik detilNonRubrik : nilai.ListNilaiDetilNonRubrik) {
-//								if(selKategori == detilNonRubrik.Id) {
-//									rows++;
-//									// add nilai
-//								}
-//							}
-//						}
-//					}
-					
-
-					/*
-					// this is dummy data
-					float tot = 0f;
-					for(int i = 0; i < result.length; i ++) {
-						tot = 0f;
-						for(int j = 0; j < result[0].length; j ++) {
-							if(j < result.length - 1) {
-								result[i][j] = (float) (Math.random() * 10);
-								tot = tot + result[i][j];
-							} else {
-								result[i][j] = tot / Util.Properties.NUM_WEEKS;
+					for(Nilai nilai : listNilai) {
+						DataNilaiTableAdapter tmp = new DataNilaiTableAdapter(nilai.Id, nilai.MataPelajaran.Nama);
+						ArrayList<Float> tmpNilai = new ArrayList<Float>();
+						for(NilaiDetilNonRubrik detilNonRubrik : nilai.ListNilaiDetilNonRubrik) {
+							if(selKategori == detilNonRubrik.JenisNilai.Id) {
+								tmpNilai.add(detilNonRubrik.NilaiAngka);
 							}
 						}
+						tmp.setNilai(tmpNilai);
+						listNilaiSiswa.add(tmp);
 					}
-					*/
+					alTmpNilai = listNilaiSiswa;
 				}
+				
 				@Override
 				public void failure(RetrofitError arg0) {
 					Log.e("cox","getNilai failure = " + arg0.getMessage());
 					dialog.dismiss();
 				}
 			});
-		
-			
-			
 		}
 
-		float result[][] = new float[1][1];
-		return result;
+		showLog4ListNilai();
+		return listNilaiSiswa;
+	}
+
+	private void showLog4ListNilai() {
+		for(DataNilaiTableAdapter data : listNilaiSiswa) {
+			Log.e("cox","getNilai MataPelajaran = " + data.getMataPelajaran());
+			for(int i = 0; i < data.getNilai().size(); i++) {
+				Log.e("cox","getNilai Nilai = " + data.getNilai().get(i));
+			}
+		}
 	}
 
 	private void loadDataToSpinner() {
