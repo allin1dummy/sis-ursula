@@ -108,7 +108,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		btnShowMarks.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				showStudentMarks();
+				loadDataStudentMark();
 			}
 		});
 		
@@ -122,8 +122,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	}
 
 	private void showStudentMarks() {
-		tableFixHeaders.setVisibility(View.VISIBLE);
-		tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), loadDataStudentMark()));
 		if(listNilai != null && listNilai.size() > 0) {
 			//listNilai.get(0).
 		}
@@ -153,7 +151,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		});
 	}
 	
-	private ArrayList<DataNilaiTableAdapter> loadDataStudentMark() {
+	private void loadDataStudentMark() {
 		if(spClass != null) {
 			MuridKelas mk = (MuridKelas) spClass.getSelectedItem();
 			final ProgressDialog dialog = new ProgressDialog(getActivity());
@@ -166,7 +164,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 			String smstr = (String) spSemester.getSelectedItem();
 			final JenisNilai jn = (JenisNilai) spCategory.getSelectedItem();
 
-			final ArrayList<DataNilaiTableAdapter> alTmpNilai = new ArrayList<DataNilaiTableAdapter>();
 			ReqGetNilai req = new ReqGetNilai(String.valueOf(muridKelasId), String.valueOf(ap.Id), smstr);
 			MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
 			client.getNilai(req, new Callback<ResponseGetNilai>() {
@@ -188,7 +185,11 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 						tmp.setNilai(tmpNilai);
 						listNilaiSiswa.add(tmp);
 					}
-					alTmpNilai = listNilaiSiswa;
+
+					showLog4ListNilai();
+					
+					tableFixHeaders.setVisibility(View.VISIBLE);
+					tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), listNilaiSiswa));
 				}
 				
 				@Override
@@ -198,9 +199,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 				}
 			});
 		}
-
-		showLog4ListNilai();
-		return listNilaiSiswa;
 	}
 
 	private void showLog4ListNilai() {

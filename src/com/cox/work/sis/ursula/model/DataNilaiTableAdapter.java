@@ -13,6 +13,15 @@ public class DataNilaiTableAdapter {
 		nilai = null;
 	}
 	
+	public float calculateMeanValue() {
+		int i = 0;
+		float tot = 0f;
+		for( ; i < nilai.size(); i ++) {
+			tot += nilai.get(i);
+		}
+		return ((float)tot/i);
+	}
+	
 	public String getMataPelajaran() {
 		return mataPelajaran;
 	}

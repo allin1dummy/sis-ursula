@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -57,7 +58,7 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 				result = nilai.getNilai().size();
 			}
 		}
-		return result + 1;
+		return result;
 		//return marks[0].length;
 		//return Util.Properties.NUM_WEEKS + 1;
 		//return Util.Properties.NUM_SUBJECTS;
@@ -119,15 +120,28 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 			tv_mark.setText("Mata Pelajaran");
 		} else if(row==-1 && column>-1) {
 			tv_mark.setText(column == getColumnCount()-1 ? "Rata-Rata" : String.valueOf(column + 1));
-			//tv_mark.setText(Util.Properties.SUBJECTS[column]);
-		} else if(row>-1 && column==-1) {
+		} else if(row>-1 && column==-1) { // SUBJECT
 			tv_mark.setText(dataStudentMark.get(row).getMataPelajaran());
-			//tv_mark.setText(row == getRowCount()-1 ? "Rata-Rata" : String.valueOf(row + 1));
-		} else {
-			tv_mark.setText(String.format("%.2f", dataStudentMark.get(row).getNilai().get(column)));
+		} else if(row>-1 && column == getColumnCount() - 1) { // MEAN
+			tv_mark.setText(String.format("%.2f", dataStudentMark.get(row).calculateMeanValue()));
+		} else { // MARK
+			try {
+				DataNilaiTableAdapter dt = dataStudentMark.get(row);
+				if(column >= dt.getNilai().size()) {
+					tv_mark.setText("-");
+				} else {
+					tv_mark.setText(String.format("%.2f", dt.getNilai().get(column)));
+				}
+			} catch (Exception ex) {
+				Log.e("cox", "Exception row = " + row);
+				Log.e("cox", "Exception column = " + column);
+				Log.e("cox", "Exception getRowCount = " + getRowCount());
+				Log.e("cox", "Exception getColumnCount = " + getColumnCount());
+				Log.e("cox", ex.getMessage());
+			}
 		} 
 
-		if(column > -1 && row > -1 && dataStudentMark.get(row).getNilai().get(column) < 6f) {
+		if(column > -1 && row > -1 && column < dataStudentMark.get(row).getNilai().size() && dataStudentMark.get(row).getNilai().get(column) < 6f) {
 			tv_mark.setTextColor(Color.RED);
 		} else {
 			tv_mark.setTextColor(Color.BLACK);
