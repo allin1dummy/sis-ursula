@@ -10,6 +10,7 @@
     <string name="user_name">User Name:</string>
     <string name="old_pwd">Password Awal:</string>
     <string name="new_pwd">Password Baru:</string>
+    <string name="new_pwd2">Input Ulang Password Baru:</string>
     <string name="password">Password:</string>
     <string name="email">Email:</string>
     <string name="forgot_pwd">Lupa Password?</string>

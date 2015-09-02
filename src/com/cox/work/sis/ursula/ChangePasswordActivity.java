@@ -25,7 +25,7 @@ public class ChangePasswordActivity extends Activity implements OnClickListener{
 	
 	View v;
 	Button btnChangePwd;
-	EditText etUsername, etPwdLama, etPwdBaru;
+	EditText etUsername, etPwdLama, etPwdBaru, etPwdBaru2;
 	Context activity;
 	
 
@@ -42,6 +42,7 @@ public class ChangePasswordActivity extends Activity implements OnClickListener{
 		etUsername.setText(getIntent().getStringExtra(Util.Constant.USERNAME));
 		etPwdLama = (EditText) findViewById(R.id.et_old_pwd);
 		etPwdBaru = (EditText) findViewById(R.id.et_new_pwd);
+		etPwdBaru2 = (EditText) findViewById(R.id.et_new_pwd2);
 	}
 
 	@Override
@@ -62,7 +63,21 @@ public class ChangePasswordActivity extends Activity implements OnClickListener{
 				return;
 			}
 			
-			if(!Util.isPasswordValid((etPwdBaru.getText().toString()))) {
+			if(!etPwdBaru.getText().toString().equals(etPwdBaru2.getText().toString())) {
+				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+				alert.setTitle("Password");
+				alert.setMessage("Password baru tidak cocok")
+					.setCancelable(false)
+					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.dismiss();
+						}
+					})
+					.show();
+				return;
+			}
+			
+			if(!Util.isPasswordValid((etPwdBaru.getText().toString())) || !Util.isPasswordValid((etPwdBaru2.getText().toString()))) {
 				AlertDialog.Builder alert = new AlertDialog.Builder(this);
 				alert.setTitle("Password");
 				alert.setMessage("Password minimal 6 karakter")
