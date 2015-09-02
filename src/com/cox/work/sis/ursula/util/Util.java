@@ -36,6 +36,13 @@ public class Util {
 		return pwd.length() > 5;
 	}
 	
+	public final static boolean isValidEmail(CharSequence target) {
+	    if (target == null) 
+	        return false;
+
+	    return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+	}
+	
 	public static final class Properties {
 		public static final int NUM_SUBJECTS = 11;
 		public static final int NUM_WEEKS = 10;

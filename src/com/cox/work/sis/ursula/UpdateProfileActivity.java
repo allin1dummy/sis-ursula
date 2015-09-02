@@ -59,6 +59,62 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_reset_pwd:
+			if(etUsername.getText().toString().isEmpty()) {
+				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+				alert.setTitle("User Name");
+				alert.setMessage("User Name harus diisi")
+					.setCancelable(false)
+					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.dismiss();
+						}
+					})
+					.show();
+				return;
+			}
+			
+			if(etEmail.getText().toString().isEmpty()) {
+				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+				alert.setTitle("Email");
+				alert.setMessage("Email harus diisi")
+					.setCancelable(false)
+					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.dismiss();
+						}
+					})
+					.show();
+				return;
+			}
+
+			if(!Util.isValidEmail(etEmail.getText())) {
+				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+				alert.setTitle("Email");
+				alert.setMessage("Email tidak valid")
+					.setCancelable(false)
+					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.dismiss();
+						}
+					})
+					.show();
+				return;
+			}
+			
+			if(!Util.isPasswordValid((etPwdBaru.getText().toString())) || !Util.isPasswordValid((etPwdLama.getText().toString()))) {
+				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+				alert.setTitle("Password");
+				alert.setMessage("Password minimal 6 karakter")
+					.setCancelable(false)
+					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.dismiss();
+						}
+					})
+					.show();
+				return;
+			}
+			
 			final ProgressDialog dialog = new ProgressDialog(this);
 			dialog.setMessage("Memperbarui profile...");
 			dialog.setCancelable(false);
