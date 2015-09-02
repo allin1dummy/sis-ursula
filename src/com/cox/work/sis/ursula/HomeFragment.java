@@ -37,6 +37,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -53,7 +54,9 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	private String userName, namaSiswa, mutasiId;
 	private int muridKelasId = -1;
 	private TextView tv_NamaSiswa;
-	private Button btnShowMarks;
+	private Button btnShowMarks, btnShowFilter;
+	private LinearLayout llFilterNilai;
+	private boolean isFilterShow = true;
 
 	List<String> listSemester = new ArrayList<String>();
 	List<String> listAspek = new ArrayList<String>();
@@ -102,6 +105,23 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 			@Override
 			public void onClick(View arg0) {
 				loadDataStudentMark();
+			}
+		});
+		
+		llFilterNilai = (LinearLayout) rootView.findViewById(R.id.layout_filter_nilai);
+		
+		btnShowFilter = (Button) rootView.findViewById(R.id.btn_show_filter);
+		btnShowFilter.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				if(isFilterShow) {
+					llFilterNilai.setVisibility(View.GONE);
+					btnShowFilter.setText("Tampilkan Filter");
+				} else {
+					llFilterNilai.setVisibility(View.VISIBLE);
+					btnShowFilter.setText("Sembunyikan Filter");
+				}
+				isFilterShow = !isFilterShow;
 			}
 		});
 		
