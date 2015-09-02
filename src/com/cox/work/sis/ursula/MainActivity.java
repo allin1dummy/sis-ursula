@@ -2,7 +2,10 @@ package com.cox.work.sis.ursula;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -146,9 +149,34 @@ public class MainActivity extends FragmentActivity {
 		case R.id.action_refresh:
 			Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
 			return true;
+		case R.id.action_logout:
+			doLogout();
+			
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private void doLogout() {
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("Logout");
+		alert.setMessage("Apakah Anda yakin logout dari Applikasi?")
+			.setCancelable(false)
+			.setPositiveButton("Ya",new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					dialog.dismiss();
+					Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+					startActivity(i);
+					finish();
+				}
+			})
+			.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int arg1) {
+					dialog.dismiss();
+				}
+			})
+			.show();
 	}
 
 	/* *
@@ -158,7 +186,8 @@ public class MainActivity extends FragmentActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// if nav drawer is opened, hide the action items
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		menu.findItem(R.id.action_refresh).setVisible(!drawerOpen);
+		menu.findItem(R.id.action_refresh).setVisible(false);
+		menu.findItem(R.id.action_logout).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -226,5 +255,10 @@ public class MainActivity extends FragmentActivity {
 		super.onConfigurationChanged(newConfig);
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		doLogout();
 	}
 }

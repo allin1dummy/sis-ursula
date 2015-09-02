@@ -141,6 +141,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 					}
 
 					startActivity(i);
+					finish();
 				} else {
 					Log.e("cox", "FAIL!!! # message = " + user.Message);
 					AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
