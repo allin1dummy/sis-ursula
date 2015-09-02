@@ -48,6 +48,20 @@ public class ChangePasswordActivity extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_change_pwd:
+			if(etUsername.getText().toString().isEmpty()) {
+				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+				alert.setTitle("User Name");
+				alert.setMessage("User Name harus diisi")
+					.setCancelable(false)
+					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.dismiss();
+						}
+					})
+					.show();
+				return;
+			}
+			
 			if(!Util.isPasswordValid((etPwdBaru.getText().toString()))) {
 				AlertDialog.Builder alert = new AlertDialog.Builder(this);
 				alert.setTitle("Password");

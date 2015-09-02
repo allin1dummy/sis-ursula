@@ -75,6 +75,20 @@ public class LoginActivity extends Activity implements OnClickListener{
 	}
 
 	private void doLoginAction() {
+		if(etUsername.getText().toString().isEmpty()) {
+			AlertDialog.Builder alert = new AlertDialog.Builder(this);
+			alert.setTitle("User Name");
+			alert.setMessage("User Name harus diisi")
+				.setCancelable(false)
+				.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.dismiss();
+					}
+				})
+				.show();
+			return;
+		}
+		
 		if(!Util.isPasswordValid((etPassword.getText().toString()))) {
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			alert.setTitle("Password");
