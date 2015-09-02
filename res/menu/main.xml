@@ -10,4 +10,9 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="Logout"/>
+	<item
+        android:id="@+id/action_update_profile"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="Update Profile"/>
 </menu>
