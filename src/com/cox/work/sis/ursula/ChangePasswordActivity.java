@@ -111,6 +111,7 @@ public class ChangePasswordActivity extends Activity implements OnClickListener{
 				        	dialog.dismiss();
 				        	Intent i = new Intent(getApplicationContext(), LoginActivity.class);
 				        	startActivity(i);
+				        	finish();
 				        }
 					});
 					alertbox.show();

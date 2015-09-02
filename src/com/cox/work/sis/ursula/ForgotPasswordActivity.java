@@ -96,6 +96,7 @@ public class ForgotPasswordActivity extends Activity implements OnClickListener{
 			        	dialog.dismiss();
 			        	Intent i = new Intent(ctx, LoginActivity.class);
 			        	startActivity(i);
+			        	finish();
 			        }
 				});
 				alertbox.show();

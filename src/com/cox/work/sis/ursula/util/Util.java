@@ -56,6 +56,8 @@ public class Util {
 		public static final String USERNAME = "username";
 		public static final String NAMASISWA = "namasiswa";
 		public static final String MUTASIID = "mutasiid";
+		public static final String EMAIL = "email";
+		public static final String IS_FIRST_UPDATE_PROFILE = "firstupdateprofile";
 	}
 	
 	public static final class LineChart {

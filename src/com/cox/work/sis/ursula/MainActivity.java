@@ -47,7 +47,7 @@ public class MainActivity extends FragmentActivity {
 	
 	private AspekPengetahuanFragment pengetahuanFragment;
 	
-	private String userName, namaSiswa, mutasiId;
+	private String userName, namaSiswa, mutasiId, email;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +116,7 @@ public class MainActivity extends FragmentActivity {
 		userName = getIntent().getStringExtra(Util.Constant.USERNAME);
 		namaSiswa = getIntent().getStringExtra(Util.Constant.NAMASISWA);
 		mutasiId = getIntent().getStringExtra(Util.Constant.MUTASIID);
+		email = getIntent().getStringExtra(Util.Constant.EMAIL);
 		return super.onCreateView(name, context, attrs);
 	}
 	
@@ -151,6 +152,14 @@ public class MainActivity extends FragmentActivity {
 			return true;
 		case R.id.action_logout:
 			doLogout();
+			
+			return true;
+		case R.id.action_update_profile:
+			Intent i = new Intent(getApplicationContext(), UpdateProfileActivity.class);
+			i.putExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, false);
+			i.putExtra(Util.Constant.USERNAME, userName);
+			i.putExtra(Util.Constant.EMAIL, email);
+			startActivity(i);
 			
 			return true;
 		default:

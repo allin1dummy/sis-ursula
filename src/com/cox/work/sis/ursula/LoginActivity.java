@@ -66,12 +66,14 @@ public class LoginActivity extends Activity implements OnClickListener{
 		Intent i = new Intent(this, ForgotPasswordActivity.class);
 		i.putExtra(Util.Constant.USERNAME, etUsername.getText().toString());
 		startActivity(i);
+		finish();
 	}
 
 	private void doChangePwdAction() {
 		Intent i = new Intent(this, ChangePasswordActivity.class);
 		i.putExtra(Util.Constant.USERNAME, etUsername.getText().toString());
 		startActivity(i);
+		finish();
 	}
 
 	private void doLoginAction() {
@@ -119,6 +121,8 @@ public class LoginActivity extends Activity implements OnClickListener{
 					i.putExtra(Util.Constant.USERNAME, user.User.Username);
 					i.putExtra(Util.Constant.NAMASISWA, user.User.MutasiMasuk.NamaSiswa);
 					i.putExtra(Util.Constant.MUTASIID, user.User.MutasiMasuk.Id);
+					i.putExtra(Util.Constant.EMAIL, user.User.Email);
+					i.putExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, true);
 					if(user.User.IsFirstTime) {
 
 //						try {
