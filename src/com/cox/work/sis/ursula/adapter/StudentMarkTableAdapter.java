@@ -4,12 +4,9 @@ import java.util.ArrayList;
 
 import com.cox.work.sis.ursula.R;
 import com.cox.work.sis.ursula.model.DataNilaiTableAdapter;
-import com.cox.work.sis.ursula.util.Util;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +41,6 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 	@Override
 	public int getRowCount() {
 		return dataStudentMark.size();
-		//return marks.length;
-		//return Util.Properties.NUM_SUBJECTS;
-		//return Util.Properties.NUM_WEEKS + 1;
 	}
 
 	@Override
@@ -59,9 +53,6 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 			}
 		}
 		return result;
-		//return marks[0].length;
-		//return Util.Properties.NUM_WEEKS + 1;
-		//return Util.Properties.NUM_SUBJECTS;
 	}
 
 	@Override
@@ -123,28 +114,24 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 		} else if(row>-1 && column==-1) { // SUBJECT
 			tv_mark.setText(dataStudentMark.get(row).getMataPelajaran());
 		} else if(row>-1 && column == getColumnCount() - 1) { // MEAN
-			tv_mark.setText(String.format("%.2f", dataStudentMark.get(row).calculateMeanValue()));
+			if(String.valueOf(dataStudentMark.get(row).calculateMeanValue()).equalsIgnoreCase("NAN")) {
+				tv_mark.setText("-");
+			} else {
+				tv_mark.setText(String.format("%.2f", dataStudentMark.get(row).calculateMeanValue()));
+			}
 		} else { // MARK
-			try {
-				DataNilaiTableAdapter dt = dataStudentMark.get(row);
-				if(column >= dt.getNilai().size()) {
-					tv_mark.setText("-");
-				} else {
-					tv_mark.setText(String.format("%.2f", dt.getNilai().get(column)));
-				}
-			} catch (Exception ex) {
-				Log.e("cox", "Exception row = " + row);
-				Log.e("cox", "Exception column = " + column);
-				Log.e("cox", "Exception getRowCount = " + getRowCount());
-				Log.e("cox", "Exception getColumnCount = " + getColumnCount());
-				Log.e("cox", ex.getMessage());
+			DataNilaiTableAdapter dt = dataStudentMark.get(row);
+			if(column >= dt.getNilai().size()) {
+				tv_mark.setText("-");
+			} else {
+				tv_mark.setText(String.format("%.2f", dt.getNilai().get(column)));
 			}
 		} 
 
-		if(column > -1 && row > -1 && column < dataStudentMark.get(row).getNilai().size() && dataStudentMark.get(row).getNilai().get(column) < 6f) {
-			tv_mark.setTextColor(Color.RED);
+		if(column > -1 && row > -1 && column < dataStudentMark.get(row).getNilai().size() && dataStudentMark.get(row).getNilai().get(column) < 60.00) {
+			//tv_mark.setTextColor(Color.RED);
 		} else {
-			tv_mark.setTextColor(Color.BLACK);
+			//tv_mark.setTextColor(Color.BLACK);
 		}
 		
 		TextView tv_date = ((TextView) v.findViewById(android.R.id.text2));
