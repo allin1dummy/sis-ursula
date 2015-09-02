@@ -48,6 +48,20 @@ public class ChangePasswordActivity extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_change_pwd:
+			if(!Util.isPasswordValid((etPwdBaru.getText().toString()))) {
+				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+				alert.setTitle("Password");
+				alert.setMessage("Password minimal 6 karakter")
+					.setCancelable(false)
+					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.dismiss();
+						}
+					})
+					.show();
+				return;
+			}
+			
 			final ProgressDialog dialog = new ProgressDialog(this);
 			dialog.setMessage("Memperbarui password...");
 			dialog.setCancelable(false);

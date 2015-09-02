@@ -32,6 +32,10 @@ public class Util {
 	  return str.length() == pos.getIndex();
 	}
 	
+	public static boolean isPasswordValid(String pwd) {
+		return pwd.length() > 5;
+	}
+	
 	public static final class Properties {
 		public static final int NUM_SUBJECTS = 11;
 		public static final int NUM_WEEKS = 10;

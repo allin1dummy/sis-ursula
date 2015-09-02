@@ -75,6 +75,20 @@ public class LoginActivity extends Activity implements OnClickListener{
 	}
 
 	private void doLoginAction() {
+		if(!Util.isPasswordValid((etPassword.getText().toString()))) {
+			AlertDialog.Builder alert = new AlertDialog.Builder(this);
+			alert.setTitle("Password");
+			alert.setMessage("Password minimal 6 karakter")
+				.setCancelable(false)
+				.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.dismiss();
+					}
+				})
+				.show();
+			return;
+		}
+
 		final ProgressDialog dialog = new ProgressDialog(this);
 		dialog.setMessage("Login...");
 		dialog.setCancelable(false);
