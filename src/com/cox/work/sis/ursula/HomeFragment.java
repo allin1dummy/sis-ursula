@@ -126,6 +126,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 					img = getResources().getDrawable(R.drawable.ic_action_arrow_top);
 				}
 				btnShowFilter.setImageDrawable(img);
+				btnShowMarks.setVisibility(isFilterShow ? View.GONE : View.VISIBLE);
 				isFilterShow = !isFilterShow;
 			}
 		});
