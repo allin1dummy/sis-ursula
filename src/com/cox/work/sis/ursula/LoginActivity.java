@@ -66,14 +66,12 @@ public class LoginActivity extends Activity implements OnClickListener{
 		Intent i = new Intent(this, ForgotPasswordActivity.class);
 		i.putExtra(Util.Constant.USERNAME, etUsername.getText().toString());
 		startActivity(i);
-		finish();
 	}
 
 	private void doChangePwdAction() {
 		Intent i = new Intent(this, ChangePasswordActivity.class);
 		i.putExtra(Util.Constant.USERNAME, etUsername.getText().toString());
 		startActivity(i);
-		finish();
 	}
 
 	private void doLoginAction() {
