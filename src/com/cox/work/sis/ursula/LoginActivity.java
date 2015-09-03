@@ -163,7 +163,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 	        	dialog.dismiss();
 				AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
 				alertbox.setTitle("Login");
-				alertbox.setMessage("Login Gagal!");
+				alertbox.setMessage("Login gagal, periksa kembali jaringan internet Anda.");
 				alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 			        public void onClick(DialogInterface dialog, int which) {
 			        	dialog.dismiss();
