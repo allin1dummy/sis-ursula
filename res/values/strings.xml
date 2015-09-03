@@ -28,7 +28,7 @@
     <string-array name="nav_drawer_items">
         <item >Home</item>
         <item >Update Profile</item>
-        <item >Reset Password</item>
+        <item >Ubah Password</item>
         <item >Logout</item>
     </string-array>
     

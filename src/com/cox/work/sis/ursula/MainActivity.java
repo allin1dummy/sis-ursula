@@ -206,6 +206,12 @@ public class MainActivity extends FragmentActivity {
 	 * Diplaying fragment view for selected nav drawer list item
 	 * */
 	private void displayView(int position) {
+		Intent i = new Intent();
+		i.putExtra(Util.Constant.USERNAME, userName);
+		i.putExtra(Util.Constant.NAMASISWA, namaSiswa);
+		i.putExtra(Util.Constant.MUTASIID, mutasiId);
+		i.putExtra(Util.Constant.EMAIL, email);
+		
 		// update the main content by replacing fragments
 		Fragment fragment = null;
 		switch (position) {
@@ -228,18 +234,16 @@ public class MainActivity extends FragmentActivity {
 			mDrawerLayout.closeDrawer(mDrawerList);
 			break;
 		case 1: // Update Profile
-			Intent i = new Intent();
-			i.putExtra(Util.Constant.USERNAME, userName);
-			i.putExtra(Util.Constant.NAMASISWA, namaSiswa);
-			i.putExtra(Util.Constant.MUTASIID, mutasiId);
-			i.putExtra(Util.Constant.EMAIL, email);
 			i.putExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, true);
 			i.setClass(getApplicationContext(), UpdateProfileActivity.class);
 			startActivity(i);
 			break;
-		case 2:
+		case 2: // Ubah Password
+			i.putExtra(Util.Constant.USERNAME, userName);
+			i.setClass(getApplicationContext(), ChangePasswordActivity.class);
+			startActivity(i);
 			break;
-		case 3:
+		case 3: // Logout
 			onBackPressed();
 			break;
 		default:
