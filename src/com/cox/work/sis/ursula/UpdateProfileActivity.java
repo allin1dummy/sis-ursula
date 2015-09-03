@@ -22,20 +22,24 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 public class UpdateProfileActivity extends Activity implements OnClickListener{
 	
-	View v;
-	Button btnResetPwd;
-	EditText etUsername, etEmail, etPwdLama, etPwdBaru;
-	Context activity;
-	Intent i;
+	private View v;
+	private Button btnResetPwd;
+	private EditText etUsername, etEmail, etPwdLama, etPwdBaru;
+	private Context activity;
+	private Intent i;
+	private boolean isFirstTimeLogin;
+	private LinearLayout ll_password;
 	
 
 	@Override
@@ -54,6 +58,9 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 		etEmail.setText(i.getStringExtra(Util.Constant.EMAIL).isEmpty() ? "" : i.getStringExtra(Util.Constant.EMAIL));
 		etPwdLama = (EditText) findViewById(R.id.et_old_pwd);
 		etPwdBaru = (EditText) findViewById(R.id.et_new_pwd);
+		ll_password = (LinearLayout) findViewById(R.id.layout_password);
+		isFirstTimeLogin = i.getBooleanExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, false);
+		ll_password.setVisibility(isFirstTimeLogin ? View.VISIBLE : View.GONE);
 	}
 
 	@Override
@@ -101,19 +108,20 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 					.show();
 				return;
 			}
-			
-			if(!Util.isPasswordValid((etPwdBaru.getText().toString())) || !Util.isPasswordValid((etPwdLama.getText().toString()))) {
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setTitle("Password");
-				alert.setMessage("Password minimal 6 karakter")
-					.setCancelable(false)
-					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,int id) {
-							dialog.dismiss();
-						}
-					})
-					.show();
-				return;
+			if(isFirstTimeLogin) { // for first time login, password fields are visible
+				if(!Util.isPasswordValid((etPwdBaru.getText().toString())) || !Util.isPasswordValid((etPwdLama.getText().toString()))) {
+					AlertDialog.Builder alert = new AlertDialog.Builder(this);
+					alert.setTitle("Password");
+					alert.setMessage("Password minimal 6 karakter")
+						.setCancelable(false)
+						.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,int id) {
+								dialog.dismiss();
+							}
+						})
+						.show();
+					return;
+				}
 			}
 			
 			final ProgressDialog dialog = new ProgressDialog(this);
@@ -121,42 +129,79 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 			dialog.setCancelable(false);
 			dialog.show();
 			
-			UserUpdateProfileEmailPwd user = new UserUpdateProfileEmailPwd(etUsername.getText().toString(), etEmail.getText().toString(), etPwdLama.getText().toString(), etPwdBaru.getText().toString());
-			MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
-			client.updateProfileEmailPwd(user, new Callback<ResponseUser>() {
-				@Override
-				public void success(ResponseUser user, Response arg1) {
-					dialog.dismiss();
+			if(isFirstTimeLogin) {
+				UserUpdateProfileEmailPwd user = new UserUpdateProfileEmailPwd(etUsername.getText().toString(), etEmail.getText().toString(), etPwdLama.getText().toString(), etPwdBaru.getText().toString());
+				MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
+				client.updateProfileEmailPwd(user, new Callback<ResponseUser>() {
+					@Override
+					public void success(ResponseUser user, Response arg1) {
+						dialog.dismiss();
+						
+						AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
+						alertbox.setTitle(getResources().getString(R.string.reset_pwd));
+						alertbox.setMessage(getResources().getString(R.string.reset_pwd_desc));
+						alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					        public void onClick(DialogInterface dlg, int which) {
+					        	dlg.dismiss();
+					        	Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+					        	startActivity(i);
+					        	finish();
+					        }
+						});
+						alertbox.show();
+					}
 					
-					AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
-					alertbox.setTitle(getResources().getString(R.string.reset_pwd));
-					alertbox.setMessage(getResources().getString(R.string.reset_pwd_desc));
-					alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int which) {
-				        	dialog.dismiss();
-				        	Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-				        	startActivity(i);
-				        	finish();
-				        }
-					});
-					alertbox.show();
-				}
-				
-				@Override
-				public void failure(RetrofitError arg0) {
-					dialog.dismiss();
+					@Override
+					public void failure(RetrofitError arg0) {
+						dialog.dismiss();
+						
+						AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
+						alertbox.setTitle("Update Profile Gagal");
+						alertbox.setMessage("Terjadi masalah koneksi, silakan coba sesaat lagi.");
+						alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					        public void onClick(DialogInterface dlg, int which) {
+					        	dlg.dismiss();
+					        }
+						});
+						alertbox.show();
+					}
+				});
+			} else {
+				UserUpdateProfileEmailPwd user = new UserUpdateProfileEmailPwd(etUsername.getText().toString(), etEmail.getText().toString());
+				MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
+				client.updateProfileEmail(user, new Callback<ResponseUser>() {
+					@Override
+					public void success(ResponseUser user, Response arg1) {
+						dialog.dismiss();
+						
+						AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
+						alertbox.setTitle("Update Profile");
+						alertbox.setMessage("Email sudah diupdate.");
+						alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					        public void onClick(DialogInterface dlg, int which) {
+					        	dlg.dismiss();
+					        	finish(); // back to MainActivity directly
+					        }
+						});
+						alertbox.show();
+					}
 					
-					AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
-					alertbox.setTitle("Update Profile Gagal");
-					alertbox.setMessage("Terjadi masalah koneksi, silakan coba sesaat lagi.");
-					alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int which) {
-				        	dialog.dismiss();
-				        }
-					});
-					alertbox.show();
-				}
-			});
+					@Override
+					public void failure(RetrofitError arg0) {
+						dialog.dismiss();
+						
+						AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
+						alertbox.setTitle("Update Profile Gagal");
+						alertbox.setMessage("Terjadi masalah koneksi, silakan coba sesaat lagi.");
+						alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					        public void onClick(DialogInterface dlg, int which) {
+					        	dlg.dismiss();
+					        }
+						});
+						alertbox.show();
+					}
+				});
+			}
 			break;
 
 		default:

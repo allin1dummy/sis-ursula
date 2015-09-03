@@ -26,6 +26,9 @@ public interface MobileServiceClient {
 	@POST("/MobileService.svc/updateProfile")
 	public void updateProfileEmailPwd(@Body UserUpdateProfileEmailPwd user, Callback<ResponseUser> callback);
 	
+	@POST("/MobileService.svc/updateProfile")
+	public void updateProfileEmail(@Body UserUpdateProfileEmailPwd user, Callback<ResponseUser> callback);
+	
 	@POST("/MobileService.svc/getNilai")
 	public void getNilai(@Body ReqGetNilai user, Callback<ResponseGetNilai> callback);
 }

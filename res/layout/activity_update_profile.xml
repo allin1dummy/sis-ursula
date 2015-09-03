@@ -59,47 +59,54 @@
         android:layout_marginRight="16dp"
         android:inputType="textEmailAddress"
         android:singleLine="true" />
+    
+	<LinearLayout
+	    android:id="@+id/layout_password"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/tv_old_pwd"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:ems="10"
-        android:text="@string/old_pwd"
-        android:textColor="#000000"
-        android:textStyle="bold" >
-
-        <requestFocus />
-    </TextView>
-
-    <EditText
-        android:id="@+id/et_old_pwd"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:inputType="textPassword" />
-
-    <TextView
-        android:id="@+id/tv_new_pwd"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:ems="10"
-        android:text="@string/new_pwd"
-        android:textColor="#000000"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/et_new_pwd"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:inputType="textPassword" />
+	    <TextView
+	        android:id="@+id/tv_old_pwd"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="16dp"
+	        android:layout_marginRight="16dp"
+	        android:ems="10"
+	        android:text="@string/old_pwd"
+	        android:textColor="#000000"
+	        android:textStyle="bold" >
+	
+	        <requestFocus />
+	    </TextView>
+	
+	    <EditText
+	        android:id="@+id/et_old_pwd"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="16dp"
+	        android:layout_marginRight="16dp"
+	        android:inputType="textPassword" />
+	
+	    <TextView
+	        android:id="@+id/tv_new_pwd"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="16dp"
+	        android:layout_marginRight="16dp"
+	        android:ems="10"
+	        android:text="@string/new_pwd"
+	        android:textColor="#000000"
+	        android:textStyle="bold" />
+	
+	    <EditText
+	        android:id="@+id/et_new_pwd"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="16dp"
+	        android:layout_marginRight="16dp"
+	        android:inputType="textPassword" />
+	</LinearLayout>
 
     <Button
         android:id="@+id/btn_reset_pwd"

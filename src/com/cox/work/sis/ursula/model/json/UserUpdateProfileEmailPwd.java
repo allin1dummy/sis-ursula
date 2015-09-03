@@ -6,6 +6,10 @@ public class UserUpdateProfileEmailPwd {
 	public UserUpdateProfileEmailPwd(String string, String string2, String string3, String string4) {
 		User = new DtUser(string, string2, string3, string4);
 	}
+	
+	public UserUpdateProfileEmailPwd(String username, String email) {
+		User = new DtUser(username, email);
+	}
 
 }
 
@@ -16,10 +20,14 @@ class DtUser {
 	public String Password;
 	
 	public DtUser(String usrName, String email, String pwdLama, String pwdBaru) {
-		this.Username = usrName;
-		this.Email = email;
+		this(usrName, email);
 		this.PasswordLama = pwdLama;
 		this.Password = pwdBaru;
+	}
+
+	public DtUser(String usrName, String email) {
+		this.Username = usrName;
+		this.Email = email;
 	}
 
 }

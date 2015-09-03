@@ -48,6 +48,7 @@ public class MainActivity extends FragmentActivity {
 	private AspekPengetahuanFragment pengetahuanFragment;
 	
 	private String userName, namaSiswa, mutasiId, email;
+	private boolean isFirstTimeLogin;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +120,7 @@ public class MainActivity extends FragmentActivity {
 		namaSiswa = getIntent().getStringExtra(Util.Constant.NAMASISWA);
 		mutasiId = getIntent().getStringExtra(Util.Constant.MUTASIID);
 		email = getIntent().getStringExtra(Util.Constant.EMAIL);
+		isFirstTimeLogin = getIntent().getBooleanExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, false);
 		return super.onCreateView(name, context, attrs);
 	}
 	
@@ -234,7 +236,7 @@ public class MainActivity extends FragmentActivity {
 			mDrawerLayout.closeDrawer(mDrawerList);
 			break;
 		case 1: // Update Profile
-			i.putExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, true);
+			i.putExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, isFirstTimeLogin); // it should be always true on this activity
 			i.setClass(getApplicationContext(), UpdateProfileActivity.class);
 			startActivity(i);
 			break;
