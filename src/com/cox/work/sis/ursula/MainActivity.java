@@ -71,6 +71,8 @@ public class MainActivity extends FragmentActivity {
 		// adding nav drawer items to array
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
@@ -146,25 +148,25 @@ public class MainActivity extends FragmentActivity {
 			return true;
 		}
 		// Handle action bar actions click
-		switch (item.getItemId()) {
-		case R.id.action_refresh:
-			Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
-			return true;
-		case R.id.action_logout:
-			doLogout();
-			
-			return true;
-		case R.id.action_update_profile:
-			Intent i = new Intent(getApplicationContext(), UpdateProfileActivity.class);
-			i.putExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, false);
-			i.putExtra(Util.Constant.USERNAME, userName);
-			i.putExtra(Util.Constant.EMAIL, email);
-			startActivity(i);
-			
-			return true;
-		default:
+//		switch (item.getItemId()) {
+//		case R.id.action_refresh:
+//			Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show();
+//			return true;
+//		case R.id.action_logout:
+//			doLogout();
+//			
+//			return true;
+//		case R.id.action_update_profile:
+//			Intent i = new Intent(getApplicationContext(), UpdateProfileActivity.class);
+//			i.putExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, false);
+//			i.putExtra(Util.Constant.USERNAME, userName);
+//			i.putExtra(Util.Constant.EMAIL, email);
+//			startActivity(i);
+//			
+//			return true;
+//		default:
 			return super.onOptionsItemSelected(item);
-		}
+//		}
 	}
 
 	private void doLogout() {
@@ -194,9 +196,9 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// if nav drawer is opened, hide the action items
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		menu.findItem(R.id.action_refresh).setVisible(false);
-		menu.findItem(R.id.action_logout).setVisible(!drawerOpen);
+//		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+//		menu.findItem(R.id.action_refresh).setVisible(!drawerOpenfalse);
+//		menu.findItem(R.id.action_logout).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -207,26 +209,15 @@ public class MainActivity extends FragmentActivity {
 		// update the main content by replacing fragments
 		Fragment fragment = null;
 		switch (position) {
-		case 0:
+		case 0: // Main
 			fragment = new HomeFragment();
 			Bundle b = new Bundle();
 			b.putString(Util.Constant.USERNAME, userName);
 			b.putString(Util.Constant.NAMASISWA, namaSiswa);
 			b.putString(Util.Constant.MUTASIID, mutasiId);
+			b.putString(Util.Constant.EMAIL, email);
 			fragment.setArguments(b);
-			break;
-		case 1:
-			if(pengetahuanFragment == null) {
-				pengetahuanFragment = new AspekPengetahuanFragment();
-			}
-			fragment = pengetahuanFragment;
-			break;
-		default:
-			fragment = new Fragment();
-			break;
-		}
 
-		if (fragment != null) {
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
 
@@ -235,9 +226,25 @@ public class MainActivity extends FragmentActivity {
 			mDrawerList.setSelection(position);
 			setTitle(navMenuTitles[position]);
 			mDrawerLayout.closeDrawer(mDrawerList);
-		} else {
-			// error in creating fragment
-			Log.e("MainActivity", "Error in creating fragment");
+			break;
+		case 1: // Update Profile
+			Intent i = new Intent();
+			i.putExtra(Util.Constant.USERNAME, userName);
+			i.putExtra(Util.Constant.NAMASISWA, namaSiswa);
+			i.putExtra(Util.Constant.MUTASIID, mutasiId);
+			i.putExtra(Util.Constant.EMAIL, email);
+			i.putExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, true);
+			i.setClass(getApplicationContext(), UpdateProfileActivity.class);
+			startActivity(i);
+			break;
+		case 2:
+			break;
+		case 3:
+			onBackPressed();
+			break;
+		default:
+			fragment = new Fragment();
+			break;
 		}
 	}
 
