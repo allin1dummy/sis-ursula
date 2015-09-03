@@ -106,7 +106,7 @@ public class ChangePasswordActivity extends Activity implements OnClickListener{
 					final String msg = user.Message;
 					AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
 					alertbox.setTitle(getResources().getString(R.string.change_pwd));
-					if(msg != null && !msg.isEmpty()) {
+					if(msg != null && !msg.isEmpty()) { // current password is not valid
 						alertbox.setMessage(user.Message);
 					} else {
 						alertbox.setMessage(getResources().getString(R.string.change_pwd_desc));
@@ -116,8 +116,8 @@ public class ChangePasswordActivity extends Activity implements OnClickListener{
 				        	dlg.dismiss();
 				        	if(msg == null || msg.isEmpty()) {
 					        	Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+					        	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 					        	startActivity(i);
-					        	finish();
 				        	}
 				        }
 					});
