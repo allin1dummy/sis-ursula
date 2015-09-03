@@ -102,16 +102,23 @@ public class ChangePasswordActivity extends Activity implements OnClickListener{
 				@Override
 				public void success(ResponseUser user, Response arg1) {
 					dialog.dismiss();
-					
+
+					final String msg = user.Message;
 					AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
 					alertbox.setTitle(getResources().getString(R.string.change_pwd));
-					alertbox.setMessage(getResources().getString(R.string.change_pwd_desc));
+					if(msg != null && !msg.isEmpty()) {
+						alertbox.setMessage(user.Message);
+					} else {
+						alertbox.setMessage(getResources().getString(R.string.change_pwd_desc));
+					}
 					alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int which) {
-				        	dialog.dismiss();
-				        	Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-				        	startActivity(i);
-				        	finish();
+				        public void onClick(DialogInterface dlg, int which) {
+				        	dlg.dismiss();
+				        	if(msg == null || msg.isEmpty()) {
+					        	Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+					        	startActivity(i);
+					        	finish();
+				        	}
 				        }
 					});
 					alertbox.show();
@@ -125,8 +132,8 @@ public class ChangePasswordActivity extends Activity implements OnClickListener{
 					alertbox.setTitle("Update Profile Gagal");
 					alertbox.setMessage("Terjadi masalah koneksi, silakan coba sesaat lagi.");
 					alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int which) {
-				        	dialog.dismiss();
+				        public void onClick(DialogInterface dlg, int which) {
+				        	dlg.dismiss();
 				        }
 					});
 					alertbox.show();
