@@ -27,6 +27,7 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -54,7 +56,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	private String userName, namaSiswa, mutasiId;
 	private int muridKelasId = -1;
 	private TextView tv_NamaSiswa;
-	private Button btnShowMarks, btnShowFilter;
+	private ImageButton btnShowFilter;
+	private Button btnShowMarks;
 	private LinearLayout llFilterNilai;
 	private boolean isFilterShow = true;
 
@@ -110,17 +113,19 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		
 		llFilterNilai = (LinearLayout) rootView.findViewById(R.id.layout_filter_nilai);
 		
-		btnShowFilter = (Button) rootView.findViewById(R.id.btn_show_filter);
+		btnShowFilter = (ImageButton) rootView.findViewById(R.id.btn_show_filter);
 		btnShowFilter.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				Drawable img;
 				if(isFilterShow) {
 					llFilterNilai.setVisibility(View.GONE);
-					btnShowFilter.setText("Tampilkan Filter");
+					img = getResources().getDrawable(R.drawable.ic_action_arrow_bottom);
 				} else {
 					llFilterNilai.setVisibility(View.VISIBLE);
-					btnShowFilter.setText("Sembunyikan Filter");
+					img = getResources().getDrawable(R.drawable.ic_action_arrow_top);
 				}
+				btnShowFilter.setImageDrawable(img);
 				isFilterShow = !isFilterShow;
 			}
 		});
