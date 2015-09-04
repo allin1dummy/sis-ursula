@@ -87,7 +87,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		
 		tv_NamaSiswa = (TextView) rootView.findViewById(R.id.tv_name);
 		tv_NamaSiswa.setText("Nama: " + namaSiswa);
-		tv_ShowFilter = (TextView) rootView.findViewById(R.id.tv_show_filter);
+		//tv_ShowFilter = (TextView) rootView.findViewById(R.id.tv_show_filter);
 		
 		tableFixHeaders = (TableFixHeaders) rootView.findViewById(R.id.table);
 		tableFixHeaders.setVisibility(View.GONE);
@@ -119,11 +119,11 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 				Drawable img;
 				if(isFilterShow) {
 					llFilterNilai.setVisibility(View.GONE);
-					tv_ShowFilter.setText("Tampilkan Filter");
+					//tv_ShowFilter.setText("Tampilkan Filter");
 					img = getResources().getDrawable(R.drawable.ic_action_arrow_bottom);
 				} else {
 					llFilterNilai.setVisibility(View.VISIBLE);
-					tv_ShowFilter.setText("Sembunyikan Filter");
+					//tv_ShowFilter.setText("Sembunyikan Filter");
 					img = getResources().getDrawable(R.drawable.ic_action_arrow_top);
 				}
 				btnShowFilter.setImageDrawable(img);
