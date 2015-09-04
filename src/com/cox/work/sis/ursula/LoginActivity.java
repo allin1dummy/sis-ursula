@@ -89,10 +89,10 @@ public class LoginActivity extends Activity implements OnClickListener{
 			return;
 		}
 		
-		if(!Util.isPasswordValid((etPassword.getText().toString()))) {
+		if(etPassword.getText().toString().isEmpty()) {
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			alert.setTitle("Password");
-			alert.setMessage("Password minimal 6 karakter")
+			alert.setMessage("Password harus diisi")
 				.setCancelable(false)
 				.setPositiveButton("OK",new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,int id) {
