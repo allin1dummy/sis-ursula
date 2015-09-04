@@ -124,14 +124,16 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 			if(column >= dt.getNilai().size()) {
 				tv_mark.setText("-");
 			} else {
-				tv_mark.setText(String.format("%.2f", dt.getNilai().get(column)));
-			}
-		} 
+				float nilai = dt.getNilai().get(column);
+				tv_mark.setText(String.format("%.2f", nilai));
 
-		if(column > -1 && row > -1 && column < dataStudentMark.get(row).getNilai().size() && dataStudentMark.get(row).getNilai().get(column) < 60.00) {
-			//tv_mark.setTextColor(Color.RED);
-		} else {
-			//tv_mark.setTextColor(Color.BLACK);
+				//TODO : BUG setTextColor
+				if(nilai < 60f) {
+					//tv_mark.setTextColor(Color.RED);
+				} else {
+					//tv_mark.setTextColor(Color.BLACK);
+				}
+			}
 		}
 		
 		TextView tv_date = ((TextView) v.findViewById(android.R.id.text2));

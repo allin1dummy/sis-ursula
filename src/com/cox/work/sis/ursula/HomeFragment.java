@@ -45,16 +45,15 @@ import android.widget.TextView;
 
 public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	
-	private Spinner spClass, spAspect, spCategory, spSemester, spTahun;
+	private Spinner spClass, spAspect, spCategory, spSemester;
 	private List<AspekPenilaian> listAspekPenilaian;
 	private List<JenisNilai> listJenisNilai;
 	private List<MuridKelas> listMuridKelas;
 	private List<Nilai> listNilai;
-	private long selAspek = 0, selKategori = 0, selTahun = 0, selSemester = 0;
-	private String strSelAspek = "", strSelJenis = "", strSelTahun = "";
-	private long selKelas;
 	private String userName, namaSiswa, mutasiId;
 	private int muridKelasId = -1;
+	private int selAspek;
+	private boolean isSemesterChanged, isClassChanged, isAspectChanged;
 	private TextView tv_NamaSiswa, tv_ShowFilter;
 	private ImageButton btnShowFilter;
 	private Button btnShowMarks;
@@ -66,15 +65,9 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	List<String> listKelas = new ArrayList<String>();
 	List<String> listKategori = new ArrayList<String>();
 
-	ArrayAdapter spninnerAdapter;
+	private ArrayAdapter spninnerAdapter;
 	
 	private ArrayList<DataNilaiTableAdapter> listNilaiSiswa = new ArrayList<DataNilaiTableAdapter>();
-	public ArrayList<DataNilaiTableAdapter> getListNilaiSiswa() {
-		return listNilaiSiswa;
-	}
-	public void setListNilaiSiswa(ArrayList<DataNilaiTableAdapter> listNilaiSiswa) {
-		this.listNilaiSiswa = listNilaiSiswa;
-	}
 
 	private TableFixHeaders tableFixHeaders;
 
@@ -108,7 +101,12 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		btnShowMarks.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				loadDataStudentMark();
+				listNilaiSiswa = new ArrayList<DataNilaiTableAdapter>(); // reset list nilai
+				if(isNeedToLoadFromServer()) {
+					loadDataStudentMarkFromServer();
+				} else {
+					loadDataStudentMarkFromLocal();
+				}
 			}
 		});
 		
@@ -137,6 +135,19 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		return rootView;
 	}
 	
+	protected void loadDataStudentMarkFromLocal() {
+		JenisNilai jn = (JenisNilai) spCategory.getSelectedItem();
+		calculateNilai(jn.Id);
+	}
+
+	protected boolean isNeedToLoadFromServer() {
+		if(isClassChanged || isAspectChanged || isSemesterChanged) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -167,7 +178,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		});
 	}
 	
-	private void loadDataStudentMark() {
+	private void loadDataStudentMarkFromServer() {
 		if(spClass != null) {
 			MuridKelas mk = (MuridKelas) spClass.getSelectedItem();
 			final ProgressDialog dialog = new ProgressDialog(getActivity());
@@ -179,7 +190,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 			final AspekPenilaian ap = (AspekPenilaian) spAspect.getSelectedItem();
 			String smstr = (String) spSemester.getSelectedItem();
 			final JenisNilai jn = (JenisNilai) spCategory.getSelectedItem();
-			listNilaiSiswa = new ArrayList<DataNilaiTableAdapter>();
 
 			ReqGetNilai req = new ReqGetNilai(String.valueOf(muridKelasId), String.valueOf(ap.Id), smstr);
 			MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
@@ -188,42 +198,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 				public void success(ResponseGetNilai resp, Response arg1) {
 					dialog.dismiss();
 					listNilai = resp.ListNilai;
-					selKategori = jn.Id;
-					Log.e("cox","getNilai success selKategori = " + selKategori);
-					
-					for(Nilai nilai : listNilai) {
-						DataNilaiTableAdapter tmp = new DataNilaiTableAdapter(nilai.Id, nilai.MataPelajaran.Nama);
-						ArrayList<Float> tmpNilai = new ArrayList<Float>();
-						for(NilaiDetilNonRubrik detilNonRubrik : nilai.ListNilaiDetilNonRubrik) {
-							if(selKategori == detilNonRubrik.JenisNilai.Id) {
-								tmpNilai.add(detilNonRubrik.NilaiAngka);
-							}
-						}
-						tmp.setNilai(tmpNilai);
-						listNilaiSiswa.add(tmp);
-					}
-
-					showLog4ListNilai();
-					
-					if(listNilaiSiswa == null || listNilaiSiswa.size() == 0) {
-						tableFixHeaders.setVisibility(View.GONE);
-						tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), new ArrayList<DataNilaiTableAdapter>()));
-						
-						AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-						alert.setTitle("Nilai Siswa");
-						alert.setMessage("List nilai tidak tersedia.")
-							.setCancelable(false)
-							.setPositiveButton("OK",new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,int id) {
-									dialog.dismiss();
-								}
-							})
-							.show();
-					} else {
-						tableFixHeaders.setVisibility(View.VISIBLE);
-						tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), listNilaiSiswa));
-					}
-					
+					calculateNilai(jn.Id);
 				}
 				
 				@Override
@@ -232,6 +207,44 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 					dialog.dismiss();
 				}
 			});
+		}
+		
+		isClassChanged = isAspectChanged = isSemesterChanged = false;
+	}
+
+
+	private void calculateNilai(int id) {
+		for(Nilai nilai : listNilai) {
+			DataNilaiTableAdapter tmp = new DataNilaiTableAdapter(nilai.Id, nilai.MataPelajaran.Nama);
+			ArrayList<Float> tmpNilai = new ArrayList<Float>();
+			for(NilaiDetilNonRubrik detilNonRubrik : nilai.ListNilaiDetilNonRubrik) {
+				if(id == detilNonRubrik.JenisNilai.Id) {
+					tmpNilai.add(detilNonRubrik.NilaiAngka);
+				}
+			}
+			tmp.setNilai(tmpNilai);
+			listNilaiSiswa.add(tmp);
+		}
+
+		showLog4ListNilai();
+		
+		if(listNilaiSiswa == null || listNilaiSiswa.size() == 0) {
+			tableFixHeaders.setVisibility(View.GONE);
+			tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), new ArrayList<DataNilaiTableAdapter>()));
+			
+			AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+			alert.setTitle("Nilai Siswa");
+			alert.setMessage("List nilai tidak tersedia.")
+				.setCancelable(false)
+				.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.dismiss();
+					}
+				})
+				.show();
+		} else {
+			tableFixHeaders.setVisibility(View.VISIBLE);
+			tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), listNilaiSiswa));
 		}
 	}
 
@@ -244,6 +257,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void loadDataToSpinner() {
 		listSemester.add("1");
 		listSemester.add("2");
@@ -268,6 +282,12 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	@Override
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		switch (arg0.getId()) {
+		case R.id.spin_semester:
+			isSemesterChanged = true;
+			break;
+		case R.id.spin_class:
+			isClassChanged = true;
+			break;
 		case R.id.spin_aspect:
 			selAspek = arg2;
 			listJenisNilai = listAspekPenilaian.get(arg2).ListJenisNilai;
@@ -276,11 +296,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 			spCategory.setSelection(0);
 			break;
 		case R.id.spin_aspect_category:
-			selKategori = arg2;
-			strSelJenis = arg0.getItemAtPosition(arg2).toString();
-			break;
-		case R.id.spin_semester:
-			selSemester = arg2;
+			isAspectChanged = true;
 			break;
 		default:
 			break;
