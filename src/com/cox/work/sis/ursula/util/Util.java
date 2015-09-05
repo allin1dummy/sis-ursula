@@ -5,7 +5,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -158,5 +160,10 @@ public class Util {
 			});
 			alertbox.show();
 		}
+	}
+
+	public static String convertLongToDate(String date, SimpleDateFormat format) {
+		Date dt = new Date(Long.parseLong(date));
+		return format.format(dt);
 	}
 }

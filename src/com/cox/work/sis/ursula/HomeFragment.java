@@ -1,6 +1,8 @@
 package com.cox.work.sis.ursula;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -10,6 +12,7 @@ import com.cox.work.service.MobileServiceClient;
 import com.cox.work.service.MobileServiceGenerator;
 import com.cox.work.sis.ursula.adapter.StudentMarkTableAdapter;
 import com.cox.work.sis.ursula.model.DataNilaiTableAdapter;
+import com.cox.work.sis.ursula.model.NilaiDanTanggal;
 import com.cox.work.sis.ursula.model.json.AspekPenilaian;
 import com.cox.work.sis.ursula.model.json.ClassAndAspect;
 import com.cox.work.sis.ursula.model.json.JenisNilai;
@@ -215,15 +218,24 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 
 	private void calculateNilai(int id) {
 		for(Nilai nilai : listNilai) {
-			DataNilaiTableAdapter tmp = new DataNilaiTableAdapter(nilai.Id, nilai.MataPelajaran.Nama);
-			ArrayList<Float> tmpNilai = new ArrayList<Float>();
+			DataNilaiTableAdapter dtNilaiAdapter = new DataNilaiTableAdapter(nilai.Id, nilai.MataPelajaran.Nama);
+			ArrayList<NilaiDanTanggal> listNilaiTanggal = new ArrayList<NilaiDanTanggal>();
 			for(NilaiDetilNonRubrik detilNonRubrik : nilai.ListNilaiDetilNonRubrik) {
 				if(id == detilNonRubrik.JenisNilai.Id) {
-					tmpNilai.add(detilNonRubrik.NilaiAngka);
+					String tglTest = "";
+					if(detilNonRubrik.TanggalTes != null) {
+						tglTest = detilNonRubrik.TanggalTes.replace("/Date(", "").replace(")/","");
+						tglTest = Util.convertLongToDate(tglTest.split("-")[0], new SimpleDateFormat("dd-MMM-yyyy"));
+					} else {
+						tglTest = "";
+					}
+					
+					NilaiDanTanggal nilaiTanggal = new NilaiDanTanggal(detilNonRubrik.NilaiAngka, tglTest);
+					listNilaiTanggal.add(nilaiTanggal);
 				}
 			}
-			tmp.setNilai(tmpNilai);
-			listNilaiSiswa.add(tmp);
+			dtNilaiAdapter.setNilai(listNilaiTanggal);
+			listNilaiSiswa.add(dtNilaiAdapter);
 		}
 
 		showLog4ListNilai();
@@ -252,7 +264,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		for(DataNilaiTableAdapter data : listNilaiSiswa) {
 			Log.e("cox","getNilai MataPelajaran = " + data.getMataPelajaran());
 			for(int i = 0; i < data.getNilai().size(); i++) {
-				Log.e("cox","getNilai Nilai = " + data.getNilai().get(i));
+				Log.e("cox","getNilai Nilai = " + data.getNilai().get(i).getNilaiAngka());
+				Log.e("cox","getNilai Tanggal = " + data.getNilai().get(i).getTanggal());
 			}
 		}
 	}

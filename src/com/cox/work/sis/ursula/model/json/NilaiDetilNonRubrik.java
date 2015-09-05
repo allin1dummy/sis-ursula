@@ -9,5 +9,5 @@ public class NilaiDetilNonRubrik {
 	public int NilaiKe;
 	public float Ratarata;
 	public boolean Status;
-	public String TanggalTest;
+	public String TanggalTes;
 }

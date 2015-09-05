@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class DataNilaiTableAdapter {
 	private int Id;
 	private String mataPelajaran;
-	private ArrayList<Float> nilai;
+	private ArrayList<NilaiDanTanggal> nilai;
 
 	public DataNilaiTableAdapter(int i, String m) {
 		Id = i;
@@ -17,7 +17,7 @@ public class DataNilaiTableAdapter {
 		int i = 0;
 		float tot = 0f;
 		for( ; i < nilai.size(); i ++) {
-			tot += nilai.get(i);
+			tot += nilai.get(i).getNilaiAngka();
 		}
 		return ((float)tot/i);
 	}
@@ -34,10 +34,10 @@ public class DataNilaiTableAdapter {
 	public void setId(int id) {
 		Id = id;
 	}
-	public ArrayList<Float> getNilai() {
+	public ArrayList<NilaiDanTanggal> getNilai() {
 		return nilai;
 	}
-	public void setNilai(ArrayList<Float> n) {
+	public void setNilai(ArrayList<NilaiDanTanggal> n) {
 		nilai = n;
 	}
 	

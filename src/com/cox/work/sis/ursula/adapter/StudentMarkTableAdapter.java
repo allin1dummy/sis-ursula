@@ -107,25 +107,28 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 	
 	private void setStudentMark(int row, int column, View v) {
 		TextView tv_mark = ((TextView) v.findViewById(android.R.id.text1));
+		TextView tv_date = ((TextView) v.findViewById(android.R.id.text2));
+		
 		if(row==-1 && column==-1) {
 			tv_mark.setText("Mata Pelajaran");
 		} else if(row==-1 && column>-1) {
 			tv_mark.setText(column == getColumnCount()-1 ? "Rata-Rata" : String.valueOf(column + 1));
-		} else if(row>-1 && column==-1) { // SUBJECT
+		} else if(row>-1 && column==-1) { // MATA PELAJARAN
 			tv_mark.setText(dataStudentMark.get(row).getMataPelajaran());
-		} else if(row>-1 && column == getColumnCount() - 1) { // MEAN
+		} else if(row>-1 && column == getColumnCount() - 1) { // RATA-RATA
 			if(String.valueOf(dataStudentMark.get(row).calculateMeanValue()).equalsIgnoreCase("NAN")) {
 				tv_mark.setText("-");
 			} else {
 				tv_mark.setText(String.format("%.2f", dataStudentMark.get(row).calculateMeanValue()));
 			}
-		} else { // MARK
+		} else { // NILAI
 			DataNilaiTableAdapter dt = dataStudentMark.get(row);
 			if(column >= dt.getNilai().size()) {
 				tv_mark.setText("-");
 			} else {
-				float nilai = dt.getNilai().get(column);
+				float nilai = dt.getNilai().get(column).getNilaiAngka();
 				tv_mark.setText(String.format("%.2f", nilai));
+				tv_date.setText(dt.getNilai().get(column).getTanggal());
 
 				//TODO : BUG setTextColor
 				if(nilai < 60f) {
@@ -133,16 +136,6 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 				} else {
 					//tv_mark.setTextColor(Color.BLACK);
 				}
-			}
-		}
-		
-		TextView tv_date = ((TextView) v.findViewById(android.R.id.text2));
-		if(tv_date != null) {
-			if(column == getColumnCount()-1 || column == -1) {
-				tv_date.setText("");
-			} else {
-				tv_date.setText("(01-Sept-2015)");
-				
 			}
 		}
 	}
