@@ -224,11 +224,14 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 
 
 	private void calculateNilai(int id) {
+		int counterNilai = 0; // flag to know whether there is at least there is a Nilai for a Mata Pelajaran
+		
 		for(Nilai nilai : listNilai) {
 			DataNilaiTableAdapter dtNilaiAdapter = new DataNilaiTableAdapter(nilai.Id, nilai.MataPelajaran.Nama);
 			ArrayList<NilaiDanTanggal> listNilaiTanggal = new ArrayList<NilaiDanTanggal>();
 			for(NilaiDetilNonRubrik detilNonRubrik : nilai.ListNilaiDetilNonRubrik) {
 				if(id == detilNonRubrik.JenisNilai.Id) {
+					counterNilai++;
 					String tglTest = "";
 					if(detilNonRubrik.TanggalTes != null) {
 						tglTest = detilNonRubrik.TanggalTes.replace("/Date(", "").replace(")/","");
@@ -247,7 +250,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 
 		showLog4ListNilai();
 		
-		if(listNilaiSiswa == null || listNilaiSiswa.size() == 0) {
+		if(listNilaiSiswa == null || listNilaiSiswa.size() == 0 || counterNilai == 0) {
 			tableFixHeaders.setVisibility(View.GONE);
 			tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), new ArrayList<DataNilaiTableAdapter>()));
 			

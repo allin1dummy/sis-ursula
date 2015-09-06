@@ -52,6 +52,7 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 				result = nilai.getNilai().size();
 			}
 		}
+		result++; // add 1 for nilai Rata-Rata
 		return result;
 	}
 
@@ -112,7 +113,7 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 		if(row==-1 && column==-1) {
 			tv_mark.setText("Mata Pelajaran");
 		} else if(row==-1 && column>-1) {
-			tv_mark.setText(column == getColumnCount()-1 ? "Rata-Rata" : String.valueOf(column + 1));
+			tv_mark.setText(column == getColumnCount() -1 ? "Rata-Rata" : String.valueOf(column + 1));
 		} else if(row>-1 && column==-1) { // MATA PELAJARAN
 			tv_mark.setText(dataStudentMark.get(row).getMataPelajaran());
 		} else if(row>-1 && column == getColumnCount() - 1) { // RATA-RATA
