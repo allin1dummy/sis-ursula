@@ -18,6 +18,8 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 	private final int height;
 //	private float[][] marks;
 	private ArrayList<DataNilaiTableAdapter> dataStudentMark;
+
+	private Resources resources;
 	
 //	public StudentMarkTableAdapter(Context context, float[][] marks) {
 //		super(context);
@@ -31,8 +33,7 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 	public StudentMarkTableAdapter(Context context, ArrayList<DataNilaiTableAdapter> data) {
 		super(context);
 		dataStudentMark = data;
-
-		Resources resources = context.getResources();
+		resources = context.getResources();
 		width = resources.getDimensionPixelSize(R.dimen.table_width);
 		height = resources.getDimensionPixelSize(R.dimen.table_height);
 
@@ -132,7 +133,9 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 				tv_date.setText(dt.getNilai().get(column).getTanggal());
 
 				//TODO : BUG setTextColor
-				if(nilai < 90.99f) {
+				if(dt.getNilai().get(column).isRemidi()) {
+					tv_mark.setTextColor(resources.getColor(R.color.yellow));
+				} else if(nilai < 90.99f) {
 					tv_mark.setTextColor(Color.RED);
 				} else {
 					tv_mark.setTextColor(Color.BLACK);

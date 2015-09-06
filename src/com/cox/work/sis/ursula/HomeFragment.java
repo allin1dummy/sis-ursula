@@ -240,7 +240,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 						tglTest = "";
 					}
 					
-					NilaiDanTanggal nilaiTanggal = new NilaiDanTanggal(detilNonRubrik.NilaiAngka, tglTest);
+					NilaiDanTanggal nilaiTanggal = new NilaiDanTanggal(detilNonRubrik.NilaiAngka, tglTest, detilNonRubrik.IsRemidi);
 					listNilaiTanggal.add(nilaiTanggal);
 				}
 			}

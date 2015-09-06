@@ -19,4 +19,5 @@
     <color name="row_odd">#77EEEEEE</color>
     <color name="row_even">#77CCCCCC</color>
     <color name="green_base_color">#00C100</color>
+    <color name="yellow">#DEB247</color>
 </resources>
