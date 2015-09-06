@@ -4,11 +4,13 @@ public class NilaiDanTanggal {
 	private float nilaiAngka;
 	private String tanggal;
 	private boolean isRemidi;
+	private int nilaiKe;
 	
-	public NilaiDanTanggal(float n, String t, boolean i) {
+	public NilaiDanTanggal(float n, String t, boolean i, int k) {
 		nilaiAngka = n;
 		tanggal = t;
 		isRemidi = i;
+		setNilaiKe(k);
 	}
 	
 	public float getNilaiAngka() {
@@ -28,6 +30,12 @@ public class NilaiDanTanggal {
 	}
 	public void setRemidi(boolean isRemidi) {
 		this.isRemidi = isRemidi;
+	}
+	public int getNilaiKe() {
+		return nilaiKe;
+	}
+	public void setNilaiKe(int nilaiKe) {
+		this.nilaiKe = nilaiKe;
 	}
 	
 	

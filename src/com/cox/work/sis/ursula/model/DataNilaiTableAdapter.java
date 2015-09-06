@@ -6,6 +6,7 @@ public class DataNilaiTableAdapter {
 	private int Id;
 	private String mataPelajaran;
 	private ArrayList<NilaiDanTanggal> nilai;
+	private int latestNilaiKe;
 
 	public DataNilaiTableAdapter(int i, String m) {
 		Id = i;
@@ -39,6 +40,12 @@ public class DataNilaiTableAdapter {
 	}
 	public void setNilai(ArrayList<NilaiDanTanggal> n) {
 		nilai = n;
+	}
+	public int getLatestNilaiKe() {
+		return latestNilaiKe;
+	}
+	public void setLatestNilaiKe(int latestNilaiKe) {
+		this.latestNilaiKe = latestNilaiKe;
 	}
 	
 }

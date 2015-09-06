@@ -111,31 +111,43 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 		TextView tv_mark = ((TextView) v.findViewById(android.R.id.text1));
 		TextView tv_date = ((TextView) v.findViewById(android.R.id.text2));
 		
-		if(row==-1 && column==-1) {
+		if(row==-1 && column==-1) { // HEADER NILAI KE
 			tv_mark.setText("Mata Pelajaran");
-		} else if(row==-1 && column>-1) {
+			tv_mark.setTextColor(Color.BLACK);
+		} else if(row==-1 && column>-1) { // HEADER RATA-RATA
 			tv_mark.setText(column == getColumnCount() -1 ? "Rata-Rata" : String.valueOf(column + 1));
-		} else if(row>-1 && column==-1) { // MATA PELAJARAN
+			tv_mark.setTextColor(Color.BLACK);
+		} else if(row>-1 && column==-1) { // NAMA MATA PELAJARAN
 			tv_mark.setText(dataStudentMark.get(row).getMataPelajaran());
-		} else if(row>-1 && column == getColumnCount() - 1) { // RATA-RATA
+			tv_mark.setTextColor(Color.BLACK);
+		} else if(row>-1 && column == getColumnCount() - 1) { // NILAI RATA-RATA
 			if(String.valueOf(dataStudentMark.get(row).calculateMeanValue()).equalsIgnoreCase("NAN")) {
 				tv_mark.setText("-");
+				tv_mark.setTextColor(Color.BLACK);
 			} else {
-				tv_mark.setText(String.format("%.2f", dataStudentMark.get(row).calculateMeanValue()));
+				float means = dataStudentMark.get(row).calculateMeanValue();
+				tv_mark.setText(String.format("%.2f", means));
+				if((int)means <= 59) {
+					tv_mark.setTextColor(Color.RED);
+				} else {
+					tv_mark.setTextColor(Color.BLACK);
+				}
 			}
 		} else { // NILAI
 			DataNilaiTableAdapter dt = dataStudentMark.get(row);
 			if(column >= dt.getNilai().size()) {
 				tv_mark.setText("-");
+				tv_mark.setTextColor(Color.BLACK);
 			} else {
 				float nilai = dt.getNilai().get(column).getNilaiAngka();
-				tv_mark.setText(String.format("%.2f", nilai));
+				String strNilai = String.format("%.2f", nilai);
+				tv_mark.setText(strNilai);
 				tv_date.setText(dt.getNilai().get(column).getTanggal());
 
 				//TODO : BUG setTextColor
 				if(dt.getNilai().get(column).isRemidi()) {
 					tv_mark.setTextColor(resources.getColor(R.color.yellow));
-				} else if(nilai < 90.99f) {
+				} else if((int)nilai <= 59) {
 					tv_mark.setTextColor(Color.RED);
 				} else {
 					tv_mark.setTextColor(Color.BLACK);

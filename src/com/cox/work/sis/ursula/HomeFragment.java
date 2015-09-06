@@ -224,10 +224,10 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 
 
 	private void calculateNilai(int id) {
-		int counterNilai = 0; // flag to know whether there is at least there is a Nilai for a Mata Pelajaran
+		int counterNilai = 0; // flag to know whether there is at least a Nilai for a Mata Pelajaran
 		
 		for(Nilai nilai : listNilai) {
-			DataNilaiTableAdapter dtNilaiAdapter = new DataNilaiTableAdapter(nilai.Id, nilai.MataPelajaran.Nama);
+			int latestNilaiKe = 0;
 			ArrayList<NilaiDanTanggal> listNilaiTanggal = new ArrayList<NilaiDanTanggal>();
 			for(NilaiDetilNonRubrik detilNonRubrik : nilai.ListNilaiDetilNonRubrik) {
 				if(id == detilNonRubrik.JenisNilai.Id) {
@@ -240,11 +240,17 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 						tglTest = "";
 					}
 					
-					NilaiDanTanggal nilaiTanggal = new NilaiDanTanggal(detilNonRubrik.NilaiAngka, tglTest, detilNonRubrik.IsRemidi);
+					NilaiDanTanggal nilaiTanggal = new NilaiDanTanggal(detilNonRubrik.NilaiAngka, tglTest, detilNonRubrik.IsRemidi, detilNonRubrik.NilaiKe);
 					listNilaiTanggal.add(nilaiTanggal);
+					
+					if(detilNonRubrik.NilaiKe > latestNilaiKe) {
+						latestNilaiKe = detilNonRubrik.NilaiKe;
+					}
 				}
 			}
+			DataNilaiTableAdapter dtNilaiAdapter = new DataNilaiTableAdapter(nilai.Id, nilai.MataPelajaran.Nama);
 			dtNilaiAdapter.setNilai(listNilaiTanggal);
+			dtNilaiAdapter.setLatestNilaiKe(latestNilaiKe);
 			listNilaiSiswa.add(dtNilaiAdapter);
 		}
 
