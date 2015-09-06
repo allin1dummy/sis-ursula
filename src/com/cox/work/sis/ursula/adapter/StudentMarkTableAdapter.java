@@ -131,10 +131,10 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 				tv_date.setText(dt.getNilai().get(column).getTanggal());
 
 				//TODO : BUG setTextColor
-				if(nilai < 60f) {
-					//tv_mark.setTextColor(Color.RED);
+				if(nilai < 90.99f) {
+					tv_mark.setTextColor(Color.RED);
 				} else {
-					//tv_mark.setTextColor(Color.BLACK);
+					tv_mark.setTextColor(Color.BLACK);
 				}
 			}
 		}

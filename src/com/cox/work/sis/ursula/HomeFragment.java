@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	private int muridKelasId = -1;
 	private int selAspek;
 	private boolean isSemesterChanged, isClassChanged, isAspectChanged;
-	private TextView tv_NamaSiswa, tv_ShowFilter;
+	private TextView tv_NamaSiswa, tv_ShowFilter, tv_WaliKelas;
 	private ImageButton btnShowFilter;
 	private Button btnShowMarks;
 	private LinearLayout llFilterNilai;
@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	private ArrayList<DataNilaiTableAdapter> listNilaiSiswa = new ArrayList<DataNilaiTableAdapter>();
 
 	private TableFixHeaders tableFixHeaders;
-
+	
 	public HomeFragment() {
 	}
 
@@ -91,6 +91,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		tv_NamaSiswa = (TextView) rootView.findViewById(R.id.tv_name);
 		tv_NamaSiswa.setText("Nama: " + namaSiswa);
 		//tv_ShowFilter = (TextView) rootView.findViewById(R.id.tv_show_filter);
+		tv_WaliKelas = (TextView) rootView.findViewById(R.id.tv_wali);
 		
 		tableFixHeaders = (TableFixHeaders) rootView.findViewById(R.id.table);
 		tableFixHeaders.setVisibility(View.GONE);
@@ -201,6 +202,12 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 				public void success(ResponseGetNilai resp, Response arg1) {
 					dialog.dismiss();
 					listNilai = resp.ListNilai;
+					if(resp.WaliKelas != null && !resp.WaliKelas.isEmpty()) {
+						tv_WaliKelas.setVisibility(View.VISIBLE);
+						tv_WaliKelas.setText("Wali Kelas: " + resp.WaliKelas);
+					} else {
+						tv_WaliKelas.setVisibility(View.GONE);
+					}
 					calculateNilai(jn.Id);
 				}
 				
@@ -302,6 +309,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 			isClassChanged = true;
 			break;
 		case R.id.spin_aspect:
+			isAspectChanged = true;
 			selAspek = arg2;
 			listJenisNilai = listAspekPenilaian.get(arg2).ListJenisNilai;
 			spninnerAdapter = new ArrayAdapter(getActivity(), R.layout.simple_spinner, listJenisNilai);
@@ -309,7 +317,6 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 			spCategory.setSelection(0);
 			break;
 		case R.id.spin_aspect_category:
-			isAspectChanged = true;
 			break;
 		default:
 			break;

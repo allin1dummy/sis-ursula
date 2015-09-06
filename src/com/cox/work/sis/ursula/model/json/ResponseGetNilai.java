@@ -4,4 +4,5 @@ import java.util.List;
 
 public class ResponseGetNilai extends ResponseBase{
 	public List<Nilai> ListNilai;
+	public String WaliKelas;
 }
