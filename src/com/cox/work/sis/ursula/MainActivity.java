@@ -10,19 +10,17 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentManager.BackStackEntry;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import com.cox.work.sis.ursula.adapter.NavDrawerListAdapter;
 import com.cox.work.sis.ursula.model.NavDrawerItem;
 import com.cox.work.sis.ursula.util.Util;
@@ -45,10 +43,13 @@ public class MainActivity extends FragmentActivity {
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
 	
-	private AspekPengetahuanFragment pengetahuanFragment;
-	
 	private String userName, namaSiswa, mutasiId, email;
-	private boolean isFirstTimeLogin;
+	
+	// fragments
+	private HomeFragment home;
+	private UpdateProfileFragment updateProfile;
+	private ChangePasswordFragment changePassword;
+	private int latestSelectedTab = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +121,6 @@ public class MainActivity extends FragmentActivity {
 		namaSiswa = getIntent().getStringExtra(Util.Constant.NAMASISWA);
 		mutasiId = getIntent().getStringExtra(Util.Constant.MUTASIID);
 		email = getIntent().getStringExtra(Util.Constant.EMAIL);
-		isFirstTimeLogin = getIntent().getBooleanExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, false);
 		return super.onCreateView(name, context, attrs);
 	}
 	
@@ -173,23 +173,23 @@ public class MainActivity extends FragmentActivity {
 
 	private void doLogout() {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle("Logout");
-		alert.setMessage("Apakah Anda yakin logout dari Applikasi?")
-			.setCancelable(false)
-			.setPositiveButton("Ya",new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog,int id) {
-					dialog.dismiss();
-					Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-					startActivity(i);
-					finish();
-				}
-			})
-			.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int arg1) {
-					dialog.dismiss();
-				}
-			})
-			.show();
+		alert.setTitle("Logout")
+				.setCancelable(true)
+				.setMessage("Apakah Anda yakin logout dari Applikasi?")
+				.setPositiveButton("Ya",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.dismiss();
+						Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+						startActivity(i);
+						finish();
+					}
+				})
+				.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int arg1) {
+						dialog.dismiss();
+					}
+				})
+				.show();
 	}
 
 	/* *
@@ -208,50 +208,58 @@ public class MainActivity extends FragmentActivity {
 	 * Diplaying fragment view for selected nav drawer list item
 	 * */
 	private void displayView(int position) {
-		Intent i = new Intent();
-		i.putExtra(Util.Constant.USERNAME, userName);
-		i.putExtra(Util.Constant.NAMASISWA, namaSiswa);
-		i.putExtra(Util.Constant.MUTASIID, mutasiId);
-		i.putExtra(Util.Constant.EMAIL, email);
-		
+		if(latestSelectedTab == position) { // select same fragment
+			mDrawerLayout.closeDrawer(mDrawerList);
+			return;
+		}
+		latestSelectedTab = position;
 		// update the main content by replacing fragments
-		Fragment fragment = null;
+		Bundle b = new Bundle();
+		b.putString(Util.Constant.USERNAME, userName);
+		b.putString(Util.Constant.NAMASISWA, namaSiswa);
+		b.putString(Util.Constant.MUTASIID, mutasiId);
+		b.putString(Util.Constant.EMAIL, email);
+		FragmentManager fm = getSupportFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();
+		if(position != 3) { // don't add to StackBack if Logout
+			ft.addToBackStack(String.valueOf(position));
+		}
 		switch (position) {
 		case 0: // Main
-			fragment = new HomeFragment();
-			Bundle b = new Bundle();
-			b.putString(Util.Constant.USERNAME, userName);
-			b.putString(Util.Constant.NAMASISWA, namaSiswa);
-			b.putString(Util.Constant.MUTASIID, mutasiId);
-			b.putString(Util.Constant.EMAIL, email);
-			fragment.setArguments(b);
-
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
-
-			// update selected item and title, then close the drawer
-			mDrawerList.setItemChecked(position, true);
-			mDrawerList.setSelection(position);
-			setTitle(navMenuTitles[position]);
-			mDrawerLayout.closeDrawer(mDrawerList);
+			if(home == null) {
+				home = new HomeFragment();
+				home.setArguments(b);
+			}
+			ft.replace(R.id.frame_container, home).commit();
 			break;
 		case 1: // Update Profile
-			i.putExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, isFirstTimeLogin); // it should be always true on this activity
-			i.setClass(getApplicationContext(), UpdateProfileActivity.class);
-			startActivity(i);
+			if(updateProfile == null) {
+				updateProfile = new UpdateProfileFragment();
+				updateProfile.setArguments(b);
+			}
+			ft.replace(R.id.frame_container, updateProfile).commit();
 			break;
 		case 2: // Ubah Password
-			i.putExtra(Util.Constant.USERNAME, userName);
-			i.setClass(getApplicationContext(), ChangePasswordActivity.class);
-			startActivity(i);
+			if(changePassword == null) {
+				changePassword = new ChangePasswordFragment();
+				changePassword.setArguments(b);
+			}
+			ft.replace(R.id.frame_container, changePassword).commit();
 			break;
 		case 3: // Logout
-			onBackPressed();
+			doLogout();
 			break;
 		default:
-			fragment = new Fragment();
 			break;
 		}
+
+		// update selected item and title, then close the drawer
+		mDrawerList.setItemChecked(position, true);
+		mDrawerList.setSelection(position);
+		if(position != 3) { // don't change title page if Logout
+			setTitle(navMenuTitles[position]);
+		}
+		mDrawerLayout.closeDrawer(mDrawerList);
 	}
 
 	@Override
@@ -281,6 +289,15 @@ public class MainActivity extends FragmentActivity {
 	
 	@Override
 	public void onBackPressed() {
-		doLogout();
+		int totStackBack = getSupportFragmentManager().getBackStackEntryCount();
+		if(latestSelectedTab == 0 || totStackBack == 1) {
+			doLogout();
+		} else {
+			BackStackEntry bse = getSupportFragmentManager().getBackStackEntryAt(totStackBack - 2);
+			mDrawerList.setItemChecked(bse.getId(), true);
+			mDrawerList.setSelection(bse.getId());
+			setTitle(navMenuTitles[bse.getId()]);
+			super.onBackPressed();
+		}
 	}
 }

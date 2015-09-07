@@ -1,69 +1,64 @@
 package com.cox.work.sis.ursula;
 
-import java.util.Date;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import com.cox.work.service.MobileServiceClient;
 import com.cox.work.service.MobileServiceGenerator;
-import com.cox.work.sis.ursula.model.json.DataUser;
 import com.cox.work.sis.ursula.model.json.ResponseUser;
 import com.cox.work.sis.ursula.model.json.UserUpdateProfileEmailPwd;
-import com.cox.work.sis.ursula.util.DateSerializerDeserializer;
 import com.cox.work.sis.ursula.util.Util;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class UpdateProfileActivity extends Activity implements OnClickListener{
+public class ChangePasswordFragment extends Fragment implements OnClickListener{
+	private View root;
+	private Button btnChangePwd;
+	private EditText etUsername;
+	private EditText etPwdLama;
+	private EditText etPwdBaru2;
+	private EditText etPwdBaru;
 	
-	private View v;
-	private Button btnResetPwd;
-	private EditText etUsername, etEmail, etPwdLama, etPwdBaru;
-	private Context activity;
-	private Intent i;
-	
-
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_update_profile);
-		activity = this;
-		i = getIntent();
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		root = inflater.inflate(R.layout.activity_change_password, container, false);
 		
-		btnResetPwd = (Button) findViewById(R.id.btn_reset_pwd);
-		btnResetPwd.setOnClickListener(this);
+		btnChangePwd = (Button) root.findViewById(R.id.btn_change_pwd);
+		btnChangePwd.setOnClickListener(this);
 		
-		etUsername = (EditText) findViewById(R.id.et_username);
-		etUsername.setText(i.getStringExtra(Util.Constant.USERNAME)); // username should exist
-		etEmail = (EditText) findViewById(R.id.et_email);
-		etEmail.setText(i.getStringExtra(Util.Constant.EMAIL).isEmpty() ? "" : i.getStringExtra(Util.Constant.EMAIL));
-		etPwdLama = (EditText) findViewById(R.id.et_old_pwd);
-		etPwdBaru = (EditText) findViewById(R.id.et_new_pwd);
+		etUsername = (EditText) root.findViewById(R.id.et_username);
+		etUsername.setText(getArguments().getString(Util.Constant.USERNAME));
+		etPwdLama = (EditText) root.findViewById(R.id.et_old_pwd);
+		etPwdBaru = (EditText) root.findViewById(R.id.et_new_pwd);
+		etPwdBaru2 = (EditText) root.findViewById(R.id.et_new_pwd2);
+		
+		return root;
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_reset_pwd:
+		case R.id.btn_change_pwd:
 			if(etUsername.getText().toString().isEmpty()) {
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+				AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
 				alert.setTitle("User Name");
 				alert.setMessage("User Name harus diisi")
 					.setCancelable(false)
@@ -76,10 +71,10 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 				return;
 			}
 			
-			if(etEmail.getText().toString().isEmpty()) {
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setTitle("Email");
-				alert.setMessage("Email harus diisi")
+			if(!etPwdBaru.getText().toString().equals(etPwdBaru2.getText().toString())) {
+				AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+				alert.setTitle("Password");
+				alert.setMessage("Password baru tidak cocok")
 					.setCancelable(false)
 					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog,int id) {
@@ -89,22 +84,9 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 					.show();
 				return;
 			}
-
-			if(!Util.isValidEmail(etEmail.getText())) {
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setTitle("Email");
-				alert.setMessage("Email tidak valid")
-					.setCancelable(false)
-					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,int id) {
-							dialog.dismiss();
-						}
-					})
-					.show();
-				return;
-			}
-			if(!Util.isPasswordValid((etPwdBaru.getText().toString())) || !Util.isPasswordValid((etPwdLama.getText().toString()))) {
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+			
+			if(!Util.isPasswordValid((etPwdBaru.getText().toString())) || !Util.isPasswordValid((etPwdBaru2.getText().toString()))) {
+				AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
 				alert.setTitle("Password");
 				alert.setMessage("Password minimal 6 karakter")
 					.setCancelable(false)
@@ -117,27 +99,34 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 				return;
 			}
 			
-			final ProgressDialog dialog = new ProgressDialog(this);
-			dialog.setMessage("Memperbarui profile...");
+			final ProgressDialog dialog = new ProgressDialog(getActivity());
+			dialog.setMessage("Memperbarui password...");
 			dialog.setCancelable(false);
 			dialog.show();
 			
-			UserUpdateProfileEmailPwd user = new UserUpdateProfileEmailPwd(etUsername.getText().toString(), etEmail.getText().toString(), etPwdLama.getText().toString(), etPwdBaru.getText().toString());
+			UserUpdateProfileEmailPwd user = new UserUpdateProfileEmailPwd(etUsername.getText().toString(), null, etPwdLama.getText().toString(), etPwdBaru.getText().toString());
 			MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
 			client.updateProfileEmailPwd(user, new Callback<ResponseUser>() {
 				@Override
 				public void success(ResponseUser user, Response arg1) {
 					dialog.dismiss();
-					
-					AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
-					alertbox.setTitle(getResources().getString(R.string.reset_pwd));
-					alertbox.setMessage(getResources().getString(R.string.reset_pwd_desc));
+
+					final String msg = user.Message;
+					AlertDialog.Builder alertbox = new AlertDialog.Builder(getActivity());
+					alertbox.setTitle(getResources().getString(R.string.change_pwd));
+					if(msg != null && !msg.isEmpty()) { // current password is not valid
+						alertbox.setMessage(user.Message);
+					} else {
+						alertbox.setMessage(getResources().getString(R.string.change_pwd_desc));
+					}
 					alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				        public void onClick(DialogInterface dlg, int which) {
 				        	dlg.dismiss();
-				        	Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-				        	startActivity(i);
-				        	finish();
+				        	if(msg == null || msg.isEmpty()) {
+					        	Intent i = new Intent(getActivity(), LoginActivity.class);
+					        	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+					        	startActivity(i);
+				        	}
 				        }
 					});
 					alertbox.show();
@@ -147,7 +136,7 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 				public void failure(RetrofitError arg0) {
 					dialog.dismiss();
 					
-					AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
+					AlertDialog.Builder alertbox = new AlertDialog.Builder(getActivity());
 					alertbox.setTitle("Update Profile Gagal");
 					alertbox.setMessage("Terjadi masalah koneksi, silakan coba sesaat lagi.");
 					alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -164,5 +153,5 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 			break;
 		}
 	}
-	
+
 }

@@ -135,10 +135,8 @@ public class LoginActivity extends Activity implements OnClickListener{
 //						Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, ds).create();
 //						Log.e("cox","Date = " + gson.fromJson(json, Date.class));
 
-						i.putExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, true);
 						i.setClass(activity, UpdateProfileActivity.class);
 					} else {
-						i.putExtra(Util.Constant.IS_FIRST_UPDATE_PROFILE, false);
 						i.setClass(activity, MainActivity.class);
 					}
 					startActivity(i);

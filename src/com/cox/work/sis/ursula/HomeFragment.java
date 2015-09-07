@@ -2,7 +2,6 @@ package com.cox.work.sis.ursula;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -57,7 +56,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	private int muridKelasId = -1;
 	private int selAspek;
 	private boolean isSemesterChanged, isClassChanged, isAspectChanged;
-	private TextView tv_NamaSiswa, tv_ShowFilter, tv_WaliKelas;
+	private TextView tv_NamaSiswa, tv_WaliKelas;
 	private ImageButton btnShowFilter;
 	private Button btnShowMarks;
 	private LinearLayout llFilterNilai;
@@ -308,6 +307,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		spClass.setAdapter(spninnerAdapter);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		switch (arg0.getId()) {
