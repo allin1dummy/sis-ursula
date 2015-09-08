@@ -1,26 +1,16 @@
 package com.cox.work.sis.ursula.model;
 
-import java.util.ArrayList;
-
 public class DataNilaiTableAdapter {
 	private int Id;
 	private String mataPelajaran;
-	private ArrayList<NilaiDanTanggal> nilai;
+	private NilaiDanTanggal[] listNilai;
 	private int latestNilaiKe;
+	private float RataRata;
 
 	public DataNilaiTableAdapter(int i, String m) {
 		Id = i;
 		mataPelajaran = m;
-		nilai = null;
-	}
-	
-	public float calculateMeanValue() {
-		int i = 0;
-		float tot = 0f;
-		for( ; i < nilai.size(); i ++) {
-			tot += nilai.get(i).getNilaiAngka();
-		}
-		return ((float)tot/i);
+		listNilai = null;
 	}
 	
 	public String getMataPelajaran() {
@@ -35,17 +25,23 @@ public class DataNilaiTableAdapter {
 	public void setId(int id) {
 		Id = id;
 	}
-	public ArrayList<NilaiDanTanggal> getNilai() {
-		return nilai;
+	public NilaiDanTanggal[] getListNilai() {
+		return listNilai;
 	}
-	public void setNilai(ArrayList<NilaiDanTanggal> n) {
-		nilai = n;
+	public void setListNilai(NilaiDanTanggal[] n) {
+		listNilai = n;
 	}
 	public int getLatestNilaiKe() {
 		return latestNilaiKe;
 	}
 	public void setLatestNilaiKe(int latestNilaiKe) {
 		this.latestNilaiKe = latestNilaiKe;
+	}
+	public float getRataRata() {
+		return RataRata;
+	}
+	public void setRataRata(float rataRata) {
+		RataRata = rataRata;
 	}
 	
 }

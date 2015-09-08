@@ -7,7 +7,7 @@ public class NilaiDetilNonRubrik {
 	public String Keterangan;
 	public float NilaiAngka;
 	public int NilaiKe;
-	public float Ratarata;
+	public float RataRata;
 	public boolean Status;
 	public String TanggalTes;
 }

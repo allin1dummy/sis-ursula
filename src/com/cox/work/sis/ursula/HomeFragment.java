@@ -224,10 +224,11 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 
 	private void calculateNilai(int id) {
 		int counterNilai = 0; // flag to know whether there is at least a Nilai for a Mata Pelajaran
-		
+		int counterMaxNilaiKe = 0;
 		for(Nilai nilai : listNilai) {
-			int latestNilaiKe = 0;
-			ArrayList<NilaiDanTanggal> listNilaiTanggal = new ArrayList<NilaiDanTanggal>();
+			int latestNilaiKe = -1, idxNilaiKe = -1;
+			NilaiDanTanggal listDataNilai[] = new NilaiDanTanggal[Util.Constant.MAX_TOTAL_NILAI]; // set directly max total nilai == 100
+			float nilaiRataRata = -1;
 			for(NilaiDetilNonRubrik detilNonRubrik : nilai.ListNilaiDetilNonRubrik) {
 				if(id == detilNonRubrik.JenisNilai.Id) {
 					counterNilai++;
@@ -239,25 +240,30 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 						tglTest = "";
 					}
 					
-					NilaiDanTanggal nilaiTanggal = new NilaiDanTanggal(detilNonRubrik.NilaiAngka, tglTest, detilNonRubrik.IsRemidi, detilNonRubrik.NilaiKe);
-					listNilaiTanggal.add(nilaiTanggal);
+					idxNilaiKe = detilNonRubrik.NilaiKe - 1;
+					nilaiRataRata = detilNonRubrik.RataRata;
+					NilaiDanTanggal dataNilai = new NilaiDanTanggal(detilNonRubrik.NilaiAngka, tglTest, detilNonRubrik.IsRemidi, idxNilaiKe);
+					listDataNilai[idxNilaiKe] = dataNilai; // set dataNilai according on NilaiKe INDEX which zero-based index
 					
-					if(detilNonRubrik.NilaiKe > latestNilaiKe) {
-						latestNilaiKe = detilNonRubrik.NilaiKe;
+					if(idxNilaiKe > latestNilaiKe) { // find highest NilaiKe INDEX
+						latestNilaiKe = idxNilaiKe;
 					}
 				}
 			}
+			if(latestNilaiKe > counterMaxNilaiKe) {
+				counterMaxNilaiKe = latestNilaiKe;
+			}
 			DataNilaiTableAdapter dtNilaiAdapter = new DataNilaiTableAdapter(nilai.Id, nilai.MataPelajaran.Nama);
-			dtNilaiAdapter.setNilai(listNilaiTanggal);
+			dtNilaiAdapter.setListNilai(listDataNilai);
 			dtNilaiAdapter.setLatestNilaiKe(latestNilaiKe);
+			dtNilaiAdapter.setRataRata(nilaiRataRata);
 			listNilaiSiswa.add(dtNilaiAdapter);
 		}
 
-		showLog4ListNilai();
+		//showLog4ListNilai();
 		
 		if(listNilaiSiswa == null || listNilaiSiswa.size() == 0 || counterNilai == 0) {
 			tableFixHeaders.setVisibility(View.GONE);
-			tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), new ArrayList<DataNilaiTableAdapter>()));
 			
 			AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
 			alert.setTitle("Nilai Siswa");
@@ -271,16 +277,16 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 				.show();
 		} else {
 			tableFixHeaders.setVisibility(View.VISIBLE);
-			tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), listNilaiSiswa));
+			tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), listNilaiSiswa, counterMaxNilaiKe));
 		}
 	}
 
 	private void showLog4ListNilai() {
 		for(DataNilaiTableAdapter data : listNilaiSiswa) {
 			Log.e("cox","getNilai MataPelajaran = " + data.getMataPelajaran());
-			for(int i = 0; i < data.getNilai().size(); i++) {
-				Log.e("cox","getNilai Nilai = " + data.getNilai().get(i).getNilaiAngka());
-				Log.e("cox","getNilai Tanggal = " + data.getNilai().get(i).getTanggal());
+			for(int i = 0; i < data.getLatestNilaiKe(); i++) {
+				//Log.e("cox","getNilai Nilai = " + data.getListNilai()[i].getNilaiAngka());
+				//Log.e("cox","getNilai Tanggal = " + data.getListNilai()[i].getTanggal());
 			}
 		}
 	}

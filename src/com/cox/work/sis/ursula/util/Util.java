@@ -60,6 +60,7 @@ public class Util {
 		public static final String MUTASIID = "mutasiid";
 		public static final String EMAIL = "email";
 		public static final String IS_FIRST_UPDATE_PROFILE = "firstupdateprofile";
+		public static final int MAX_TOTAL_NILAI = 100;
 	}
 	
 	public static final class LineChart {

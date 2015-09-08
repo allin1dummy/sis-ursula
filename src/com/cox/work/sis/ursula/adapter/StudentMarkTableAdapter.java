@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import com.cox.work.sis.ursula.R;
 import com.cox.work.sis.ursula.model.DataNilaiTableAdapter;
+import com.cox.work.sis.ursula.model.NilaiDanTanggal;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,27 +16,18 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 
 	private final int width;
 	private final int height;
-//	private float[][] marks;
 	private ArrayList<DataNilaiTableAdapter> dataStudentMark;
-
 	private Resources resources;
+	private int idxMaxNilaiKe;
 	
-//	public StudentMarkTableAdapter(Context context, float[][] marks) {
-//		super(context);
-//		this.marks = marks;
-//
-//		Resources resources = context.getResources();
-//		width = resources.getDimensionPixelSize(R.dimen.table_width);
-//		height = resources.getDimensionPixelSize(R.dimen.table_height);
-//	}
 
-	public StudentMarkTableAdapter(Context context, ArrayList<DataNilaiTableAdapter> data) {
+	public StudentMarkTableAdapter(Context context, ArrayList<DataNilaiTableAdapter> data, int max) {
 		super(context);
 		dataStudentMark = data;
 		resources = context.getResources();
 		width = resources.getDimensionPixelSize(R.dimen.table_width);
 		height = resources.getDimensionPixelSize(R.dimen.table_height);
-
+		idxMaxNilaiKe = max;
 	}
 
 	@Override
@@ -46,15 +37,8 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 
 	@Override
 	public int getColumnCount() {
-		// find the highest items of list nilai
-		int result = 0;
-		for(DataNilaiTableAdapter nilai : dataStudentMark) {
-			if(nilai.getNilai().size() > result) {
-				result = nilai.getNilai().size();
-			}
-		}
-		result++; // add 1 for nilai Rata-Rata
-		return result;
+		// adding 2 because: idxMaxNilaiKe is zero-based indexing; adding another 1 for Rata-Rata column
+		return (idxMaxNilaiKe + 2);
 	}
 
 	@Override
@@ -121,35 +105,61 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 			tv_mark.setText(dataStudentMark.get(row).getMataPelajaran());
 			tv_mark.setTextColor(Color.BLACK);
 		} else if(row>-1 && column == getColumnCount() - 1) { // NILAI RATA-RATA
-			if(String.valueOf(dataStudentMark.get(row).calculateMeanValue()).equalsIgnoreCase("NAN")) {
+			float ratarata = dataStudentMark.get(row).getRataRata();
+			if(ratarata < 0) { // by default RataRata == -1, it means value of RataRata is empty
 				tv_mark.setText("-");
 				tv_mark.setTextColor(Color.BLACK);
 			} else {
-				float means = dataStudentMark.get(row).calculateMeanValue();
-				tv_mark.setText(String.format("%.2f", means));
-				if((int)means <= 59) {
+				tv_mark.setText(String.format("%.2f", ratarata));
+				if((int)ratarata <= 59) {
 					tv_mark.setTextColor(Color.RED);
 				} else {
 					tv_mark.setTextColor(Color.BLACK);
 				}
 			}
+			tv_date.setText("");
 		} else { // NILAI
 			DataNilaiTableAdapter dt = dataStudentMark.get(row);
-			if(column >= dt.getNilai().size()) {
+			if(column >= dt.getListNilai().length) {
+				/*
+				Handle data ex:
+				1  | 2 | 3 | 4 | 5
+				-------------------
+				10 |20 | - | - | -
+				*/
 				tv_mark.setText("-");
 				tv_mark.setTextColor(Color.BLACK);
 			} else {
-				float nilai = dt.getNilai().get(column).getNilaiAngka();
-				String strNilai = String.format("%.2f", nilai);
-				tv_mark.setText(strNilai);
-				tv_date.setText(dt.getNilai().get(column).getTanggal());
+				NilaiDanTanggal itemNilai = dt.getListNilai()[column];
+				if(itemNilai != null) {
+					/*
+					Handle data ex:
+					1  | 2 | 3 | 4 | 5
+					-------------------
+					10 |20 |30 |40 |50
+					*/
+					float nilaiAngka = itemNilai.getNilaiAngka();
+					String strNilaiAngka = String.format("%.2f", nilaiAngka);
+					tv_mark.setText(strNilaiAngka);
+					tv_date.setText(itemNilai.getTanggal());
 
-				//TODO : BUG setTextColor
-				if(dt.getNilai().get(column).isRemidi()) {
-					tv_mark.setTextColor(resources.getColor(R.color.yellow));
-				} else if((int)nilai <= 59) {
-					tv_mark.setTextColor(Color.RED);
+					// set color
+					if(itemNilai.isRemidi()) {
+						tv_mark.setTextColor(resources.getColor(R.color.yellow));
+					} else if((int)nilaiAngka <= 59) {
+						tv_mark.setTextColor(Color.RED);
+					} else {
+						tv_mark.setTextColor(Color.BLACK);
+					}
 				} else {
+					/*
+					Handle data ex:
+					1  | 2 | 3 | 4 | 5
+					-------------------
+					-  | - | - |40 |50
+					*/
+					tv_mark.setText("-");
+					tv_date.setText("");
 					tv_mark.setTextColor(Color.BLACK);
 				}
 			}
