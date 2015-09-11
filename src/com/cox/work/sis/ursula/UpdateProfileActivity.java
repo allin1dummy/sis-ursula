@@ -131,7 +131,7 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 					
 					AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
 					alertbox.setTitle(getResources().getString(R.string.reset_pwd));
-					alertbox.setMessage(getResources().getString(R.string.reset_pwd_desc));
+					alertbox.setMessage("Data profile Anda sudah diperbarui, silakan login kembali.");
 					alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				        public void onClick(DialogInterface dlg, int which) {
 				        	dlg.dismiss();
