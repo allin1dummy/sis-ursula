@@ -20,4 +20,8 @@
     <color name="row_even">#77CCCCCC</color>
     <color name="green_base_color">#00C100</color>
     <color name="yellow">#DEB247</color>
+    <color name="ursula_dark_green">#104906</color>
+    <color name="ursula_light_green">#0DBB04</color>
+    <color name="ursula_light_green2">#09C00E</color>
+    <color name="ursula_yello">#E2C15F</color>
 </resources>

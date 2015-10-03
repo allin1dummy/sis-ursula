@@ -10,12 +10,6 @@
         android:layout_height="fill_parent"
         android:orientation="vertical" >
 
-        <View
-            android:id="@+id/v_line"
-            android:layout_width="fill_parent"
-            android:layout_height="16dp"
-            android:background="#DFB056" />
-
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -31,7 +25,6 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/user_name"
-            android:textColor="#000000"
             android:textStyle="bold" />
 
         <EditText
@@ -55,7 +48,6 @@
             android:layout_marginRight="16dp"
             android:ems="10"
             android:text="@string/password"
-            android:textColor="#000000"
             android:textStyle="bold" />
 
         <EditText
@@ -74,10 +66,9 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/button_rounded_bg"
             android:enabled="true"
             android:text="@string/login"
-            android:textColor="#000000"
+            android:background="@drawable/ripple_button"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -100,7 +91,6 @@
                     android:ems="10"
                     android:gravity="center|left"
                     android:text="Ubah Password"
-                    android:textColor="#000000"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -118,16 +108,10 @@
                     android:ems="10"
                     android:gravity="center|right"
                     android:text="@string/forgot_pwd"
-                    android:textColor="#000000"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
-        <View
-            android:id="@+id/v_line"
-            android:layout_width="fill_parent"
-            android:layout_height="16dp"
-            android:background="#DFB056" />
     </LinearLayout>
 
 </ScrollView>

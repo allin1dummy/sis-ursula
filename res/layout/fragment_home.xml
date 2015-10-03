@@ -4,7 +4,7 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    android:background="#FFFFFF"
-	    android:orientation="vertical" >
+	    android:orientation="vertical">
 	
 	    <LinearLayout
 	        android:layout_width="fill_parent"
@@ -152,10 +152,9 @@
 	        android:layout_marginTop="9dp"
 	        android:layout_marginLeft="9dp"
 	        android:layout_marginRight="9dp"
-	        android:background="@drawable/button_rounded_bg"
+	        android:background="@drawable/ripple_button"
 	        android:enabled="true"
 	        android:text="Tampilkan Nilai"
-	        android:textColor="#000000"
 	        android:textStyle="bold" />
 	
 	    <com.inqbarna.tablefixheaders.TableFixHeaders
