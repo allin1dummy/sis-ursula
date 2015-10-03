@@ -1,8 +1,10 @@
 package com.cox.work.sis.ursula.util;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.GeneralSecurityException;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -17,6 +19,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -44,6 +47,28 @@ public class Util {
 
 	    return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
 	}
+	
+
+
+//	public final static void doEnkrip3DES() {
+//		try {
+//			String str = "Demo Ke Rektorat Senin Pagi";
+//			byte[] b = str.getBytes("UTF8");
+//			b = des.encrypt(b);
+//		} catch (GeneralSecurityException e) {
+//			e.printStackTrace();
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	public final static void doDekrip3DES() {
+//		try {
+//			hasilDekrip = des.decrypt(hasilEnkrip);
+//		} catch (GeneralSecurityException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	public static final class Properties {
 		public static final int NUM_SUBJECTS = 11;

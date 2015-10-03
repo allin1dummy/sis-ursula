@@ -61,6 +61,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	private Button btnShowMarks;
 	private LinearLayout llFilterNilai;
 	private boolean isFilterShow = true;
+	private int counterMaxNilaiKe = 0;
 
 	List<String> listSemester = new ArrayList<String>();
 	List<String> listAspek = new ArrayList<String>();
@@ -121,17 +122,17 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 			public void onClick(View arg0) {
 				Drawable img;
 				if(isFilterShow) {
+					btnShowMarks.setVisibility(View.GONE);
 					llFilterNilai.setVisibility(View.GONE);
-					//tv_ShowFilter.setText("Tampilkan Filter");
 					img = getResources().getDrawable(R.drawable.ic_action_arrow_bottom);
 				} else {
+					btnShowMarks.setVisibility(View.VISIBLE);
 					llFilterNilai.setVisibility(View.VISIBLE);
-					//tv_ShowFilter.setText("Sembunyikan Filter");
 					img = getResources().getDrawable(R.drawable.ic_action_arrow_top);
 				}
 				btnShowFilter.setImageDrawable(img);
-				btnShowMarks.setVisibility(isFilterShow ? View.GONE : View.VISIBLE);
 				isFilterShow = !isFilterShow;
+				tableFixHeaders.setAdapter(new StudentMarkTableAdapter(getActivity(), listNilaiSiswa, counterMaxNilaiKe));
 			}
 		});
 		
@@ -224,7 +225,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 
 	private void calculateNilai(int id) {
 		int counterNilai = 0; // flag to know whether there is at least a Nilai for a Mata Pelajaran
-		int counterMaxNilaiKe = 0;
+		counterMaxNilaiKe = 0;
 		for(Nilai nilai : listNilai) {
 			int latestNilaiKe = -1, idxNilaiKe = -1;
 			NilaiDanTanggal listDataNilai[] = new NilaiDanTanggal[Util.Constant.MAX_TOTAL_NILAI]; // set directly max total nilai == 100

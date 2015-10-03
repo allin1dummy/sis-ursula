@@ -121,20 +121,6 @@ public class LoginActivity extends Activity implements OnClickListener{
 					i.putExtra(Util.Constant.MUTASIID, user.User.MutasiMasuk.Id);
 					i.putExtra(Util.Constant.EMAIL, user.User.Email);
 					if(user.User.IsFirstTime) {
-
-//						try {
-//					        GsonBuilder gsonb = new GsonBuilder();
-//					        DateSerializerDeserializer ds = new DateSerializerDeserializer();
-//					        gsonb.registerTypeAdapter(Date.class, ds);
-//					        Gson gson = gsonb.create();
-//					        JSONObject json = new JSONObject(gson.toJson(user.User.BaseEntity.CreateDate));
-//					    } catch (JSONException e) {
-//					        e.printStackTrace();
-//					    }
-//						String json = "\"\\/Date(736032869080)\\/\"";
-//						Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, ds).create();
-//						Log.e("cox","Date = " + gson.fromJson(json, Date.class));
-
 						i.setClass(activity, UpdateProfileActivity.class);
 					} else {
 						i.setClass(activity, MainActivity.class);
