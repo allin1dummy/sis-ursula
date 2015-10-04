@@ -5,29 +5,33 @@ import java.util.ArrayList;
 import com.cox.work.sis.ursula.R;
 import com.cox.work.sis.ursula.model.DataNilaiTableAdapter;
 import com.cox.work.sis.ursula.model.NilaiDanTanggal;
+import com.inqbarna.tablefixheaders.adapters.BaseTableAdapter;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class StudentMarkTableAdapter extends SampleTableAdapter {
+public class StudentMarkTableAdapter extends BaseTableAdapter {
 
 	private final int width;
 	private final int height;
 	private ArrayList<DataNilaiTableAdapter> dataStudentMark;
 	private Resources resources;
 	private int idxMaxNilaiKe;
+	private final LayoutInflater inflater;
 	
 
 	public StudentMarkTableAdapter(Context context, ArrayList<DataNilaiTableAdapter> data, int max) {
-		super(context);
 		dataStudentMark = data;
 		resources = context.getResources();
 		width = resources.getDimensionPixelSize(R.dimen.table_width);
 		height = resources.getDimensionPixelSize(R.dimen.table_height);
 		idxMaxNilaiKe = max;
+		inflater = LayoutInflater.from(context);
 	}
 
 	@Override
@@ -51,7 +55,6 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 		return height;
 	}
 
-	@Override
 	public int getLayoutResource(int row, int column) {
 		final int layoutResource;
 		switch (getItemViewType(row, column)) {
@@ -89,6 +92,10 @@ public class StudentMarkTableAdapter extends SampleTableAdapter {
 		
 		setStudentMark(row, column, converView);
 		return converView;
+	}
+	
+	public LayoutInflater getInflater() {
+		return inflater;
 	}
 	
 	private void setStudentMark(int row, int column, View v) {
