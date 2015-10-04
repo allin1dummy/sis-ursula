@@ -11,6 +11,7 @@
 	        android:layout_height="wrap_content"
 	        android:paddingLeft="9dp"
 	        android:paddingRight="9dp"
+	        android:paddingTop="9dp"
 	        android:orientation="vertical" >
 		    <TextView
 		        android:id="@+id/tv_name"
@@ -152,7 +153,7 @@
 	        android:layout_marginTop="9dp"
 	        android:layout_marginLeft="9dp"
 	        android:layout_marginRight="9dp"
-	        android:background="@drawable/ripple_button"
+	        android:background="@drawable/selector_button"
 	        android:enabled="true"
 	        android:text="Tampilkan Nilai"
 	        android:textStyle="bold" />

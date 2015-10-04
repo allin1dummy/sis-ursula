@@ -68,7 +68,7 @@
             android:layout_marginTop="16dp"
             android:enabled="true"
             android:text="@string/login"
-            android:background="@drawable/ripple_button"
+            android:background="@drawable/selector_button"
             android:textStyle="bold" />
 
         <LinearLayout
