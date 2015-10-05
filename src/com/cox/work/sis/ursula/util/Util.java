@@ -1,29 +1,18 @@
 package com.cox.work.sis.ursula.util;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.GeneralSecurityException;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.util.Log;
 
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
+//import com.github.mikephil.charting.data.Entry;
+//import com.github.mikephil.charting.data.LineData;
+//import com.github.mikephil.charting.data.LineDataSet;
 
 public class Util {
 	
@@ -87,7 +76,7 @@ public class Util {
 		public static final String IS_FIRST_UPDATE_PROFILE = "firstupdateprofile";
 		public static final int MAX_TOTAL_NILAI = 100;
 	}
-	
+	/*
 	public static final class LineChart {
 		public static final LineData getDataSet() {
 			int colors[] = {Color.RED, Color.BLACK, Color.BLUE, Color.GREEN, Color.YELLOW, Color.CYAN, Color.MAGENTA, Color.LTGRAY, Color.DKGRAY, Color.BLUE, Color.RED};
@@ -146,7 +135,7 @@ public class Util {
 		    return data;
 		}
 	}
-	
+	*/
 	public static class JSON {
 		public static final String DATA_ASPEK_PENGETAHUAN = 
 				"{" +
