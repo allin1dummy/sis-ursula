@@ -15,7 +15,7 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
 	    <item name="android:colorPrimaryDark">@color/ursula_dark_green</item>
-	    <item name="android:colorPrimary">#10911F</item>
+	    <item name="android:colorPrimary">@color/ursula_primary_dark</item>
 	    <item name="android:textColorPrimary">#FFFFFF</item>
 	    <item name="android:editTextColor">#000000</item>
     </style>
