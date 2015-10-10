@@ -212,7 +212,6 @@ public class MainActivity extends FragmentActivity {
 			mDrawerLayout.closeDrawer(mDrawerList);
 			return;
 		}
-		latestSelectedTab = position;
 		// update the main content by replacing fragments
 		Bundle b = new Bundle();
 		b.putString(Util.Constant.USERNAME, userName);
@@ -254,11 +253,14 @@ public class MainActivity extends FragmentActivity {
 		}
 
 		// update selected item and title, then close the drawer
-		mDrawerList.setItemChecked(position, true);
-		mDrawerList.setSelection(position);
 		if(position != 3) { // don't change title page if Logout
 			setTitle(navMenuTitles[position]);
+			latestSelectedTab = position;
+		} else {
+			position = latestSelectedTab;
 		}
+		mDrawerList.setItemChecked(position, true);
+		mDrawerList.setSelection(position);
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
 
