@@ -149,7 +149,7 @@
 	    <Button
 	        android:id="@+id/btn_show_marks"
 	        android:layout_width="fill_parent"
-	        android:layout_height="40dp"
+	        android:layout_height="@dimen/table_height"
 	        android:layout_marginTop="9dp"
 	        android:layout_marginLeft="9dp"
 	        android:layout_marginRight="9dp"
