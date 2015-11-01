@@ -53,7 +53,7 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 		etUsername = (EditText) findViewById(R.id.et_username);
 		etUsername.setText(i.getStringExtra(Util.Constant.USERNAME)); // username should exist
 		etEmail = (EditText) findViewById(R.id.et_email);
-		etEmail.setText(i.getStringExtra(Util.Constant.EMAIL).isEmpty() ? "" : i.getStringExtra(Util.Constant.EMAIL));
+		etEmail.setText(i.getStringExtra(Util.Constant.EMAIL) != null && i.getStringExtra(Util.Constant.EMAIL).isEmpty() ? "" : i.getStringExtra(Util.Constant.EMAIL));
 		etPwdLama = (EditText) findViewById(R.id.et_old_pwd);
 		etPwdBaru = (EditText) findViewById(R.id.et_new_pwd);
 	}
