@@ -35,7 +35,7 @@
             android:layout_marginRight="16dp"
             android:ems="10"
             android:singleLine="true"
-            android:text="anastasia.calista" >
+            android:text="ailsa.benedicta" >
 
             <requestFocus />
         </EditText>

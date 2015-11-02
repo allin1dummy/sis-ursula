@@ -144,9 +144,14 @@ public class LoginActivity extends Activity implements OnClickListener{
 			public void failure(RetrofitError arg0) {
 				Log.e("cox", "ERROR!!! # message = " + arg0.getMessage());
 	        	dialog.dismiss();
+
 				AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
 				alertbox.setTitle("Login");
-				alertbox.setMessage("Login gagal, periksa kembali jaringan internet Anda.");
+				if(arg0.isNetworkError()) {
+					alertbox.setMessage("Login gagal, periksa kembali jaringan internet Anda.");
+				} else {
+					alertbox.setMessage("User ID atau Password salah. Cek kembali User ID dan Password Anda.");
+				}
 				alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 			        public void onClick(DialogInterface dialog, int which) {
 			        	dialog.dismiss();

@@ -50,6 +50,7 @@ public class MainActivity extends FragmentActivity {
 	private UpdateProfileFragment updateProfile;
 	private ChangePasswordFragment changePassword;
 	private int latestSelectedTab = -1;
+	private NilaiRaporFragment nilaiRapor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class MainActivity extends FragmentActivity {
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
@@ -245,7 +247,14 @@ public class MainActivity extends FragmentActivity {
 			}
 			ft.replace(R.id.frame_container, changePassword).commit();
 			break;
-		case 3: // Logout
+		case 3: // Nilai Raport
+			if(nilaiRapor == null) {
+				nilaiRapor = new NilaiRaporFragment();
+				nilaiRapor.setArguments(b);
+			}
+			ft.replace(R.id.frame_container, nilaiRapor).commit();
+			break;
+		case 4: // Logout
 			doLogout();
 			break;
 		default:
@@ -253,7 +262,7 @@ public class MainActivity extends FragmentActivity {
 		}
 
 		// update selected item and title, then close the drawer
-		if(position != 3) { // don't change title page if Logout
+		if(position != 4) { // don't change title page if Logout
 			setTitle(navMenuTitles[position]);
 			latestSelectedTab = position;
 		} else {

@@ -124,14 +124,8 @@
             android:background="@drawable/button_rounded_bg"
             android:enabled="true"
             android:text="Update Profile"
-            android:textColor="#000000"
-            android:textStyle="bold" />
+             android:textStyle="bold" />
 
-        <View
-            android:id="@+id/v_line"
-            android:layout_width="fill_parent"
-            android:layout_height="16dp"
-            android:background="#DFB056" />
     </LinearLayout>
 
 </ScrollView>
