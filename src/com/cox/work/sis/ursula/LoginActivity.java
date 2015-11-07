@@ -120,10 +120,11 @@ public class LoginActivity extends Activity implements OnClickListener{
 					i.putExtra(Util.Constant.NAMASISWA, user.User.MutasiMasuk.NamaSiswa);
 					i.putExtra(Util.Constant.MUTASIID, user.User.MutasiMasuk.Id);
 					i.putExtra(Util.Constant.EMAIL, user.User.Email);
+					Log.e("cox", "doLoginAction() - IsFirstTime = " + user.User.IsFirstTime);
 					if(user.User.IsFirstTime) {
 						i.setClass(activity, UpdateProfileActivity.class);
 					} else {
-						i.setClass(activity, MainActivity.class);
+						i.setClass(activity, ProfileDanPilihNilaiActivity.class);
 					}
 					startActivity(i);
 					finish();

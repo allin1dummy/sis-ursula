@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/logo_ursula" />
+        
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="username"
+            android:textStyle="bold" />
+        
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:text="email"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal" >
+            
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="horizontal" >
+		        <Button
+		            android:id="@+id/btn_harian"
+		            android:layout_width="fill_parent"
+		            android:layout_height="@dimen/table_height"
+		            android:layout_marginLeft="16dp"
+		            android:layout_marginRight="16dp"
+		            android:layout_marginTop="16dp"
+		            android:enabled="true"
+		            android:text="@string/nilai_harian"
+		            android:background="@drawable/selector_button"
+		            android:textStyle="bold" />
+			</LinearLayout>
+			
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="horizontal" >
+		        
+		        <Button
+		            android:id="@+id/btn_rapor"
+		            android:layout_width="fill_parent"
+		            android:layout_height="@dimen/table_height"
+		            android:layout_marginLeft="16dp"
+		            android:layout_marginRight="16dp"
+		            android:layout_marginTop="16dp"
+		            android:enabled="true"
+		            android:text="@string/nilai_rapor"
+		            android:background="@drawable/selector_button"
+		            android:textStyle="bold" />
+			</LinearLayout>
+		</LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
