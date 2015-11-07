@@ -24,7 +24,7 @@ public class RaporPerkembangan {
 	
 	private class PerkembanganFisik {
 		public int BeratBadan;
-		public int Gigi;
+		public String Gigi;
 		public String Penglihatan;
 		public int TinggiBadan;
 	}
