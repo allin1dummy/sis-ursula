@@ -1,111 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#FFFFFF"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent" >
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="9dp"
-        android:paddingRight="9dp"
-        android:paddingTop="9dp" >
-
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold" >
-        </TextView>
-
-        <TextView
-            android:id="@+id/tv_wali"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:visibility="gone" >
-        </TextView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="9dp"
-        android:paddingTop="9dp" >
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/green_base_color" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_filter_nilai"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="9dp"
-        android:paddingRight="9dp" >
+        android:layout_height="fill_parent"
+        android:background="#FFFFFF"
+        android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="vertical"
+            android:paddingLeft="9dp"
+            android:paddingRight="9dp"
+            android:paddingTop="9dp" >
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_wali"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:visibility="gone" >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="9dp"
+            android:paddingTop="9dp" >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/green_base_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_filter_nilai"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="9dp"
+            android:paddingRight="9dp" >
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/tv_class"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="Kelas:"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal" >
 
-                <Spinner
-                    android:id="@+id/spin_class"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Kelas:"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_semester"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="Semester:"
-                    android:textStyle="bold" />
+                    <Spinner
+                        android:id="@+id/spin_class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold" />
 
-                <Spinner
-                    android:id="@+id/spin_semester"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_semester"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Semester:"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spin_semester"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_show_marks"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/table_height"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/selector_button"
+            android:enabled="true"
+            android:text="Tampilkan Nilai Rapor"
+            android:textStyle="bold" />
+
+        <com.inqbarna.tablefixheaders.TableFixHeaders
+            android:id="@+id/table"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="9dp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_show_marks"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/table_height"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginTop="9dp"
-        android:background="@drawable/selector_button"
-        android:enabled="true"
-        android:text="Tampilkan Nilai"
-        android:textStyle="bold" />
-
-    <com.inqbarna.tablefixheaders.TableFixHeaders
-        android:id="@+id/table"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="9dp" />
-
-</LinearLayout>
+</ScrollView>

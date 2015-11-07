@@ -9,6 +9,7 @@ import retrofit.client.Response;
 
 import com.cox.work.service.MobileServiceClient;
 import com.cox.work.service.MobileServiceGenerator;
+import com.cox.work.sis.ursula.adapter.RaporMataPelajaranTableAdapter;
 import com.cox.work.sis.ursula.model.DataNilaiTableAdapter;
 import com.cox.work.sis.ursula.model.json.AspekPenilaian;
 import com.cox.work.sis.ursula.model.json.ClassAndAspect;
@@ -104,15 +105,18 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 			MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
 			client.getNilaiRapor(reqRapor, new Callback<ResponseGetNilaiRapor>() {
 				@Override
-				public void failure(RetrofitError arg0) {
-					Log.e("cox","getNilaiRaport failure = " + arg0.getMessage());
+				public void failure(RetrofitError err) {
+					Log.e("cox","getNilaiRaport failure = " + err.getMessage());
 					dialog.dismiss();
 				}
 
 				@Override
-				public void success(ResponseGetNilaiRapor resp, Response arg1) {
-					Log.e("cox","getNilaiRaport success");
-					tv_WaliKelas.setText(resp.WaliKelas);
+				public void success(ResponseGetNilaiRapor respRapor, Response resp) {
+					Log.e("cox","getNilaiRapor success");
+					tv_WaliKelas.setVisibility(View.VISIBLE);
+					tv_WaliKelas.setText(respRapor.WaliKelas);
+					tableFixHeaders.setVisibility(View.VISIBLE);
+					tableFixHeaders.setAdapter(new RaporMataPelajaranTableAdapter(getActivity(), respRapor.ListRaporMataPelajaran));
 					dialog.dismiss();
 				}
 				
