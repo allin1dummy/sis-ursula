@@ -20,7 +20,7 @@ public interface MobileServiceClient {
 	public void login(@Body DataUser user, Callback<ResponseUser> cb);
 	
 	@POST("/MobileService.svc/getNilaiRapor")
-	public void getNilaiRaport(@Body ReqGetNilaiRapor rapor, Callback<ResponseGetNilaiRapor> cb);
+	public void getNilaiRapor(@Body ReqGetNilaiRapor rapor, Callback<ResponseGetNilaiRapor> cb);
 
 	@POST("/EmailService.svc/resetPassword")
 	public void resetPassword(@Body Username user, Callback<ResponseUser> cb);

@@ -25,7 +25,7 @@ import com.cox.work.sis.ursula.adapter.NavDrawerListAdapter;
 import com.cox.work.sis.ursula.model.NavDrawerItem;
 import com.cox.work.sis.ursula.util.Util;
 
-public class MainActivity extends FragmentActivity {
+public class MainRaporActivity extends FragmentActivity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -46,25 +46,22 @@ public class MainActivity extends FragmentActivity {
 	private String userName, namaSiswa, mutasiId, email;
 	
 	// fragments
-	private HomeFragment home;
-	private UpdateProfileFragment updateProfile;
-	private ChangePasswordFragment changePassword;
 	private int latestSelectedTab = -1;
 	private NilaiRaporFragment nilaiRapor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_main_rapor);
 		
 		mTitle = mDrawerTitle = getTitle();
 
 		// load slide menu items
-		navMenuTitles = getResources().getStringArray(R.array.nav_drawer_harian_items);
+		navMenuTitles = getResources().getStringArray(R.array.nav_drawer_rapor_items);
 
 		// nav drawer icons from resources
 		navMenuIcons = getResources()
-				.obtainTypedArray(R.array.nav_drawer_harian_icons);
+				.obtainTypedArray(R.array.nav_drawer_rapor_icons);
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
@@ -73,9 +70,6 @@ public class MainActivity extends FragmentActivity {
 
 		// adding nav drawer items to array
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
@@ -221,45 +215,23 @@ public class MainActivity extends FragmentActivity {
 		b.putString(Util.Constant.EMAIL, email);
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
-		if(position != 3) { // don't add to StackBack if Logout
-			ft.addToBackStack(String.valueOf(position));
-		}
 		switch (position) {
-		case 0: // Main
-			if(home == null) {
-				home = new HomeFragment();
-				home.setArguments(b);
+		case 0: // Rapor
+			if(nilaiRapor == null) {
+				nilaiRapor = new NilaiRaporFragment();
+				nilaiRapor.setArguments(b);
 			}
-			ft.replace(R.id.frame_container, home).commit();
+			ft.replace(R.id.frame_container, nilaiRapor).commit();
 			break;
-		case 1: // Update Profile
-			if(updateProfile == null) {
-				updateProfile = new UpdateProfileFragment();
-				updateProfile.setArguments(b);
-			}
-			ft.replace(R.id.frame_container, updateProfile).commit();
-			break;
-		case 2: // Ubah Password
-			if(changePassword == null) {
-				changePassword = new ChangePasswordFragment();
-				changePassword.setArguments(b);
-			}
-			ft.replace(R.id.frame_container, changePassword).commit();
-			break;
-		case 3: // Logout
+		case 4: // Logout
 			doLogout();
 			break;
 		default:
 			break;
 		}
 
-		// update selected item and title, then close the drawer
-		if(position != 3) { // don't change title page if Logout
-			setTitle(navMenuTitles[position]);
-			latestSelectedTab = position;
-		} else {
-			position = latestSelectedTab;
-		}
+		setTitle(navMenuTitles[position]);
+		latestSelectedTab = position;
 		mDrawerList.setItemChecked(position, true);
 		mDrawerList.setSelection(position);
 		mDrawerLayout.closeDrawer(mDrawerList);
@@ -292,15 +264,6 @@ public class MainActivity extends FragmentActivity {
 	
 	@Override
 	public void onBackPressed() {
-		int totStackBack = getSupportFragmentManager().getBackStackEntryCount();
-		if(latestSelectedTab == 0 || totStackBack == 1) {
-			doLogout();
-		} else {
-			BackStackEntry bse = getSupportFragmentManager().getBackStackEntryAt(totStackBack - 2);
-			mDrawerList.setItemChecked(bse.getId(), true);
-			mDrawerList.setSelection(bse.getId());
-			setTitle(navMenuTitles[bse.getId()]);
-			super.onBackPressed();
-		}
+		doLogout();
 	}
 }
