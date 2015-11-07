@@ -10,6 +10,7 @@ import retrofit.client.Response;
 import com.cox.work.service.MobileServiceClient;
 import com.cox.work.service.MobileServiceGenerator;
 import com.cox.work.sis.ursula.adapter.RaporMataPelajaranTableAdapter;
+import com.cox.work.sis.ursula.adapter.RaporSikapTableAdapter;
 import com.cox.work.sis.ursula.model.DataNilaiTableAdapter;
 import com.cox.work.sis.ursula.model.json.AspekPenilaian;
 import com.cox.work.sis.ursula.model.json.ClassAndAspect;
@@ -40,8 +41,8 @@ import android.widget.TextView;
 
 public class NilaiRaporFragment extends Fragment implements OnItemSelectedListener{
 	private View rootView;
-	private TextView tv_NamaSiswa, tv_WaliKelas;
-	private TableFixHeaders tableFixHeaders;
+	private TextView tv_NamaSiswa, tv_WaliKelas, tv_raporMtPelajaran, tv_raporSikap;
+	private TableFixHeaders tableMataPelajaran, tableSikap;
 	private String namaSiswa;
 	private Spinner spClass;
 	private Spinner spSemester;
@@ -71,8 +72,14 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 		tv_NamaSiswa.setText("Nama: " + namaSiswa);
 		tv_WaliKelas = (TextView) rootView.findViewById(R.id.tv_wali);
 		
-		tableFixHeaders = (TableFixHeaders) rootView.findViewById(R.id.table);
-		tableFixHeaders.setVisibility(View.GONE);
+		tv_raporMtPelajaran = (TextView) rootView.findViewById(R.id.tv_raporMtPelajaran);
+		tv_raporMtPelajaran.setVisibility(View.GONE);
+		tableMataPelajaran = (TableFixHeaders) rootView.findViewById(R.id.tableMataPelajaran);
+		tableMataPelajaran.setVisibility(View.GONE);
+		tv_raporSikap = (TextView) rootView.findViewById(R.id.tv_raporSikap);
+		tv_raporSikap.setVisibility(View.GONE);
+		tableSikap = (TableFixHeaders) rootView.findViewById(R.id.tableSikap);
+		tableSikap.setVisibility(View.GONE);
 
 		spClass = (Spinner) rootView.findViewById(R.id.spin_class);
 		spSemester = (Spinner) rootView.findViewById(R.id.spin_semester);
@@ -115,8 +122,15 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 					Log.e("cox","getNilaiRapor success");
 					tv_WaliKelas.setVisibility(View.VISIBLE);
 					tv_WaliKelas.setText(respRapor.WaliKelas);
-					tableFixHeaders.setVisibility(View.VISIBLE);
-					tableFixHeaders.setAdapter(new RaporMataPelajaranTableAdapter(getActivity(), respRapor.ListRaporMataPelajaran));
+					
+					tv_raporMtPelajaran.setVisibility(View.VISIBLE);
+					tableMataPelajaran.setVisibility(View.VISIBLE);
+					tableMataPelajaran.setAdapter(new RaporMataPelajaranTableAdapter(getActivity(), respRapor.ListRaporMataPelajaran));
+
+					tv_raporSikap.setVisibility(View.VISIBLE);
+					tableSikap.setVisibility(View.VISIBLE);
+					tableSikap.setAdapter(new RaporSikapTableAdapter(getActivity(), respRapor.ListRaporSikap));
+					
 					dialog.dismiss();
 				}
 				

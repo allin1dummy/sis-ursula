@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cox.work.sis.ursula.R;
 import com.cox.work.sis.ursula.model.json.RaporMataPelajaran;
+import com.cox.work.sis.ursula.model.json.RaporSikap;
 import com.inqbarna.tablefixheaders.adapters.BaseTableAdapter;
 
 import android.content.Context;
@@ -14,17 +15,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class RaporMataPelajaranTableAdapter extends BaseTableAdapter {
+public class RaporSikapTableAdapter extends BaseTableAdapter {
 
 	private final int width;
 	private final int height;
-	private List<RaporMataPelajaran> listNilaiMtPelajaran;
+	private List<RaporSikap> listRaporSikap;
 	private Resources resources;
 	private final LayoutInflater inflater;
 	
 
-	public RaporMataPelajaranTableAdapter(Context context, List<RaporMataPelajaran> listRaporMataPelajaran) {
-		listNilaiMtPelajaran = listRaporMataPelajaran;
+	public RaporSikapTableAdapter(Context context, List<RaporSikap> list) {
+		listRaporSikap = list;
 		resources = context.getResources();
 		width = resources.getDimensionPixelSize(R.dimen.table_width);
 		height = resources.getDimensionPixelSize(R.dimen.table_height);
@@ -33,12 +34,12 @@ public class RaporMataPelajaranTableAdapter extends BaseTableAdapter {
 
 	@Override
 	public int getRowCount() {
-		return listNilaiMtPelajaran.size();
+		return listRaporSikap.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		return 2; // Mata Pelajaran | Nilai Angka | Nilai Huruf
+		return 3; // Kompetensi | Komp. Dasar | Komp. Inti | Nilai
 	}
 
 	@Override
@@ -97,21 +98,29 @@ public class RaporMataPelajaranTableAdapter extends BaseTableAdapter {
 	private void setNilaiRaporMataPelajaran(int row, int column, View v) {
 		TextView tv_mark = ((TextView) v.findViewById(android.R.id.text1));
 		
-		if(row == -1 && column == -1) { // HEADER MATA PELAJARAN
-			tv_mark.setText("Mata Pelajaran");
+		if(row == -1 && column == -1) { // HEADER Kompetensi
+			tv_mark.setText("Kompetensi");
 			tv_mark.setTextColor(Color.BLACK);
 		} else if(row == -1 && column > -1) { // HEADER NILAI ANGKA ATAU HURUF
-			tv_mark.setText(column == 1 ? "Nilai Angka" : "Nilai Huruf");
+			if(column == 1) {
+				tv_mark.setText("Kompetensi Dasar");
+			} else if(column == 2) {
+				tv_mark.setText("Kompetensi Inti");
+			} else if(column == 3) {
+				tv_mark.setText("Nilai");
+			}
 			tv_mark.setTextColor(Color.BLACK);
 		} else if(row > -1 && column == -1) { // NAMA MATA PELAJARAN
-			tv_mark.setText(listNilaiMtPelajaran.get(row).KelasMataPelajaran.MataPelajaran.Nama);
+			tv_mark.setText(String.valueOf(row));
 			tv_mark.setTextColor(Color.BLACK);
-		} else if(row > -1 && column == 1) { // NILAI ANGKA
-			tv_mark.setTextColor(Color.BLACK);
-			tv_mark.setText(listNilaiMtPelajaran.get(row) == null ? "" : String.valueOf(listNilaiMtPelajaran.get(row).KKMAngka));
-		} else if(row > -1 && column == 2) { // NILAI HURUF
-			tv_mark.setTextColor(Color.BLACK);
-			tv_mark.setText(listNilaiMtPelajaran.get(row) == null ? "" : listNilaiMtPelajaran.get(row).KKM);
+		} else if(row > -1 && column > -1) { //
+			if(column == 1) {
+				tv_mark.setText(listRaporSikap.get(row).KompentensiDasar.Keterangan);
+			} else if(column == 2) {
+				tv_mark.setText(listRaporSikap.get(row).KompentensiInti.Keterangan);
+			} else if(column == 3) {
+				tv_mark.setText(listRaporSikap.get(row).Nilai.Deskripsi);
+			}
 		}
 	}
 }

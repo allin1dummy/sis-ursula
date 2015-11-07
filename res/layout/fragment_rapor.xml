@@ -106,8 +106,30 @@
             android:text="Tampilkan Nilai Rapor"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/tv_raporSikap"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Nilai Sikap"
+            android:layout_margin="9dp"
+            android:textStyle="bold" />
+
         <com.inqbarna.tablefixheaders.TableFixHeaders
-            android:id="@+id/table"
+            android:id="@+id/tableSikap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="9dp" />
+
+        <TextView
+            android:id="@+id/tv_raporMtPelajaran"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Nilai Mata Pelajaran"
+            android:layout_margin="9dp"
+            android:textStyle="bold" />
+
+        <com.inqbarna.tablefixheaders.TableFixHeaders
+            android:id="@+id/tableMataPelajaran"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="9dp" />

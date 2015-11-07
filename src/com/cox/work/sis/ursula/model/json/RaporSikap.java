@@ -5,7 +5,7 @@ public class RaporSikap {
 	public Kompetensi KompentensiInti;
 	public Nilai Nilai;
 	
-	private class Kompetensi {
+	public class Kompetensi {
 		public BaseEntity BaseEntity;
 		public String Keterangan;
 		public String No;
@@ -14,15 +14,15 @@ public class RaporSikap {
 		public boolean Status;
 	}
 	
-	private class Nilai extends BaseEntity {
+	public class Nilai extends BaseEntity {
+		public String Deskripsi;
 		public NilaiHuruf NilaiHuruf;
 		public float RataRata;
 		public int Semester;
 		public boolean Status;
 	}
 	
-	private class NilaiHuruf extends BaseEntity {
-		public String Nama;
+	private class NilaiHuruf {
 		public int SortIndex;
 		public boolean Status;
 	}
