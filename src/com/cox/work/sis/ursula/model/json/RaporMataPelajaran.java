@@ -15,7 +15,7 @@ public class RaporMataPelajaran {
 		public boolean Status;
 	}
 	
-	public class NilaiHuruf extends BaseEntity {
+	public class NilaiHuruf {
 		public String Nama;
 		public int SortIndex;
 		public boolean Status;

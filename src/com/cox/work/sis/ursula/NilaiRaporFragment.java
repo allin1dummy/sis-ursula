@@ -9,6 +9,7 @@ import retrofit.client.Response;
 
 import com.cox.work.service.MobileServiceClient;
 import com.cox.work.service.MobileServiceGenerator;
+import com.cox.work.sis.ursula.adapter.RaporEkskulTableAdapter;
 import com.cox.work.sis.ursula.adapter.RaporMataPelajaranTableAdapter;
 import com.cox.work.sis.ursula.adapter.RaporSikapTableAdapter;
 import com.cox.work.sis.ursula.model.DataNilaiTableAdapter;
@@ -41,8 +42,8 @@ import android.widget.TextView;
 
 public class NilaiRaporFragment extends Fragment implements OnItemSelectedListener{
 	private View rootView;
-	private TextView tv_NamaSiswa, tv_WaliKelas, tv_raporMtPelajaran, tv_raporSikap;
-	private TableFixHeaders tableMataPelajaran, tableSikap;
+	private TextView tv_NamaSiswa, tv_WaliKelas, tv_raporMtPelajaran, tv_raporSikap, tv_raporEkskul;
+	private TableFixHeaders tableMataPelajaran, tableSikap, tableEkskul;
 	private String namaSiswa;
 	private Spinner spClass;
 	private Spinner spSemester;
@@ -80,6 +81,10 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 		tv_raporSikap.setVisibility(View.GONE);
 		tableSikap = (TableFixHeaders) rootView.findViewById(R.id.tableSikap);
 		tableSikap.setVisibility(View.GONE);
+		tv_raporEkskul = (TextView) rootView.findViewById(R.id.tv_raporEkskul);
+		tv_raporEkskul.setVisibility(View.GONE);
+		tableEkskul = (TableFixHeaders) rootView.findViewById(R.id.tableEkskul);
+		tableEkskul.setVisibility(View.GONE);
 
 		spClass = (Spinner) rootView.findViewById(R.id.spin_class);
 		spSemester = (Spinner) rootView.findViewById(R.id.spin_semester);
@@ -130,6 +135,10 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 					tv_raporSikap.setVisibility(View.VISIBLE);
 					tableSikap.setVisibility(View.VISIBLE);
 					tableSikap.setAdapter(new RaporSikapTableAdapter(getActivity(), respRapor.ListRaporSikap));
+
+					tv_raporEkskul.setVisibility(View.VISIBLE);
+					tableEkskul.setVisibility(View.VISIBLE);
+					tableEkskul.setAdapter(new RaporEkskulTableAdapter(getActivity(), respRapor.ListRaporEkstrakurikuler));
 					
 					dialog.dismiss();
 				}
