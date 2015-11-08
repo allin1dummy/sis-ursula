@@ -4,15 +4,20 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 import com.cox.work.service.MobileServiceClient;
@@ -20,7 +25,6 @@ import com.cox.work.service.MobileServiceGenerator;
 import com.cox.work.sis.ursula.model.json.ReqUserClassAspect;
 import com.cox.work.sis.ursula.model.json.ResponseGetProfile;
 import com.cox.work.sis.ursula.util.Util;
-import com.squareup.picasso.Picasso;
 
 public class ProfileDanPilihNilaiActivity extends Activity implements OnClickListener{
 	ImageView imgProfile;
@@ -38,6 +42,11 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 		btnHarian.setOnClickListener(this);
 		btnRapor = (Button) findViewById(R.id.btn_rapor);
 		btnRapor.setOnClickListener(this);
+
+		final ProgressDialog dialog = new ProgressDialog(this);
+		dialog.setMessage("Memuat profile siswa...");
+		dialog.setCancelable(false);
+		dialog.show();
 		
 		bundle = getIntent().getExtras();
 		tv_nama = (TextView) findViewById(R.id.tv_nama);
@@ -50,21 +59,21 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 		client.getProfileImg(profile, new Callback<ResponseGetProfile>() {
 			@Override
 			public void success(ResponseGetProfile respGetProfile, Response resp) {
+				byte[] byteArray = Base64.decode(respGetProfile.BukuIndukMurid.ImageString, Base64.DEFAULT);
+				Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+				imgProfile.setImageBitmap(bmp);
+				imgProfile.setScaleType(ScaleType.FIT_CENTER);
+				
+				dialog.dismiss();
 				Log.e("cox", "getProfileImg success");
 			}
 			
 			@Override
 			public void failure(RetrofitError error) {
+				dialog.dismiss();
 				Log.e("cox", "getProfileImg failure message = " + error.getMessage());
 			}
 		});
-	}
-	
-	@Override
-	public View onCreateView(String name, Context context, AttributeSet attrs) {
-		//Picasso.with(getApplicationContext()).load(uri);
-		
-		return super.onCreateView(name, context, attrs);
 	}
 	
 	@Override
