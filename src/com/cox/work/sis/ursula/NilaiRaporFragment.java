@@ -10,6 +10,7 @@ import retrofit.client.Response;
 import com.cox.work.service.MobileServiceClient;
 import com.cox.work.service.MobileServiceGenerator;
 import com.cox.work.sis.ursula.adapter.RaporEkskulTableAdapter;
+import com.cox.work.sis.ursula.adapter.RaporKehadiranTableAdapter;
 import com.cox.work.sis.ursula.adapter.RaporMataPelajaranTableAdapter;
 import com.cox.work.sis.ursula.adapter.RaporSikapTableAdapter;
 import com.cox.work.sis.ursula.model.DataNilaiTableAdapter;
@@ -42,8 +43,10 @@ import android.widget.TextView;
 
 public class NilaiRaporFragment extends Fragment implements OnItemSelectedListener{
 	private View rootView;
-	private TextView tv_NamaSiswa, tv_WaliKelas, tv_raporMtPelajaran, tv_raporSikap, tv_raporEkskul;
-	private TableFixHeaders tableMataPelajaran, tableSikap, tableEkskul;
+	private TextView tv_NamaSiswa, tv_WaliKelas
+					, tv_raporMtPelajaran, tv_raporSikap, tv_raporEkskul, tv_raporKehadiran
+					, tv_raporSaranMid, tv_raporSaranMidDesc, tv_raporSaranAkhir, tv_raporSaranAkhirDesc;
+	private TableFixHeaders tableMataPelajaran, tableSikap, tableEkskul, tableKehadiran;
 	private String namaSiswa;
 	private Spinner spClass;
 	private Spinner spSemester;
@@ -70,7 +73,7 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 		mutasiId = getArguments().getString(Util.Constant.MUTASIID);
 
 		tv_NamaSiswa = (TextView) rootView.findViewById(R.id.tv_name);
-		tv_NamaSiswa.setText("Nama: " + namaSiswa);
+		tv_NamaSiswa.setText("Nama : " + namaSiswa);
 		tv_WaliKelas = (TextView) rootView.findViewById(R.id.tv_wali);
 		
 		tv_raporMtPelajaran = (TextView) rootView.findViewById(R.id.tv_raporMtPelajaran);
@@ -85,6 +88,18 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 		tv_raporEkskul.setVisibility(View.GONE);
 		tableEkskul = (TableFixHeaders) rootView.findViewById(R.id.tableEkskul);
 		tableEkskul.setVisibility(View.GONE);
+		tv_raporKehadiran = (TextView) rootView.findViewById(R.id.tv_raporKehadiran);
+		tv_raporKehadiran.setVisibility(View.GONE);
+		tableKehadiran = (TableFixHeaders) rootView.findViewById(R.id.tableKehadiran);
+		tableKehadiran.setVisibility(View.GONE);
+		tv_raporSaranMid = (TextView) rootView.findViewById(R.id.tv_raporSaranMid);
+		tv_raporSaranMid.setVisibility(View.GONE);
+		tv_raporSaranMidDesc = (TextView) rootView.findViewById(R.id.tv_raporSaranMidDesc);
+		tv_raporKehadiran.setVisibility(View.GONE);
+		tv_raporSaranAkhir = (TextView) rootView.findViewById(R.id.tv_raporSaranAkhir);
+		tv_raporSaranAkhir.setVisibility(View.GONE);
+		tv_raporSaranAkhirDesc = (TextView) rootView.findViewById(R.id.tv_raporSaranAkhirDesc);
+		tv_raporSaranAkhirDesc.setVisibility(View.GONE);
 
 		spClass = (Spinner) rootView.findViewById(R.id.spin_class);
 		spSemester = (Spinner) rootView.findViewById(R.id.spin_semester);
@@ -126,7 +141,7 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 				public void success(ResponseGetNilaiRapor respRapor, Response resp) {
 					Log.e("cox","getNilaiRapor success");
 					tv_WaliKelas.setVisibility(View.VISIBLE);
-					tv_WaliKelas.setText(respRapor.WaliKelas);
+					tv_WaliKelas.setText("Wali Kelas : " + respRapor.WaliKelas);
 					
 					tv_raporMtPelajaran.setVisibility(View.VISIBLE);
 					tableMataPelajaran.setVisibility(View.VISIBLE);
@@ -139,6 +154,20 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 					tv_raporEkskul.setVisibility(View.VISIBLE);
 					tableEkskul.setVisibility(View.VISIBLE);
 					tableEkskul.setAdapter(new RaporEkskulTableAdapter(getActivity(), respRapor.ListRaporEkstrakurikuler));
+
+					tv_raporKehadiran.setVisibility(View.VISIBLE);
+					tableKehadiran.setVisibility(View.VISIBLE);
+					tableKehadiran.setAdapter(new RaporKehadiranTableAdapter(getActivity(), respRapor.RaporPerkembangan.PerkembanganFisikKehadiranPrestasi.Kehadiran));
+					
+					tv_raporSaranMid.setVisibility(View.VISIBLE);
+					tv_raporSaranMidDesc.setVisibility(View.VISIBLE);
+					String saran = respRapor.RaporPerkembangan.PerkembanganFisikKehadiranPrestasi.Saran.SaranMid;
+					tv_raporSaranMidDesc.setText(saran.isEmpty() ? "-Tidak Ada-" : saran);
+
+					tv_raporSaranAkhir.setVisibility(View.VISIBLE);
+					tv_raporSaranAkhirDesc.setVisibility(View.VISIBLE);
+					saran = respRapor.RaporPerkembangan.PerkembanganFisikKehadiranPrestasi.Saran.SaranAkhir;
+					tv_raporSaranAkhirDesc.setText(saran.isEmpty() ? "-Tidak Ada-" : saran);
 					
 					dialog.dismiss();
 				}

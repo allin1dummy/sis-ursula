@@ -140,7 +140,7 @@
             android:id="@+id/tv_raporEkskul"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Nilai Mata Pelajaran"
+            android:text="Nilai Ektrakurikuler"
             android:paddingLeft="9dp"
             android:paddingRight="9dp"
             android:paddingTop="9dp"
@@ -151,6 +151,56 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="9dp" />
+
+        <TextView
+            android:id="@+id/tv_raporKehadiran"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Kehadiran"
+            android:paddingLeft="9dp"
+            android:paddingRight="9dp"
+            android:paddingTop="9dp"
+            android:textStyle="bold" />
+
+        <com.inqbarna.tablefixheaders.TableFixHeaders
+            android:id="@+id/tableKehadiran"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="9dp" />
+
+        <TextView
+            android:id="@+id/tv_raporSaranMid"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Saran [Mid]"
+            android:paddingLeft="9dp"
+            android:paddingRight="9dp"
+            android:paddingTop="9dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_raporSaranMidDesc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_raporSaranAkhir"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Saran [Akhir]"
+            android:paddingLeft="9dp"
+            android:paddingRight="9dp"
+            android:paddingTop="9dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_raporSaranAkhirDesc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </ScrollView>

@@ -4,7 +4,7 @@ public class RaporPerkembangan {
 	public String TahunPelajaranDisplay;
 	public PerkembanganFisikKehadiranPrestasi PerkembanganFisikKehadiranPrestasi;
 	
-	private class PerkembanganFisikKehadiranPrestasi {
+	public class PerkembanganFisikKehadiranPrestasi {
 		public BaseEntity BaseEntity;
 		public Kehadiran Kehadiran;
 		public PerkembanganFisik PerkembanganFisik;
@@ -15,7 +15,7 @@ public class RaporPerkembangan {
 		public boolean Status;
 	}
 	
-	private class Kehadiran {
+	public class Kehadiran {
 		public int Ijin;
 		public int Sakit;
 		public int TanpaKeterangan;
@@ -34,7 +34,7 @@ public class RaporPerkembangan {
 		public String Nama;
 	}
 	
-	private class Saran {
+	public class Saran {
 		public String SaranAkhir;
 		public String SaranMid;
 	}
