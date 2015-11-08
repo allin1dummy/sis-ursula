@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.cox.work.service.MobileServiceClient;
 import com.cox.work.service.MobileServiceGenerator;
-import com.cox.work.sis.ursula.model.json.ReqGetProfile;
+import com.cox.work.sis.ursula.model.json.ReqUserClassAspect;
 import com.cox.work.sis.ursula.model.json.ResponseGetProfile;
 import com.cox.work.sis.ursula.util.Util;
 import com.squareup.picasso.Picasso;
@@ -45,7 +45,7 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 		tv_noInduk = (TextView) findViewById(R.id.tv_no_induk);
 		tv_noInduk.setText("No Induk : " + bundle.getString(Util.Constant.NOINDUK));
 
-		ReqGetProfile profile = new ReqGetProfile(bundle.getString(Util.Constant.USERNAME), bundle.getString(Util.Constant.MUTASIID));
+		ReqUserClassAspect profile = new ReqUserClassAspect(bundle.getString(Util.Constant.USERNAME), bundle.getString(Util.Constant.MUTASIID));
 		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
 		client.getProfileImg(profile, new Callback<ResponseGetProfile>() {
 			@Override

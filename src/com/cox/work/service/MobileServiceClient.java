@@ -5,7 +5,6 @@ import com.cox.work.sis.ursula.model.json.ClassAndAspect;
 import com.cox.work.sis.ursula.model.json.DataUser;
 import com.cox.work.sis.ursula.model.json.ReqGetNilai;
 import com.cox.work.sis.ursula.model.json.ReqGetNilaiRapor;
-import com.cox.work.sis.ursula.model.json.ReqGetProfile;
 import com.cox.work.sis.ursula.model.json.ReqUserClassAspect;
 import com.cox.work.sis.ursula.model.json.ResponseGetNilai;
 import com.cox.work.sis.ursula.model.json.ResponseGetNilaiRapor;
@@ -39,6 +38,6 @@ public interface MobileServiceClient {
 	@POST("/MobileService.svc/getNilai")
 	public void getNilai(@Body ReqGetNilai user, Callback<ResponseGetNilai> callback);
 	
-	@POST("/Mobile/MobileService.svc/getProfile")
-	public void getProfileImg(@Body ReqGetProfile profile, Callback<ResponseGetProfile> cb);
+	@POST("/MobileService.svc/getProfile")
+	public void getProfileImg(@Body ReqUserClassAspect reqUserClassAspect, Callback<ResponseGetProfile> cb);
 }
