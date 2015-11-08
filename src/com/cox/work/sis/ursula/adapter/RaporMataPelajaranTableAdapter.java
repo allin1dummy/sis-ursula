@@ -97,21 +97,23 @@ public class RaporMataPelajaranTableAdapter extends BaseTableAdapter {
 	private void setNilaiRaporMataPelajaran(int row, int column, View v) {
 		TextView tv_mark = ((TextView) v.findViewById(android.R.id.text1));
 		
-		if(row == -1 && column == -1) { // HEADER MATA PELAJARAN
-			tv_mark.setText("Mata Pelajaran");
-			tv_mark.setTextColor(Color.BLACK);
-		} else if(row == -1 && column > -1) { // HEADER NILAI ANGKA ATAU HURUF
-			tv_mark.setText(column == 1 ? "Nilai Angka" : "Nilai Huruf");
-			tv_mark.setTextColor(Color.BLACK);
-		} else if(row > -1 && column == -1) { // NAMA MATA PELAJARAN
-			tv_mark.setText(listNilaiMtPelajaran.get(row).KelasMataPelajaran.MataPelajaran.Nama);
-			tv_mark.setTextColor(Color.BLACK);
-		} else if(row > -1 && column == 1) { // NILAI ANGKA
-			tv_mark.setTextColor(Color.BLACK);
-			tv_mark.setText(listNilaiMtPelajaran.get(row) == null ? "" : String.valueOf(listNilaiMtPelajaran.get(row).KKMAngka));
-		} else if(row > -1 && column == 2) { // NILAI HURUF
-			tv_mark.setTextColor(Color.BLACK);
-			tv_mark.setText(listNilaiMtPelajaran.get(row) == null ? "" : listNilaiMtPelajaran.get(row).KKM);
+		if(row == -1) { // HEADER : MATA PELAJARAN | NILAI ANGKA | NILAI HURUF
+			if(column == -1) {
+				tv_mark.setText("Mata Pelajaran");
+			} else if(column == 0) {
+				tv_mark.setText("Nilai Angka");
+			} else if(column == 1) {
+				tv_mark.setText("Nilai Huruf");
+			}
+		} else if(row > -1) { // VALUE
+			if(column == -1) {
+				tv_mark.setText(listNilaiMtPelajaran.get(row).KelasMataPelajaran.MataPelajaran.Nama);
+			} else if(column == 0) {
+				tv_mark.setText(listNilaiMtPelajaran.get(row) == null ? "" : String.valueOf(listNilaiMtPelajaran.get(row).KKMAngka));
+			} else if(column == 1) {
+				tv_mark.setText(listNilaiMtPelajaran.get(row) == null ? "" : listNilaiMtPelajaran.get(row).KKM);
+			}
 		}
+		tv_mark.setTextColor(Color.BLACK);
 	}
 }

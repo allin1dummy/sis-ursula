@@ -102,8 +102,10 @@ public class RaporEkskulTableAdapter extends BaseTableAdapter {
 		if(row == -1 && column == -1) { // HEADER Nama Ekskul
 			tv_mark.setText("Nama Ekskul");
 			tv_mark.setTextColor(Color.BLACK);
-		} else if(row == -1 && column > -1) { // HEADER NILAI HURUF
+		} else if(row == -1 && column > -1) { // HEADER Nilai Angka dan Huruf
 			if(column == 0) {
+				tv_mark.setText("Nilai Angka");
+			} else if(column == 1) {
 				tv_mark.setText("Nilai Huruf");
 			}
 			tv_mark.setTextColor(Color.BLACK);
@@ -112,6 +114,8 @@ public class RaporEkskulTableAdapter extends BaseTableAdapter {
 			tv_mark.setTextColor(Color.BLACK);
 		} else if(row > -1 && column > -1) { // NILAI Ekskul
 			if(column == 0) {
+				tv_mark.setText(String.valueOf(listRaporEkskul.get(row).NilaiEkstrakurikuler.RataRata));
+			} else if(column == 1) {
 				tv_mark.setText(String.valueOf(listRaporEkskul.get(row).NilaiEkstrakurikuler.NilaiHuruf.Nama));
 			}
 		}

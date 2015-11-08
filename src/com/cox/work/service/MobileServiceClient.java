@@ -5,9 +5,11 @@ import com.cox.work.sis.ursula.model.json.ClassAndAspect;
 import com.cox.work.sis.ursula.model.json.DataUser;
 import com.cox.work.sis.ursula.model.json.ReqGetNilai;
 import com.cox.work.sis.ursula.model.json.ReqGetNilaiRapor;
+import com.cox.work.sis.ursula.model.json.ReqGetProfile;
 import com.cox.work.sis.ursula.model.json.ReqUserClassAspect;
 import com.cox.work.sis.ursula.model.json.ResponseGetNilai;
 import com.cox.work.sis.ursula.model.json.ResponseGetNilaiRapor;
+import com.cox.work.sis.ursula.model.json.ResponseGetProfile;
 import com.cox.work.sis.ursula.model.json.ResponseUser;
 import com.cox.work.sis.ursula.model.json.UserUpdateProfileEmailPwd;
 
@@ -36,4 +38,7 @@ public interface MobileServiceClient {
 	
 	@POST("/MobileService.svc/getNilai")
 	public void getNilai(@Body ReqGetNilai user, Callback<ResponseGetNilai> callback);
+	
+	@POST("/Mobile/MobileService.svc/getProfile")
+	public void getProfileImg(@Body ReqGetProfile profile, Callback<ResponseGetProfile> cb);
 }

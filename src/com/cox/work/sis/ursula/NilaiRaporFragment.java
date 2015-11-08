@@ -167,7 +167,7 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 					tv_raporSaranAkhir.setVisibility(View.VISIBLE);
 					tv_raporSaranAkhirDesc.setVisibility(View.VISIBLE);
 					saran = respRapor.RaporPerkembangan.PerkembanganFisikKehadiranPrestasi.Saran.SaranAkhir;
-					tv_raporSaranAkhirDesc.setText(saran.isEmpty() ? "-Tidak Ada-" : saran);
+					tv_raporSaranAkhirDesc.setText(saran.isEmpty() ? "- Tidak Ada-" : saran);
 					
 					dialog.dismiss();
 				}
