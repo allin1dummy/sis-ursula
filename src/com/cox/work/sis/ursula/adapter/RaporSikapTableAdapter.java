@@ -99,8 +99,7 @@ public class RaporSikapTableAdapter extends BaseTableAdapter {
 		TextView tv_mark = ((TextView) v.findViewById(android.R.id.text1));
 		
 		if(row == -1 && column == -1) { // HEADER Kompetensi
-			tv_mark.setText("Kompetensi");
-			tv_mark.setTextColor(Color.BLACK);
+			tv_mark.setText("No.");
 		} else if(row == -1 && column > -1) { // HEADER jenis kompetensi
 			if(column == 0) {
 				tv_mark.setText("Kompetensi Dasar");
@@ -109,10 +108,8 @@ public class RaporSikapTableAdapter extends BaseTableAdapter {
 			} else if(column == 2) {
 				tv_mark.setText("Nilai");
 			}
-			tv_mark.setTextColor(Color.BLACK);
 		} else if(row > -1 && column == -1) { // NAMA MATA PELAJARAN
-			tv_mark.setText(String.valueOf(row));
-			tv_mark.setTextColor(Color.BLACK);
+			tv_mark.setText(String.valueOf(row + 1));
 		} else if(row > -1 && column > -1) { //
 			if(column == 0) {
 				tv_mark.setText(listRaporSikap.get(row).KompentensiDasar.Keterangan);
@@ -122,5 +119,6 @@ public class RaporSikapTableAdapter extends BaseTableAdapter {
 				tv_mark.setText(listRaporSikap.get(row).Nilai.Deskripsi);
 			}
 		}
+		tv_mark.setTextColor(Color.BLACK);
 	}
 }
