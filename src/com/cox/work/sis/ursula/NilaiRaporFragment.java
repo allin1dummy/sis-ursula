@@ -13,15 +13,12 @@ import com.cox.work.sis.ursula.adapter.RaporEkskulTableAdapter;
 import com.cox.work.sis.ursula.adapter.RaporKehadiranTableAdapter;
 import com.cox.work.sis.ursula.adapter.RaporMataPelajaranTableAdapter;
 import com.cox.work.sis.ursula.adapter.RaporSikapTableAdapter;
-import com.cox.work.sis.ursula.model.DataNilaiTableAdapter;
-import com.cox.work.sis.ursula.model.json.AspekPenilaian;
 import com.cox.work.sis.ursula.model.json.ClassAndAspect;
-import com.cox.work.sis.ursula.model.json.JenisNilai;
 import com.cox.work.sis.ursula.model.json.MuridKelas;
-import com.cox.work.sis.ursula.model.json.ReqGetNilai;
+import com.cox.work.sis.ursula.model.json.RaporPerkembangan;
+import com.cox.work.sis.ursula.model.json.RaporPerkembangan.PerkembanganFisikKehadiranPrestasi;
 import com.cox.work.sis.ursula.model.json.ReqGetNilaiRapor;
 import com.cox.work.sis.ursula.model.json.ReqUserClassAspect;
-import com.cox.work.sis.ursula.model.json.ResponseGetNilai;
 import com.cox.work.sis.ursula.model.json.ResponseGetNilaiRapor;
 import com.cox.work.sis.ursula.util.Util;
 import com.inqbarna.tablefixheaders.TableFixHeaders;
@@ -143,31 +140,47 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 					tv_WaliKelas.setVisibility(View.VISIBLE);
 					tv_WaliKelas.setText("Wali Kelas : " + respRapor.WaliKelas);
 					
-					tv_raporMtPelajaran.setVisibility(View.VISIBLE);
-					tableMataPelajaran.setVisibility(View.VISIBLE);
-					tableMataPelajaran.setAdapter(new RaporMataPelajaranTableAdapter(getActivity(), respRapor.ListRaporMataPelajaran));
-
-					tv_raporSikap.setVisibility(View.VISIBLE);
-					tableSikap.setVisibility(View.VISIBLE);
-					tableSikap.setAdapter(new RaporSikapTableAdapter(getActivity(), respRapor.ListRaporSikap));
-
-					tv_raporEkskul.setVisibility(View.VISIBLE);
-					tableEkskul.setVisibility(View.VISIBLE);
-					tableEkskul.setAdapter(new RaporEkskulTableAdapter(getActivity(), respRapor.ListRaporEkstrakurikuler));
-
-					tv_raporKehadiran.setVisibility(View.VISIBLE);
-					tableKehadiran.setVisibility(View.VISIBLE);
-					tableKehadiran.setAdapter(new RaporKehadiranTableAdapter(getActivity(), respRapor.RaporPerkembangan.PerkembanganFisikKehadiranPrestasi.Kehadiran));
+					if(respRapor.ListRaporMataPelajaran != null) {
+						tv_raporMtPelajaran.setVisibility(View.VISIBLE);
+						tableMataPelajaran.setVisibility(View.VISIBLE);
+						tableMataPelajaran.setAdapter(new RaporMataPelajaranTableAdapter(getActivity(), respRapor.ListRaporMataPelajaran));
+					}
 					
-					tv_raporSaranMid.setVisibility(View.VISIBLE);
-					tv_raporSaranMidDesc.setVisibility(View.VISIBLE);
-					String saran = respRapor.RaporPerkembangan.PerkembanganFisikKehadiranPrestasi.Saran.SaranMid;
-					tv_raporSaranMidDesc.setText(saran.isEmpty() ? "-Tidak Ada-" : saran);
-
-					tv_raporSaranAkhir.setVisibility(View.VISIBLE);
-					tv_raporSaranAkhirDesc.setVisibility(View.VISIBLE);
-					saran = respRapor.RaporPerkembangan.PerkembanganFisikKehadiranPrestasi.Saran.SaranAkhir;
-					tv_raporSaranAkhirDesc.setText(saran.isEmpty() ? "- Tidak Ada-" : saran);
+					if(respRapor.ListRaporSikap != null) {
+						tv_raporSikap.setVisibility(View.VISIBLE);
+						tableSikap.setVisibility(View.VISIBLE);
+						tableSikap.setAdapter(new RaporSikapTableAdapter(getActivity(), respRapor.ListRaporSikap));
+					}
+					
+					if(respRapor.ListRaporEkstrakurikuler != null) {
+						tv_raporEkskul.setVisibility(View.VISIBLE);
+						tableEkskul.setVisibility(View.VISIBLE);
+						tableEkskul.setAdapter(new RaporEkskulTableAdapter(getActivity(), respRapor.ListRaporEkstrakurikuler));
+					}
+					
+					RaporPerkembangan perkembangan = respRapor.RaporPerkembangan;
+					if(perkembangan != null && perkembangan.PerkembanganFisikKehadiranPrestasi != null) {
+						PerkembanganFisikKehadiranPrestasi fisikKehadiran = perkembangan.PerkembanganFisikKehadiranPrestasi;
+						if(fisikKehadiran != null && fisikKehadiran.Kehadiran != null) {
+							tv_raporKehadiran.setVisibility(View.VISIBLE);
+							tableKehadiran.setVisibility(View.VISIBLE);
+							tableKehadiran.setAdapter(new RaporKehadiranTableAdapter(getActivity(), fisikKehadiran.Kehadiran));
+						}
+						
+						String saran = "";
+						if(fisikKehadiran != null && fisikKehadiran.Saran != null) {
+							tv_raporSaranMid.setVisibility(View.VISIBLE);
+							tv_raporSaranMidDesc.setVisibility(View.VISIBLE);
+							saran = fisikKehadiran.Saran.SaranMid;
+							tv_raporSaranMidDesc.setText(saran == null || saran.isEmpty() ? "-Tidak Ada-" : saran);
+						}
+						if(fisikKehadiran != null && fisikKehadiran.Saran != null) {
+							tv_raporSaranAkhir.setVisibility(View.VISIBLE);
+							tv_raporSaranAkhirDesc.setVisibility(View.VISIBLE);
+							saran = fisikKehadiran.Saran.SaranAkhir;
+							tv_raporSaranAkhirDesc.setText(saran.isEmpty() ? "- Tidak Ada-" : saran);
+						}
+					}
 					
 					dialog.dismiss();
 				}
