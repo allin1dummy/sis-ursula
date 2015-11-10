@@ -274,6 +274,7 @@ public class MainActivity extends FragmentActivity {
 		int totStackBack = getSupportFragmentManager().getBackStackEntryCount();
 		if(latestSelectedTab == 0 || totStackBack == 1) {
 			//doLogout();
+			finish();
 		} else {
 			BackStackEntry bse = getSupportFragmentManager().getBackStackEntryAt(totStackBack - 2);
 			mDrawerList.setItemChecked(bse.getId(), true);
