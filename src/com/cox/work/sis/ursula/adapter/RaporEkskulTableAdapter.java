@@ -3,6 +3,7 @@ package com.cox.work.sis.ursula.adapter;
 import java.util.List;
 
 import com.cox.work.sis.ursula.R;
+import com.cox.work.sis.ursula.model.json.NilaiEkstrakurikuler.NilaiHuruf;
 import com.cox.work.sis.ursula.model.json.RaporEkstrakurikuler;
 import com.cox.work.sis.ursula.model.json.RaporMataPelajaran;
 import com.cox.work.sis.ursula.model.json.RaporSikap;
@@ -40,7 +41,7 @@ public class RaporEkskulTableAdapter extends BaseTableAdapter {
 
 	@Override
 	public int getColumnCount() {
-		return 1; // Nama Ekskul | Nilai
+		return 2; // Nama Ekskul | Nilai Angka | Nilai Huruf
 	}
 
 	@Override
@@ -99,25 +100,24 @@ public class RaporEkskulTableAdapter extends BaseTableAdapter {
 	private void setNilaiRaporMataPelajaran(int row, int column, View v) {
 		TextView tv_mark = ((TextView) v.findViewById(android.R.id.text1));
 		
-		if(row == -1 && column == -1) { // HEADER Nama Ekskul
-			tv_mark.setText("Nama Ekskul");
-			tv_mark.setTextColor(Color.BLACK);
-		} else if(row == -1 && column > -1) { // HEADER Nilai Angka dan Huruf
-			if(column == 0) {
+		if(row == -1) {
+			if(column == -1) { // HEADER Nama Ekskul
+				tv_mark.setText("Nama Ekskul");
+			} else if(column == 0) { // HEADER Nilai Angka
 				tv_mark.setText("Nilai Angka");
-			} else if(column == 1) {
+			} else if(column == 1) { // HEADER Nilai Huruf
 				tv_mark.setText("Nilai Huruf");
 			}
-			tv_mark.setTextColor(Color.BLACK);
-		} else if(row > -1 && column == -1) { // NAMA Ekskul
-			tv_mark.setText(String.valueOf(listRaporEkskul.get(row).KelasEkstrakurikuler.Ekstrakurikuler.Nama));
-			tv_mark.setTextColor(Color.BLACK);
-		} else if(row > -1 && column > -1) { // NILAI Ekskul
-			if(column == 0) {
+		} else {
+			if(column == -1) {
+				tv_mark.setText(String.valueOf(listRaporEkskul.get(row).KelasEkstrakurikuler.Ekstrakurikuler.Nama));
+			} else if(column == 0) {
 				tv_mark.setText(String.valueOf(listRaporEkskul.get(row).NilaiEkstrakurikuler.RataRata));
 			} else if(column == 1) {
-				tv_mark.setText(String.valueOf(listRaporEkskul.get(row).NilaiEkstrakurikuler.NilaiHuruf.Nama));
+				NilaiHuruf nilaiHuruf = listRaporEkskul.get(row).NilaiEkstrakurikuler.NilaiHuruf;
+				tv_mark.setText(String.valueOf(nilaiHuruf != null && nilaiHuruf.Nama != null && !nilaiHuruf.Nama .isEmpty() ? nilaiHuruf.Nama : "-"));
 			}
 		}
+		tv_mark.setTextColor(Color.BLACK);
 	}
 }
