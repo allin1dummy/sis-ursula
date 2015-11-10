@@ -62,10 +62,11 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 		client.getProfileImg(profile, new Callback<ResponseGetProfile>() {
 			@Override
 			public void success(ResponseGetProfile respGetProfile, Response resp) {
-				byte[] byteArray = Base64.decode(respGetProfile.BukuIndukMurid.ImageString, Base64.DEFAULT);
-				Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-				imgProfile.setImageBitmap(bmp);
-				imgProfile.setScaleType(ScaleType.FIT_CENTER);
+				if(respGetProfile.BukuIndukMurid.ImageString != null && !respGetProfile.BukuIndukMurid.ImageString.isEmpty()) {
+					byte[] byteArray = Base64.decode(respGetProfile.BukuIndukMurid.ImageString, Base64.DEFAULT);
+					Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+					imgProfile.setImageBitmap(bmp);
+				}
 				
 				tv_sisn.setText("NISN : " + respGetProfile.BukuIndukMurid.NISN);
 				tv_kelas.setText("Kelas : " + respGetProfile.BukuIndukMurid.MutasiMasuk.Tingkat.Deskripsi);
