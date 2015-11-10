@@ -29,7 +29,7 @@ import com.cox.work.sis.ursula.util.Util;
 public class ProfileDanPilihNilaiActivity extends Activity implements OnClickListener{
 	ImageView imgProfile;
 	Button btnHarian, btnRapor;
-	TextView tv_nama, tv_noInduk;
+	TextView tv_nama, tv_noInduk, tv_sisn, tv_kelas, tv_waliKelas;
 	Bundle bundle;
 
 	@Override
@@ -53,6 +53,9 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 		tv_nama.setText("Nama Siswa : " + bundle.getString(Util.Constant.NAMASISWA));
 		tv_noInduk = (TextView) findViewById(R.id.tv_no_induk);
 		tv_noInduk.setText("No Induk : " + bundle.getString(Util.Constant.NOINDUK));
+		tv_sisn = (TextView) findViewById(R.id.tv_sisn);
+		tv_kelas = (TextView) findViewById(R.id.tv_kelas);
+		tv_waliKelas = (TextView) findViewById(R.id.tv_wali_kelas);
 
 		ReqUserClassAspect profile = new ReqUserClassAspect(bundle.getString(Util.Constant.USERNAME), bundle.getString(Util.Constant.MUTASIID));
 		MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
@@ -63,6 +66,10 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 				Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 				imgProfile.setImageBitmap(bmp);
 				imgProfile.setScaleType(ScaleType.FIT_CENTER);
+				
+				tv_sisn.setText("NISN : " + respGetProfile.BukuIndukMurid.NISN);
+				tv_kelas.setText("Kelas : " + respGetProfile.BukuIndukMurid.MutasiMasuk.Tingkat.Deskripsi);
+				tv_waliKelas.setText("Wali Kelas : " + "??");
 				
 				dialog.dismiss();
 				Log.e("cox", "getProfileImg success");

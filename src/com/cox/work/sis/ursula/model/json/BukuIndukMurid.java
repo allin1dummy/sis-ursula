@@ -9,4 +9,12 @@ public class BukuIndukMurid {
 	public boolean Status;
 	public int TahunTamat;
 	public String TanggalLahir;
+	public String NISN;
+	public TempatLahir TempaLahir;
+
+
+	public class TempatLahir {
+		public BaseEntity BaseEntity;
+		public boolean Status;
+	}
 }

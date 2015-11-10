@@ -19,24 +19,48 @@
             android:layout_gravity="center"/>
         
         <TextView
-            android:id="@+id/tv_nama"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text="username"
-            android:textStyle="bold" />
-        
-        <TextView
             android:id="@+id/tv_no_induk"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:gravity="center"
-            android:text="email"
+            android:textStyle="bold" />
+        
+        <TextView
+            android:id="@+id/tv_nama"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:textStyle="bold" />
+        
+        <TextView
+            android:id="@+id/tv_kelas"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:textStyle="bold" />
+        
+        <TextView
+            android:id="@+id/tv_wali_kelas"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:textStyle="bold" />
+        
+        <TextView
+            android:id="@+id/tv_sisn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
             android:textStyle="bold" />
 
         <LinearLayout
