@@ -70,6 +70,7 @@ public class MainRaporActivity extends FragmentActivity {
 
 		// adding nav drawer items to array
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
@@ -166,27 +167,6 @@ public class MainRaporActivity extends FragmentActivity {
 //		}
 	}
 
-	private void doLogout() {
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle("Logout")
-				.setCancelable(true)
-				.setMessage("Apakah Anda yakin logout dari Applikasi?")
-				.setPositiveButton("Ya",new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) {
-						dialog.dismiss();
-						Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-						startActivity(i);
-						finish();
-					}
-				})
-				.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int arg1) {
-						dialog.dismiss();
-					}
-				})
-				.show();
-	}
-
 	/* *
 	 * Called when invalidateOptionsMenu() is triggered
 	 */
@@ -223,8 +203,8 @@ public class MainRaporActivity extends FragmentActivity {
 			}
 			ft.replace(R.id.frame_container, nilaiRapor).commit();
 			break;
-		case 4: // Logout
-			doLogout();
+		case 1: // Logout
+			Util.CommonDialog.doLogout(this);
 			break;
 		default:
 			break;
@@ -262,8 +242,4 @@ public class MainRaporActivity extends FragmentActivity {
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 	
-	@Override
-	public void onBackPressed() {
-		doLogout();
-	}
 }

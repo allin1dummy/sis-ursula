@@ -104,6 +104,10 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 		}
 
 		startActivity(i);
-		finish();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		Util.CommonDialog.doLogout(this);
 	}
 }

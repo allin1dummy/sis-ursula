@@ -6,9 +6,13 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.cox.work.sis.ursula.LoginActivity;
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 
 //import com.github.mikephil.charting.data.Entry;
 //import com.github.mikephil.charting.data.LineData;
@@ -175,6 +179,28 @@ public class Util {
 		        }
 			});
 			alertbox.show();
+		}
+		
+
+		public static final void doLogout(final Activity activity) {
+			AlertDialog.Builder alert = new AlertDialog.Builder(activity);
+			alert.setTitle("Logout")
+					.setCancelable(true)
+					.setMessage("Apakah Anda yakin logout dari Applikasi?")
+					.setPositiveButton("Ya",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.dismiss();
+							Intent i = new Intent(activity.getApplicationContext(), LoginActivity.class);
+							activity.startActivity(i);
+							activity.finish();
+						}
+					})
+					.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int arg1) {
+							dialog.dismiss();
+						}
+					})
+					.show();
 		}
 	}
 

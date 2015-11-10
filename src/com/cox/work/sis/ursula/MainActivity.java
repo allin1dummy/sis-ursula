@@ -172,27 +172,6 @@ public class MainActivity extends FragmentActivity {
 //		}
 	}
 
-	private void doLogout() {
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle("Logout")
-				.setCancelable(true)
-				.setMessage("Apakah Anda yakin logout dari Applikasi?")
-				.setPositiveButton("Ya",new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) {
-						dialog.dismiss();
-						Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-						startActivity(i);
-						finish();
-					}
-				})
-				.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int arg1) {
-						dialog.dismiss();
-					}
-				})
-				.show();
-	}
-
 	/* *
 	 * Called when invalidateOptionsMenu() is triggered
 	 */
@@ -247,7 +226,7 @@ public class MainActivity extends FragmentActivity {
 			ft.replace(R.id.frame_container, changePassword).commit();
 			break;
 		case 3: // Logout
-			doLogout();
+			Util.CommonDialog.doLogout(this);
 			break;
 		default:
 			break;
@@ -294,7 +273,7 @@ public class MainActivity extends FragmentActivity {
 	public void onBackPressed() {
 		int totStackBack = getSupportFragmentManager().getBackStackEntryCount();
 		if(latestSelectedTab == 0 || totStackBack == 1) {
-			doLogout();
+			//doLogout();
 		} else {
 			BackStackEntry bse = getSupportFragmentManager().getBackStackEntryAt(totStackBack - 2);
 			mDrawerList.setItemChecked(bse.getId(), true);
