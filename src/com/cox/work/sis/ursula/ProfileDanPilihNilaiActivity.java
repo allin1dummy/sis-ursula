@@ -104,6 +104,7 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 		}
 
 		startActivity(i);
+		finish();
 	}
 	
 	@Override
