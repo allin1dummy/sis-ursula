@@ -22,7 +22,7 @@ public class RaporSikap {
 		public boolean Status;
 	}
 	
-	private class NilaiHuruf {
+	public class NilaiHuruf {
 		public int SortIndex;
 		public boolean Status;
 	}

@@ -44,8 +44,9 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 	private LinearLayout ll_listNilaiRapor;
 	private TextView tv_NamaSiswa, tv_WaliKelas
 					, tv_raporMtPelajaran, tv_raporSikap, tv_raporEkskul, tv_raporKehadiran
-					, tv_raporSaranMid, tv_raporSaranMidDesc, tv_raporSaranAkhir, tv_raporSaranAkhirDesc;
-	private TableFixHeaders tableMataPelajaran, tableSikap, tableEkskul, tableKehadiran;
+					, tv_raporSaranMid, tv_raporSaranMidDesc, tv_raporSaranAkhir, tv_raporSaranAkhirDesc
+					, tv_raporSikapDasar, tv_raporSikapInti, tv_raporSikapNilai;
+	private TableFixHeaders tableMataPelajaran, tableEkskul, tableKehadiran;
 	private String namaSiswa;
 	private Spinner spClass;
 	private Spinner spSemester;
@@ -71,10 +72,14 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 		namaSiswa = getArguments().getString(Util.Constant.NAMASISWA);
 		mutasiId = getArguments().getString(Util.Constant.MUTASIID);
 
+		ll_listNilaiRapor = (LinearLayout) rootView.findViewById(R.id.list_nilai_rapor);
 		tv_NamaSiswa = (TextView) rootView.findViewById(R.id.tv_name);
 		tv_NamaSiswa.setText("Nama : " + namaSiswa);
 		tv_WaliKelas = (TextView) rootView.findViewById(R.id.tv_wali);
-		ll_listNilaiRapor = (LinearLayout) rootView.findViewById(R.id.list_nilai_rapor);
+		
+		tv_raporSikapDasar = (TextView) rootView.findViewById(R.id.tv_raporSikapDasar);
+		tv_raporSikapInti = (TextView) rootView.findViewById(R.id.tv_raporSikapInti);
+		tv_raporSikapNilai = (TextView) rootView.findViewById(R.id.tv_raporSikapNilai);
 		
 		tv_raporMtPelajaran = (TextView) rootView.findViewById(R.id.tv_raporMtPelajaran);
 		tv_raporMtPelajaran.setVisibility(View.GONE);
@@ -82,8 +87,6 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 		tableMataPelajaran.setVisibility(View.GONE);
 		tv_raporSikap = (TextView) rootView.findViewById(R.id.tv_raporSikap);
 		tv_raporSikap.setVisibility(View.GONE);
-		tableSikap = (TableFixHeaders) rootView.findViewById(R.id.tableSikap);
-		tableSikap.setVisibility(View.GONE);
 		tv_raporEkskul = (TextView) rootView.findViewById(R.id.tv_raporEkskul);
 		tv_raporEkskul.setVisibility(View.GONE);
 		tableEkskul = (TableFixHeaders) rootView.findViewById(R.id.tableEkskul);
@@ -153,16 +156,18 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 					tv_WaliKelas.setVisibility(View.VISIBLE);
 					tv_WaliKelas.setText("Wali Kelas : " + respRapor.WaliKelas);
 					
+					if(respRapor.ListRaporSikap != null) {
+						tv_raporSikapDasar.setText("- Kompetensi Dasar : " + respRapor.ListRaporSikap.get(0).KompentensiDasar.Keterangan);
+						tv_raporSikapInti.setText("- Kompetensi Inti : " + respRapor.ListRaporSikap.get(0).KompentensiInti.Keterangan);
+						tv_raporSikapNilai.setText("- Nilai : " + respRapor.ListRaporSikap.get(0).Nilai.Deskripsi);
+						
+						tv_raporSikap.setVisibility(View.VISIBLE);
+					}
+					
 					if(respRapor.ListRaporMataPelajaran != null) {
 						tv_raporMtPelajaran.setVisibility(View.VISIBLE);
 						tableMataPelajaran.setVisibility(View.VISIBLE);
 						tableMataPelajaran.setAdapter(new RaporMataPelajaranTableAdapter(getActivity(), respRapor.ListRaporMataPelajaran));
-					}
-					
-					if(respRapor.ListRaporSikap != null) {
-						tv_raporSikap.setVisibility(View.VISIBLE);
-						tableSikap.setVisibility(View.VISIBLE);
-						tableSikap.setAdapter(new RaporSikapTableAdapter(getActivity(), respRapor.ListRaporSikap));
 					}
 					
 					if(respRapor.ListRaporEkstrakurikuler != null) {
