@@ -35,11 +35,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 public class NilaiRaporFragment extends Fragment implements OnItemSelectedListener{
 	private View rootView;
+	private LinearLayout ll_listNilaiRapor;
 	private TextView tv_NamaSiswa, tv_WaliKelas
 					, tv_raporMtPelajaran, tv_raporSikap, tv_raporEkskul, tv_raporKehadiran
 					, tv_raporSaranMid, tv_raporSaranMidDesc, tv_raporSaranAkhir, tv_raporSaranAkhirDesc;
@@ -72,6 +74,7 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 		tv_NamaSiswa = (TextView) rootView.findViewById(R.id.tv_name);
 		tv_NamaSiswa.setText("Nama : " + namaSiswa);
 		tv_WaliKelas = (TextView) rootView.findViewById(R.id.tv_wali);
+		ll_listNilaiRapor = (LinearLayout) rootView.findViewById(R.id.list_nilai_rapor);
 		
 		tv_raporMtPelajaran = (TextView) rootView.findViewById(R.id.tv_raporMtPelajaran);
 		tv_raporMtPelajaran.setVisibility(View.GONE);
@@ -137,6 +140,16 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 				@Override
 				public void success(ResponseGetNilaiRapor respRapor, Response resp) {
 					Log.e("cox","getNilaiRapor success");
+					dialog.dismiss();
+					
+					if(respRapor.ListRaporMataPelajaran == null) {
+						ll_listNilaiRapor.setVisibility(View.GONE);
+						tv_WaliKelas.setVisibility(View.GONE);
+						Util.CommonDialog.show(getActivity(), "Nilai Rapor", "Nilai Rapor Tidak Tersedia.");
+						return;
+					}
+
+					ll_listNilaiRapor.setVisibility(View.VISIBLE);
 					tv_WaliKelas.setVisibility(View.VISIBLE);
 					tv_WaliKelas.setText("Wali Kelas : " + respRapor.WaliKelas);
 					
@@ -181,8 +194,6 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 							tv_raporSaranAkhirDesc.setText(saran.isEmpty() ? "- Tidak Ada-" : saran);
 						}
 					}
-					
-					dialog.dismiss();
 				}
 				
 			});
