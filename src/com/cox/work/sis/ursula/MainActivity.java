@@ -2,10 +2,7 @@ package com.cox.work.sis.ursula;
 
 import java.util.ArrayList;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -50,7 +47,6 @@ public class MainActivity extends FragmentActivity {
 	private UpdateProfileFragment updateProfile;
 	private ChangePasswordFragment changePassword;
 	private int latestSelectedTab = -1;
-	private NilaiRaporFragment nilaiRapor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

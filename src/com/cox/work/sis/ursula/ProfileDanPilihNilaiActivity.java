@@ -69,8 +69,8 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 				}
 				
 				tv_sisn.setText("NISN : " + respGetProfile.BukuIndukMurid.NISN);
-				tv_kelas.setText("Kelas : " + respGetProfile.BukuIndukMurid.MutasiMasuk.Tingkat.Deskripsi);
-				tv_waliKelas.setText("Wali Kelas : " + "??");
+				tv_kelas.setText("Kelas : " + respGetProfile.MuridKelas.KelasDisplayMember);
+				tv_waliKelas.setText("Wali Kelas : " + respGetProfile.WaliKelas);
 				
 				dialog.dismiss();
 				Log.e("cox", "getProfileImg success");

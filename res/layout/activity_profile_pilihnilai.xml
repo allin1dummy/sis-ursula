@@ -21,7 +21,7 @@
             android:layout_gravity="center"/>
         
         <TextView
-            android:id="@+id/tv_no_induk"
+            android:id="@+id/tv_nama"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -30,7 +30,7 @@
             android:textStyle="bold" />
         
         <TextView
-            android:id="@+id/tv_nama"
+            android:id="@+id/tv_no_induk"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"

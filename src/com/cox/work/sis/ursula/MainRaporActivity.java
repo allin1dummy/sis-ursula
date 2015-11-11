@@ -48,6 +48,8 @@ public class MainRaporActivity extends FragmentActivity {
 	// fragments
 	private int latestSelectedTab = -1;
 	private NilaiRaporFragment nilaiRapor;
+	private UpdateProfileFragment updateProfile;
+	private ChangePasswordFragment changePassword;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +59,11 @@ public class MainRaporActivity extends FragmentActivity {
 		mTitle = mDrawerTitle = getTitle();
 
 		// load slide menu items
-		navMenuTitles = getResources().getStringArray(R.array.nav_drawer_rapor_items);
+		navMenuTitles = getResources().getStringArray(R.array.nav_drawer_harian_items);
 
 		// nav drawer icons from resources
 		navMenuIcons = getResources()
-				.obtainTypedArray(R.array.nav_drawer_rapor_icons);
+				.obtainTypedArray(R.array.nav_drawer_harian_icons);
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
@@ -71,7 +73,9 @@ public class MainRaporActivity extends FragmentActivity {
 		// adding nav drawer items to array
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
+		
 		// Recycle the typed array
 		navMenuIcons.recycle();
 
@@ -195,6 +199,9 @@ public class MainRaporActivity extends FragmentActivity {
 		b.putString(Util.Constant.EMAIL, email);
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
+		if(position != 3) { // don't add to StackBack if Logout
+			ft.addToBackStack(String.valueOf(position));
+		}
 		switch (position) {
 		case 0: // Rapor
 			if(nilaiRapor == null) {
@@ -203,15 +210,34 @@ public class MainRaporActivity extends FragmentActivity {
 			}
 			ft.replace(R.id.frame_container, nilaiRapor).commit();
 			break;
-		case 1: // Logout
+		case 1: // Update Profile
+			if(updateProfile == null) {
+				updateProfile = new UpdateProfileFragment();
+				updateProfile.setArguments(b);
+			}
+			ft.replace(R.id.frame_container, updateProfile).commit();
+			break;
+		case 2: // Ubah Password
+			if(changePassword == null) {
+				changePassword = new ChangePasswordFragment();
+				changePassword.setArguments(b);
+			}
+			ft.replace(R.id.frame_container, changePassword).commit();
+			break;
+		case 3: // Logout
 			Util.CommonDialog.doLogout(this);
 			break;
 		default:
 			break;
 		}
 
-		setTitle(navMenuTitles[position]);
-		latestSelectedTab = position;
+		// update selected item and title, then close the drawer
+		if(position != 3) { // don't change title page if Logout
+			setTitle(navMenuTitles[position]);
+			latestSelectedTab = position;
+		} else {
+			position = latestSelectedTab;
+		}
 		mDrawerList.setItemChecked(position, true);
 		mDrawerList.setSelection(position);
 		mDrawerLayout.closeDrawer(mDrawerList);
@@ -241,5 +267,19 @@ public class MainRaporActivity extends FragmentActivity {
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
-	
+
+	@Override
+	public void onBackPressed() {
+		int totStackBack = getSupportFragmentManager().getBackStackEntryCount();
+		if(latestSelectedTab == 0 || totStackBack == 1) {
+			//doLogout();
+			finish();
+		} else {
+			BackStackEntry bse = getSupportFragmentManager().getBackStackEntryAt(totStackBack - 2);
+			mDrawerList.setItemChecked(bse.getId(), true);
+			mDrawerList.setSelection(bse.getId());
+			setTitle(navMenuTitles[bse.getId()]);
+			super.onBackPressed();
+		}
+	}
 }
