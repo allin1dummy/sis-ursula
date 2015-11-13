@@ -44,6 +44,7 @@ public class MainActivity extends FragmentActivity {
 	
 	// fragments
 	private HomeFragment home;
+	private NilaiRaporFragment nilaiRapor;
 	private UpdateProfileFragment updateProfile;
 	private ChangePasswordFragment changePassword;
 	private int latestSelectedTab = -1;
@@ -72,6 +73,7 @@ public class MainActivity extends FragmentActivity {
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
@@ -196,7 +198,7 @@ public class MainActivity extends FragmentActivity {
 		b.putString(Util.Constant.EMAIL, email);
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
-		if(position != 3) { // don't add to StackBack if Logout
+		if(position != 4) { // don't add to StackBack if Logout
 			ft.addToBackStack(String.valueOf(position));
 		}
 		switch (position) {
@@ -207,21 +209,28 @@ public class MainActivity extends FragmentActivity {
 			}
 			ft.replace(R.id.frame_container, home).commit();
 			break;
-		case 1: // Update Profile
+		case 1: // Main
+			if(nilaiRapor == null) {
+				nilaiRapor = new NilaiRaporFragment();
+				nilaiRapor.setArguments(b);
+			}
+			ft.replace(R.id.frame_container, nilaiRapor).commit();
+			break;
+		case 2: // Update Profile
 			if(updateProfile == null) {
 				updateProfile = new UpdateProfileFragment();
 				updateProfile.setArguments(b);
 			}
 			ft.replace(R.id.frame_container, updateProfile).commit();
 			break;
-		case 2: // Ubah Password
+		case 3: // Ubah Password
 			if(changePassword == null) {
 				changePassword = new ChangePasswordFragment();
 				changePassword.setArguments(b);
 			}
 			ft.replace(R.id.frame_container, changePassword).commit();
 			break;
-		case 3: // Logout
+		case 4: // Logout
 			Util.CommonDialog.doLogout(this);
 			break;
 		default:
@@ -229,7 +238,7 @@ public class MainActivity extends FragmentActivity {
 		}
 
 		// update selected item and title, then close the drawer
-		if(position != 3) { // don't change title page if Logout
+		if(position != 4) { // don't change title page if Logout
 			setTitle(navMenuTitles[position]);
 			latestSelectedTab = position;
 		} else {
@@ -267,16 +276,6 @@ public class MainActivity extends FragmentActivity {
 	
 	@Override
 	public void onBackPressed() {
-		int totStackBack = getSupportFragmentManager().getBackStackEntryCount();
-		if(latestSelectedTab == 0 || totStackBack == 1) {
-			//doLogout();
-			finish();
-		} else {
-			BackStackEntry bse = getSupportFragmentManager().getBackStackEntryAt(totStackBack - 2);
-			mDrawerList.setItemChecked(bse.getId(), true);
-			mDrawerList.setSelection(bse.getId());
-			setTitle(navMenuTitles[bse.getId()]);
-			super.onBackPressed();
-		}
+		Util.CommonDialog.doLogout(this);
 	}
 }

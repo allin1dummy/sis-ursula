@@ -28,7 +28,8 @@
     
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_harian_items">
-        <item >Home</item>
+        <item >Nilai Harian</item>
+        <item >Nilai Rapor</item>
         <item >Update Profile</item>
         <item >Ubah Password</item>
         <item >Logout</item>
@@ -40,19 +41,26 @@
         <item>@drawable/ic_people</item>
         <item>@drawable/ic_photos</item>
         <item>@drawable/ic_communities</item>
+        <item>@drawable/ic_pages</item>
     </array>
     
     
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_rapor_items">
         <item >Nilai Rapor</item>
+        <item >Nilai Harian</item>
+        <item >Update Profile</item>
+        <item >Ubah Password</item>
         <item >Logout</item>
     </string-array>
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_rapor_icons">
-        <item>@drawable/ic_pages</item>
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_people</item>
+        <item>@drawable/ic_photos</item>
         <item>@drawable/ic_communities</item>
+        <item>@drawable/ic_pages</item>
     </array>
     
     <!-- Content Description -->
