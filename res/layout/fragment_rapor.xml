@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:expandable="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-
+    android:layout_height="fill_parent"
+    android:background="#FF008000">
+    
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#FFFFFF"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -21,6 +22,7 @@
                 android:id="@+id/tv_name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:textStyle="bold" >
             </TextView>
 
@@ -28,6 +30,7 @@
                 android:id="@+id/tv_wali"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:visibility="gone" >
             </TextView>
@@ -69,12 +72,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:text="Kelas:"
+                        android:textColor="@android:color/white"
                         android:textStyle="bold" />
 
                     <Spinner
                         android:id="@+id/spin_class"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
                         android:textStyle="bold" />
 
                     <TextView
@@ -82,6 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+                        android:textColor="@android:color/white"
                         android:text="Semester:"
                         android:textStyle="bold" />
 
@@ -89,6 +95,7 @@
                         android:id="@+id/spin_semester"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
@@ -99,7 +106,7 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/table_height"
             android:layout_margin="9dp"
-            android:background="@drawable/selector_button"
+		    android:background="@drawable/button_rounded_bg_white3"
             android:enabled="true"
             android:text="Tampilkan Nilai Rapor"
             android:textStyle="bold" />
@@ -110,160 +117,61 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:orientation="vertical">
-            
-	        <LinearLayout
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	        	android:background="@drawable/button_rounded_bg_white2"
-	        	android:layout_margin="9dp"
-	            android:orientation="vertical">
-		        <TextView
-		            android:id="@+id/tv_raporSikap"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:text="Nilai Sikap"
-		            android:paddingLeft="9dp"
-		            android:paddingRight="9dp"
-		            android:paddingTop="9dp"
-		            android:textStyle="bold" />
+        
+			<com.andexert.expandablelayout.library.ExpandableLayout
+				android:id="@+id/el_rapor_sikap"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="9dp"
+				expandable:el_headerLayout="@layout/view_header_sikap"
+				expandable:el_contentLayout="@layout/view_content_sikap"
+	            android:background="@color/ursula_dark_green"/>
+        
+			<com.andexert.expandablelayout.library.ExpandableLayout
+				android:id="@+id/el_rapor_MtPelajaran"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="9dp"
+				expandable:el_headerLayout="@layout/view_header_mtpelajaran"
+				expandable:el_contentLayout="@layout/view_content_mtpelajaran"
+	            android:background="@color/ursula_dark_green"/>
+        
+			<com.andexert.expandablelayout.library.ExpandableLayout
+				android:id="@+id/el_rapor_ekskul"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="9dp"
+				expandable:el_headerLayout="@layout/view_header_ekskul"
+				expandable:el_contentLayout="@layout/view_content_ekskul"
+	            android:background="@color/ursula_dark_green"/>
+        
+			<com.andexert.expandablelayout.library.ExpandableLayout
+				android:id="@+id/el_rapor_kehadiran"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="9dp"
+				expandable:el_headerLayout="@layout/view_header_kehadiran"
+				expandable:el_contentLayout="@layout/view_content_kehadiran"
+	            android:background="@color/ursula_dark_green"/>
+        
+			<com.andexert.expandablelayout.library.ExpandableLayout
+				android:id="@+id/el_rapor_saran_mid"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="9dp"
+				expandable:el_headerLayout="@layout/view_header_saran_mid"
+				expandable:el_contentLayout="@layout/view_content_saran_mid"
+	            android:background="@color/ursula_dark_green"/>
+        
+			<com.andexert.expandablelayout.library.ExpandableLayout
+				android:id="@+id/el_rapor_saran_akhir"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="9dp"
+				expandable:el_headerLayout="@layout/view_header_saran_akhir"
+				expandable:el_contentLayout="@layout/view_content_saran_akhir"
+	            android:background="@color/ursula_dark_green"/>
 		
-		        <TextView
-		            android:id="@+id/tv_raporSikapDasar"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:paddingLeft="9dp"
-		            android:paddingRight="9dp"
-		            android:paddingTop="9dp"
-		            android:textStyle="bold" />
-		
-		        <TextView
-		            android:id="@+id/tv_raporSikapInti"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:paddingLeft="9dp"
-		            android:paddingRight="9dp"
-		            android:paddingTop="9dp"
-		            android:textStyle="bold" />
-		
-		        <TextView
-		            android:id="@+id/tv_raporSikapNilai"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:padding="9dp"
-		            android:textStyle="bold" />
-			</LinearLayout>
-	            
-	        <LinearLayout
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	        	android:background="@drawable/button_rounded_bg_white2"
-	        	android:layout_margin="9dp"
-	            android:orientation="vertical">
-		        <TextView
-		            android:id="@+id/tv_raporMtPelajaran"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:text="Nilai Mata Pelajaran"
-		            android:paddingLeft="9dp"
-		            android:paddingRight="9dp"
-		            android:paddingTop="9dp"
-		            android:textStyle="bold" />
-		
-		        <com.inqbarna.tablefixheaders.TableFixHeaders
-		            android:id="@+id/tableMataPelajaran"
-		            android:layout_width="match_parent"
-		            android:layout_height="match_parent"
-		            android:layout_margin="9dp" />
-			</LinearLayout>
-	
-	        <LinearLayout
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	        	android:background="@drawable/button_rounded_bg_white2"
-	        	android:layout_margin="9dp"
-	            android:orientation="vertical">
-		        <TextView
-		            android:id="@+id/tv_raporEkskul"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:text="Nilai Ektrakurikuler"
-		            android:paddingLeft="9dp"
-		            android:paddingRight="9dp"
-		            android:paddingTop="9dp"
-		            android:textStyle="bold" />
-		
-		        <com.inqbarna.tablefixheaders.TableFixHeaders
-		            android:id="@+id/tableEkskul"
-		            android:layout_width="match_parent"
-		            android:layout_height="match_parent"
-		            android:layout_margin="9dp" />
-			</LinearLayout>
-	
-	        
-	        <LinearLayout
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	        	android:background="@drawable/button_rounded_bg_white2"
-	        	android:layout_margin="9dp"
-	            android:orientation="vertical">
-		        <TextView
-		            android:id="@+id/tv_raporKehadiran"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:text="Kehadiran"
-		            android:paddingLeft="9dp"
-		            android:paddingRight="9dp"
-		            android:paddingTop="9dp"
-		            android:textStyle="bold" />
-		
-		        <com.inqbarna.tablefixheaders.TableFixHeaders
-		            android:id="@+id/tableKehadiran"
-		            android:layout_width="match_parent"
-		            android:layout_height="match_parent"
-		            android:layout_margin="9dp" />
-			</LinearLayout>
-	
-	        
-	        <LinearLayout
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	        	android:background="@drawable/button_rounded_bg_white2"
-	        	android:layout_margin="9dp"
-	            android:orientation="vertical">
-		        <TextView
-		            android:id="@+id/tv_raporSaranMid"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:text="Saran Mid Semester"
-		            android:paddingLeft="9dp"
-		            android:paddingRight="9dp"
-		            android:paddingTop="9dp"
-		            android:textStyle="bold" />
-		
-		        <TextView
-		            android:id="@+id/tv_raporSaranMidDesc"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_margin="9dp"
-		            android:textStyle="bold" />
-		
-		        <TextView
-		            android:id="@+id/tv_raporSaranAkhir"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:text="Saran Akhir Semester"
-		            android:paddingLeft="9dp"
-		            android:paddingRight="9dp"
-		            android:paddingTop="9dp"
-		            android:textStyle="bold" />
-		
-		        <TextView
-		            android:id="@+id/tv_raporSaranAkhirDesc"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_margin="9dp"
-		            android:textStyle="bold" />
-			</LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

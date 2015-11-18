@@ -12,7 +12,6 @@ import com.cox.work.service.MobileServiceGenerator;
 import com.cox.work.sis.ursula.adapter.RaporEkskulTableAdapter;
 import com.cox.work.sis.ursula.adapter.RaporKehadiranTableAdapter;
 import com.cox.work.sis.ursula.adapter.RaporMataPelajaranTableAdapter;
-import com.cox.work.sis.ursula.adapter.RaporSikapTableAdapter;
 import com.cox.work.sis.ursula.model.json.ClassAndAspect;
 import com.cox.work.sis.ursula.model.json.MuridKelas;
 import com.cox.work.sis.ursula.model.json.RaporPerkembangan;
@@ -43,8 +42,7 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 	private View rootView;
 	private LinearLayout ll_listNilaiRapor;
 	private TextView tv_NamaSiswa, tv_WaliKelas
-					, tv_raporMtPelajaran, tv_raporSikap, tv_raporEkskul, tv_raporKehadiran
-					, tv_raporSaranMid, tv_raporSaranMidDesc, tv_raporSaranAkhir, tv_raporSaranAkhirDesc
+					, tv_raporSaranMidDesc, tv_raporSaranAkhirDesc
 					, tv_raporSikapDasar, tv_raporSikapInti, tv_raporSikapNilai;
 	private TableFixHeaders tableMataPelajaran, tableEkskul, tableKehadiran;
 	private String namaSiswa;
@@ -81,26 +79,13 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 		tv_raporSikapInti = (TextView) rootView.findViewById(R.id.tv_raporSikapInti);
 		tv_raporSikapNilai = (TextView) rootView.findViewById(R.id.tv_raporSikapNilai);
 		
-		tv_raporMtPelajaran = (TextView) rootView.findViewById(R.id.tv_raporMtPelajaran);
-		tv_raporMtPelajaran.setVisibility(View.GONE);
 		tableMataPelajaran = (TableFixHeaders) rootView.findViewById(R.id.tableMataPelajaran);
 		tableMataPelajaran.setVisibility(View.GONE);
-		tv_raporSikap = (TextView) rootView.findViewById(R.id.tv_raporSikap);
-		tv_raporSikap.setVisibility(View.GONE);
-		tv_raporEkskul = (TextView) rootView.findViewById(R.id.tv_raporEkskul);
-		tv_raporEkskul.setVisibility(View.GONE);
 		tableEkskul = (TableFixHeaders) rootView.findViewById(R.id.tableEkskul);
 		tableEkskul.setVisibility(View.GONE);
-		tv_raporKehadiran = (TextView) rootView.findViewById(R.id.tv_raporKehadiran);
-		tv_raporKehadiran.setVisibility(View.GONE);
 		tableKehadiran = (TableFixHeaders) rootView.findViewById(R.id.tableKehadiran);
 		tableKehadiran.setVisibility(View.GONE);
-		tv_raporSaranMid = (TextView) rootView.findViewById(R.id.tv_raporSaranMid);
-		tv_raporSaranMid.setVisibility(View.GONE);
 		tv_raporSaranMidDesc = (TextView) rootView.findViewById(R.id.tv_raporSaranMidDesc);
-		tv_raporKehadiran.setVisibility(View.GONE);
-		tv_raporSaranAkhir = (TextView) rootView.findViewById(R.id.tv_raporSaranAkhir);
-		tv_raporSaranAkhir.setVisibility(View.GONE);
 		tv_raporSaranAkhirDesc = (TextView) rootView.findViewById(R.id.tv_raporSaranAkhirDesc);
 		tv_raporSaranAkhirDesc.setVisibility(View.GONE);
 
@@ -160,18 +145,14 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 						tv_raporSikapDasar.setText("- Kompetensi Dasar : " + respRapor.ListRaporSikap.get(0).KompentensiDasar.Keterangan);
 						tv_raporSikapInti.setText("- Kompetensi Inti : " + respRapor.ListRaporSikap.get(0).KompentensiInti.Keterangan);
 						tv_raporSikapNilai.setText("- Nilai : " + respRapor.ListRaporSikap.get(0).Nilai.Deskripsi);
-						
-						tv_raporSikap.setVisibility(View.VISIBLE);
 					}
 					
 					if(respRapor.ListRaporMataPelajaran != null) {
-						tv_raporMtPelajaran.setVisibility(View.VISIBLE);
 						tableMataPelajaran.setVisibility(View.VISIBLE);
 						tableMataPelajaran.setAdapter(new RaporMataPelajaranTableAdapter(getActivity(), respRapor.ListRaporMataPelajaran));
 					}
 					
 					if(respRapor.ListRaporEkstrakurikuler != null) {
-						tv_raporEkskul.setVisibility(View.VISIBLE);
 						tableEkskul.setVisibility(View.VISIBLE);
 						tableEkskul.setAdapter(new RaporEkskulTableAdapter(getActivity(), respRapor.ListRaporEkstrakurikuler));
 					}
@@ -180,20 +161,17 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 					if(perkembangan != null && perkembangan.PerkembanganFisikKehadiranPrestasi != null) {
 						PerkembanganFisikKehadiranPrestasi fisikKehadiran = perkembangan.PerkembanganFisikKehadiranPrestasi;
 						if(fisikKehadiran != null && fisikKehadiran.Kehadiran != null) {
-							tv_raporKehadiran.setVisibility(View.VISIBLE);
 							tableKehadiran.setVisibility(View.VISIBLE);
 							tableKehadiran.setAdapter(new RaporKehadiranTableAdapter(getActivity(), fisikKehadiran.Kehadiran));
 						}
 						
 						String saran = "";
 						if(fisikKehadiran != null && fisikKehadiran.Saran != null) {
-							tv_raporSaranMid.setVisibility(View.VISIBLE);
 							tv_raporSaranMidDesc.setVisibility(View.VISIBLE);
 							saran = fisikKehadiran.Saran.SaranMid;
 							tv_raporSaranMidDesc.setText(saran == null || saran.isEmpty() ? "-Tidak Ada-" : saran);
 						}
 						if(fisikKehadiran != null && fisikKehadiran.Saran != null) {
-							tv_raporSaranAkhir.setVisibility(View.VISIBLE);
 							tv_raporSaranAkhirDesc.setVisibility(View.VISIBLE);
 							saran = fisikKehadiran.Saran.SaranAkhir;
 							tv_raporSaranAkhirDesc.setText(saran.isEmpty() ? "- Tidak Ada-" : saran);

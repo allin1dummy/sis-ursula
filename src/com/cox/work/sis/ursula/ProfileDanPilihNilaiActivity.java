@@ -50,7 +50,7 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 		
 		bundle = getIntent().getExtras();
 		tv_nama = (TextView) findViewById(R.id.tv_nama);
-		tv_nama.setText("Nama Siswa : " + bundle.getString(Util.Constant.NAMASISWA));
+		tv_nama.setText(bundle.getString(Util.Constant.NAMASISWA));
 		tv_noInduk = (TextView) findViewById(R.id.tv_no_induk);
 		tv_noInduk.setText("No Induk : " + bundle.getString(Util.Constant.NOINDUK));
 		tv_sisn = (TextView) findViewById(R.id.tv_sisn);

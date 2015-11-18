@@ -92,6 +92,7 @@
                     android:ems="10"
                     android:gravity="center|left"
                     android:text="Ubah Password"
+                    android:textColor="@color/ursula_primary_dark"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -109,6 +110,7 @@
                     android:ems="10"
                     android:gravity="center|right"
                     android:text="@string/forgot_pwd"
+                    android:textColor="@color/ursula_primary_dark"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

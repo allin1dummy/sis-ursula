@@ -102,10 +102,8 @@ public class RaporKehadiranTableAdapter extends BaseTableAdapter {
 		
 		if(row == -1 && column == -1) { // HEADER Kehadiran
 			tv_mark.setText("Kehadiran");
-			tv_mark.setTextColor(Color.BLACK);
 		} else if(row == -1 && column > -1) { // HEADER Total
 			tv_mark.setText("Total");
-			tv_mark.setTextColor(Color.BLACK);
 		} else if(row > -1 && column == -1) {
 			if(row == 0) { // Ijin
 				tv_mark.setText("Ijin");
@@ -116,7 +114,6 @@ public class RaporKehadiranTableAdapter extends BaseTableAdapter {
 			} else if(row == 3) { // Terlambat
 				tv_mark.setText("Terlambat");
 			}
-			tv_mark.setTextColor(Color.BLACK);
 		} else if(row > -1 && column > -1) { //
 			if(row == 0) { // Ijin
 				tv_mark.setText(String.valueOf(kehadiran.Ijin));
@@ -128,5 +125,6 @@ public class RaporKehadiranTableAdapter extends BaseTableAdapter {
 				tv_mark.setText(String.valueOf(kehadiran.TerlambarHadir));
 			}
 		}
+		tv_mark.setTextColor(Color.BLACK);
 	}
 }
