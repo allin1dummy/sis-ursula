@@ -3,7 +3,7 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/gradient"
+    android:background="@drawable/background_wallpapers_2_0_s_307_512"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -83,7 +83,7 @@
 		    android:layout_marginTop="16dp"
 		    android:enabled="true"
 		    android:text="@string/nilai_harian"
-		    android:background="@drawable/button_rounded_bg_white3"
+		    android:background="@drawable/selector_button"
             android:layout_marginBottom="16dp"
 		    android:textStyle="bold" />
 		
@@ -93,7 +93,7 @@
             android:layout_height="@dimen/table_height"
             android:enabled="true"
             android:text="@string/nilai_rapor"
-            android:background="@drawable/button_rounded_bg_white3"
+            android:background="@drawable/selector_button"
             android:textStyle="bold" />
 
 	    <!-- 

@@ -2,19 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#FFFFFF"
+    android:background="@drawable/background_wallpapers_2_0_s_307_512"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" >
-
-        <View
-            android:id="@+id/v_line"
-            android:layout_width="fill_parent"
-            android:layout_height="16dp"
-            android:background="#DFB056" />
 
         <ImageView
             android:layout_width="fill_parent"
@@ -31,7 +25,6 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/user_name"
-            android:textColor="#000000"
             android:textStyle="bold" />
 
         <EditText
@@ -53,7 +46,6 @@
             android:layout_marginRight="16dp"
             android:ems="10"
             android:text="@string/email"
-            android:textColor="#000000"
             android:textStyle="bold" />
 
         <EditText
@@ -79,7 +71,6 @@
                 android:layout_marginRight="16dp"
                 android:ems="10"
                 android:text="@string/old_pwd"
-                android:textColor="#000000"
                 android:textStyle="bold" >
 
                 <requestFocus />
@@ -101,7 +92,6 @@
                 android:layout_marginRight="16dp"
                 android:ems="10"
                 android:text="@string/new_pwd"
-                android:textColor="#000000"
                 android:textStyle="bold" />
 
             <EditText
@@ -121,11 +111,10 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/button_rounded_bg"
+            android:background="@drawable/selector_button"
             android:enabled="true"
             android:text="Update Profile"
-             android:textStyle="bold" />
-
+            android:textStyle="bold" />
     </LinearLayout>
 
 </ScrollView>

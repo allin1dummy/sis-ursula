@@ -3,7 +3,7 @@
     xmlns:expandable="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#FF008000">
+    android:background="@drawable/background_wallpapers_2_0_s_307_512">
     
     <LinearLayout
         android:layout_width="fill_parent"
@@ -106,7 +106,7 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/table_height"
             android:layout_margin="9dp"
-		    android:background="@drawable/button_rounded_bg_white3"
+		    android:background="@drawable/selector_button"
             android:enabled="true"
             android:text="Tampilkan Nilai Rapor"
             android:textStyle="bold" />

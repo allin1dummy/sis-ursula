@@ -3,7 +3,7 @@
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
-	    android:background="#FFFFFF"
+	    android:background="@drawable/background_wallpapers_2_0_s_307_512"
 	    android:orientation="vertical">
 	
 	    <LinearLayout
@@ -155,7 +155,7 @@
 	        android:layout_marginRight="9dp"
 	        android:background="@drawable/selector_button"
 	        android:enabled="true"
-	        android:text="Tampilkan Nilai"
+	        android:text="Tampilkan Nilai Harian"
 	        android:textStyle="bold" />
 	
 	    <com.inqbarna.tablefixheaders.TableFixHeaders
