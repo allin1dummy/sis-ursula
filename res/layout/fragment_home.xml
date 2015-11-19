@@ -17,6 +17,7 @@
 		        android:id="@+id/tv_name"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
+				android:textColor="#FFFFFF"
 		        android:textStyle="bold" >
 		    </TextView>
 		
@@ -24,6 +25,7 @@
 		        android:id="@+id/tv_wali"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
+				android:textColor="#FFFFFF"
 		        android:visibility="gone"
 		        android:textStyle="bold" >
 		    </TextView>
