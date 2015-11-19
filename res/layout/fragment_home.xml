@@ -79,6 +79,7 @@
 		                android:layout_height="wrap_content"
 		                android:gravity="center_vertical"
 		                android:text="Kelas:"
+		                android:textColor="#FFFFFF"
 		                android:textStyle="bold" />
 		
 		            <Spinner
@@ -92,6 +93,7 @@
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
 		                android:gravity="center_vertical"
+		                android:textColor="#FFFFFF"
 		                android:text="Semester:"
 		                android:textStyle="bold" />
 		
@@ -114,6 +116,7 @@
 		            android:layout_height="fill_parent"
 		            android:gravity="center_vertical"
 		            android:text="Aspek: "
+					android:textColor="#FFFFFF"
 		            android:textStyle="bold" />
 		
 		        <Spinner
@@ -134,6 +137,7 @@
 		            android:layout_height="fill_parent"
 		            android:gravity="center_vertical"
 		            android:text="Jenis Nilai: "
+					android:textColor="#FFFFFF"
 		            android:textStyle="bold" />
 		
 		        <Spinner
