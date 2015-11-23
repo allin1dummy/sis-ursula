@@ -81,10 +81,10 @@
 		    android:layout_width="fill_parent"
 		    android:layout_height="@dimen/table_height"
 		    android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
 		    android:enabled="true"
 		    android:text="@string/nilai_harian"
 		    android:background="@drawable/selector_button"
-            android:layout_marginBottom="16dp"
 		    android:textStyle="bold" />
 		
         <Button
@@ -94,54 +94,29 @@
             android:enabled="true"
             android:text="@string/nilai_rapor"
             android:background="@drawable/selector_button"
+            android:layout_marginBottom="8dp"
             android:textStyle="bold" />
 
-	    <!-- 
-        <LinearLayout
+		<Button
+		    android:id="@+id/btn_updateprofile"
+		    android:layout_width="fill_parent"
+		    android:layout_height="@dimen/table_height"
+            android:layout_marginBottom="8dp"
+		    android:enabled="true"
+		    android:text="Update Profile"
+		    android:background="@drawable/selector_button"
+		    android:textStyle="bold" />
+		
+        <Button
+            android:id="@+id/btn_changepwd"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal" >
-            
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:orientation="horizontal" >
-		        <Button
-		            android:id="@+id/btn_harian"
-		            android:layout_width="fill_parent"
-		            android:layout_height="@dimen/table_height"
-		            android:layout_marginLeft="16dp"
-		            android:layout_marginRight="16dp"
-		            android:layout_marginTop="16dp"
-		            android:enabled="true"
-		            android:text="@string/nilai_harian"
-		            android:background="@drawable/selector_button"
-		            android:textStyle="bold" />
-			</LinearLayout>
-			
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:orientation="horizontal" >
-		        
-		        <Button
-		            android:id="@+id/btn_rapor"
-		            android:layout_width="fill_parent"
-		            android:layout_height="@dimen/table_height"
-		            android:layout_marginLeft="16dp"
-		            android:layout_marginRight="16dp"
-		            android:layout_marginTop="16dp"
-		            android:enabled="true"
-		            android:text="@string/nilai_rapor"
-		            android:background="@drawable/selector_button"
-		            android:textStyle="bold" />
-			</LinearLayout>
-		</LinearLayout>
- 		-->
+            android:layout_height="@dimen/table_height"
+            android:enabled="true"
+            android:text="Ubah Password"
+            android:background="@drawable/selector_button"
+            android:textStyle="bold" />
+        
+        
     </LinearLayout>
 
 </ScrollView>

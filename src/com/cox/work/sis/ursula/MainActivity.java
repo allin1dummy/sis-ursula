@@ -88,6 +88,11 @@ public class MainActivity extends FragmentActivity {
 		// enabling action bar app icon and behaving it as toggle button
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
+		
+		userName = getIntent().getStringExtra(Util.Constant.USERNAME);
+		namaSiswa = getIntent().getStringExtra(Util.Constant.NAMASISWA);
+		mutasiId = getIntent().getStringExtra(Util.Constant.MUTASIID);
+		email = getIntent().getStringExtra(Util.Constant.EMAIL);
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_drawer, //nav menu toggle icon
@@ -101,7 +106,7 @@ public class MainActivity extends FragmentActivity {
 			}
 
 			public void onDrawerOpened(View drawerView) {
-				getActionBar().setTitle(mDrawerTitle);
+				getActionBar().setTitle(namaSiswa);
 				// calling onPrepareOptionsMenu() to hide action bar icons
 				invalidateOptionsMenu();
 			}
@@ -109,17 +114,12 @@ public class MainActivity extends FragmentActivity {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		if (savedInstanceState == null) {
-			// on first time display view for first nav item
-			displayView(0);
+			displayView(getIntent().getIntExtra(Util.Constant.NILAI, 0));
 		}
 	}
 	
 	@Override
 	public View onCreateView(String name, Context context, AttributeSet attrs) {
-		userName = getIntent().getStringExtra(Util.Constant.USERNAME);
-		namaSiswa = getIntent().getStringExtra(Util.Constant.NAMASISWA);
-		mutasiId = getIntent().getStringExtra(Util.Constant.MUTASIID);
-		email = getIntent().getStringExtra(Util.Constant.EMAIL);
 		return super.onCreateView(name, context, attrs);
 	}
 	
@@ -202,14 +202,14 @@ public class MainActivity extends FragmentActivity {
 			ft.addToBackStack(String.valueOf(position));
 		}
 		switch (position) {
-		case 0: // Main
+		case 0: // Nilai Harian
 			if(home == null) {
 				home = new HomeFragment();
 				home.setArguments(b);
 			}
 			ft.replace(R.id.frame_container, home).commit();
 			break;
-		case 1: // Main
+		case 1: // Nilai Rapor
 			if(nilaiRapor == null) {
 				nilaiRapor = new NilaiRaporFragment();
 				nilaiRapor.setArguments(b);

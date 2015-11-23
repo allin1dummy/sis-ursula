@@ -28,7 +28,7 @@ import com.cox.work.sis.ursula.util.Util;
 
 public class ProfileDanPilihNilaiActivity extends Activity implements OnClickListener{
 	ImageView imgProfile;
-	Button btnHarian, btnRapor;
+	Button btnHarian, btnRapor, btnUpdateProfile, btnChangePwd;
 	TextView tv_nama, tv_noInduk, tv_sisn, tv_kelas, tv_waliKelas;
 	Bundle bundle;
 
@@ -42,6 +42,10 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 		btnHarian.setOnClickListener(this);
 		btnRapor = (Button) findViewById(R.id.btn_rapor);
 		btnRapor.setOnClickListener(this);
+		btnUpdateProfile = (Button) findViewById(R.id.btn_updateprofile);
+		btnUpdateProfile.setOnClickListener(this);
+		btnChangePwd = (Button) findViewById(R.id.btn_changepwd);
+		btnChangePwd.setOnClickListener(this);
 
 		final ProgressDialog dialog = new ProgressDialog(this);
 		dialog.setMessage("Memuat profile siswa...");
@@ -87,6 +91,7 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 	@Override
 	public void onClick(View v) {
 		Intent i = new Intent();
+		i.setClass(getApplicationContext(), MainActivity.class);
 		i.putExtra(Util.Constant.USERNAME, bundle.getString(Util.Constant.USERNAME));
 		i.putExtra(Util.Constant.NAMASISWA, bundle.getString(Util.Constant.NAMASISWA));
 		i.putExtra(Util.Constant.MUTASIID, bundle.getString(Util.Constant.MUTASIID));
@@ -94,10 +99,16 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 		
 		switch (v.getId()) {
 		case R.id.btn_harian:
-			i.setClass(getApplicationContext(), MainActivity.class);
+			i.putExtra(Util.Constant.NILAI, 0);
 			break;
 		case R.id.btn_rapor:
-			i.setClass(getApplicationContext(), MainRaporActivity.class);
+			i.putExtra(Util.Constant.NILAI, 1);
+			break;
+		case R.id.btn_updateprofile:
+			i.putExtra(Util.Constant.NILAI, 2);
+			break;
+		case R.id.btn_changepwd:
+			i.putExtra(Util.Constant.NILAI, 3);
 			break;
 		default:
 			break;
