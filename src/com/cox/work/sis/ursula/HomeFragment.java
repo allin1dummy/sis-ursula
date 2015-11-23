@@ -52,18 +52,18 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 	private List<JenisNilai> listJenisNilai;
 	private List<MuridKelas> listMuridKelas;
 	private List<Nilai> listNilai;
-	private String userName, namaSiswa, mutasiId;
+	private String userName, mutasiId;
 	private int muridKelasId = -1;
 	private int selAspek;
 	private boolean isSemesterChanged, isClassChanged, isAspectChanged;
-	private TextView tv_NamaSiswa, tv_WaliKelas;
+	private TextView tv_WaliKelas;
 	private ImageButton btnShowFilter;
 	private Button btnShowMarks;
 	private LinearLayout llFilterNilai;
 	private boolean isFilterShow = true;
 	private int counterMaxNilaiKe = 0;
 
-	List<String> listSemester = new ArrayList<String>();
+	List<String> listSemester;
 	List<String> listAspek = new ArrayList<String>();
 	List<String> listKelas = new ArrayList<String>();
 	List<String> listKategori = new ArrayList<String>();
@@ -85,12 +85,8 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 		getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		
 		userName = getArguments().getString(Util.Constant.USERNAME);
-		namaSiswa = getArguments().getString(Util.Constant.NAMASISWA);
 		mutasiId = getArguments().getString(Util.Constant.MUTASIID);
 		
-		tv_NamaSiswa = (TextView) rootView.findViewById(R.id.tv_name);
-		tv_NamaSiswa.setText("Nama: " + namaSiswa);
-		//tv_ShowFilter = (TextView) rootView.findViewById(R.id.tv_show_filter);
 		tv_WaliKelas = (TextView) rootView.findViewById(R.id.tv_wali);
 		
 		tableFixHeaders = (TableFixHeaders) rootView.findViewById(R.id.table);
@@ -294,6 +290,7 @@ public class HomeFragment extends Fragment implements OnItemSelectedListener {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void loadDataToSpinner() {
+		listSemester = new ArrayList<String>();
 		listSemester.add("1");
 		listSemester.add("2");
 		spninnerAdapter = new ArrayAdapter(getActivity(), R.layout.simple_spinner, listSemester);
