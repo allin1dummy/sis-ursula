@@ -2,7 +2,9 @@ package com.cox.work.sis.ursula;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -231,7 +233,25 @@ public class MainActivity extends FragmentActivity {
 			ft.replace(R.id.frame_container, changePassword).commit();
 			break;
 		case 4: // Logout
-			Util.CommonDialog.doLogout(this);
+			//Util.CommonDialog.doLogout(this);
+
+			AlertDialog.Builder alert = new AlertDialog.Builder(this);
+			alert.setTitle("Logout")
+				.setCancelable(true)
+				.setMessage("Apakah Anda yakin logout dari Applikasi?")
+				.setPositiveButton("Ya",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.dismiss();
+						ProfileDanPilihNilaiActivity.activity.finish();
+						finish();
+					}
+				})
+				.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int arg1) {
+						dialog.dismiss();
+					}
+				})
+				.show();
 			break;
 		default:
 			break;
@@ -276,6 +296,6 @@ public class MainActivity extends FragmentActivity {
 	
 	@Override
 	public void onBackPressed() {
-		Util.CommonDialog.doLogout(this);
+		finish();
 	}
 }

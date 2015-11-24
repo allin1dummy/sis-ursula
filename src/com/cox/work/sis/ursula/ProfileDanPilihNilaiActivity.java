@@ -4,8 +4,10 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,10 +33,12 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 	Button btnHarian, btnRapor, btnUpdateProfile, btnChangePwd;
 	TextView tv_nama, tv_noInduk, tv_sisn, tv_kelas, tv_waliKelas;
 	Bundle bundle;
+	public static Activity activity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		activity = this;
 		
 		setContentView(R.layout.activity_profile_pilihnilai);
 		imgProfile = (ImageView) findViewById(R.id.img_profile);
@@ -115,11 +119,26 @@ public class ProfileDanPilihNilaiActivity extends Activity implements OnClickLis
 		}
 
 		startActivity(i);
-		finish();
 	}
 	
 	@Override
 	public void onBackPressed() {
-		finish();
+//		Util.CommonDialog.doLogout(this);
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("Logout")
+			.setCancelable(true)
+			.setMessage("Apakah Anda yakin logout dari Applikasi?")
+			.setPositiveButton("Ya",new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					dialog.dismiss();
+					finish();
+				}
+			})
+			.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int arg1) {
+					dialog.dismiss();
+				}
+			})
+			.show();
 	}
 }

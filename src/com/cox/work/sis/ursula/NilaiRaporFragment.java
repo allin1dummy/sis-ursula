@@ -41,7 +41,7 @@ import android.widget.TextView;
 public class NilaiRaporFragment extends Fragment implements OnItemSelectedListener{
 	private View rootView;
 	private LinearLayout ll_listNilaiRapor;
-	private TextView tv_NamaSiswa, tv_WaliKelas
+	private TextView tv_WaliKelas
 					, tv_raporSaranMidDesc, tv_raporSaranAkhirDesc
 					, tv_raporSikapDasar, tv_raporSikapInti, tv_raporSikapNilai;
 	private TableFixHeaders tableMataPelajaran, tableEkskul, tableKehadiran;
@@ -54,7 +54,7 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 	private String mutasiId;
 	private int muridKelasId = -1;
 	private List<MuridKelas> listMuridKelas = new ArrayList<MuridKelas>();
-	private List<String> listSemester = new ArrayList<String>();
+	private List<String> listSemester;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,8 +71,6 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 		mutasiId = getArguments().getString(Util.Constant.MUTASIID);
 
 		ll_listNilaiRapor = (LinearLayout) rootView.findViewById(R.id.list_nilai_rapor);
-		tv_NamaSiswa = (TextView) rootView.findViewById(R.id.tv_name);
-		tv_NamaSiswa.setText("Nama : " + namaSiswa);
 		tv_WaliKelas = (TextView) rootView.findViewById(R.id.tv_wali);
 		
 		tv_raporSikapDasar = (TextView) rootView.findViewById(R.id.tv_raporSikapDasar);
@@ -213,6 +211,7 @@ public class NilaiRaporFragment extends Fragment implements OnItemSelectedListen
 	}
 	
 	private void loadDataToSpinner() {
+		listSemester  = new ArrayList<String>();
 		listSemester.add("1");
 		listSemester.add("2");
 		spninnerAdapter = new ArrayAdapter(getActivity(), R.layout.simple_spinner, listSemester);
