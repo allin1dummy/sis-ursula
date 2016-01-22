@@ -70,6 +70,9 @@ public class Util {
 		//public static final String SERVICE_URL_STG = "http://112.78.145.43/sini-sdursula/Master";
 		public static final String SERVICE_URL_MASTER_STG = "http://stg-api.santaursulajakarta.sch.id/sini-sdursula/Master";
 		public static final String SERVICE_URL_MOBILE_STG = "http://stg-api.santaursulajakarta.sch.id/sini-sdursula/Mobile";
+		
+		public static final String SERVICE_URL_MASTER_PROD = "http://112.78.145.43/sini-sdursula/Master";
+		public static final String SERVICE_URL_MOBILE_PROD = "http://112.78.145.43/sini-sdursula/Mobile";
 	}
 	
 	public static final class Constant {
