@@ -35,7 +35,7 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 	
 	private View v;
 	private Button btnResetPwd;
-	private EditText etUsername, etEmail, etPwdLama, etPwdBaru;
+	private EditText etUsername, etEmail, etPwdLama, etPwdBaru, etPwdBaru_2;
 	private Context activity;
 	private Intent i;
 	
@@ -56,6 +56,7 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 		etEmail.setText(i.getStringExtra(Util.Constant.EMAIL) != null && i.getStringExtra(Util.Constant.EMAIL).isEmpty() ? "" : i.getStringExtra(Util.Constant.EMAIL));
 		etPwdLama = (EditText) findViewById(R.id.et_old_pwd);
 		etPwdBaru = (EditText) findViewById(R.id.et_new_pwd);
+		etPwdBaru_2 = (EditText) findViewById(R.id.et_new_pwd_2);
 	}
 
 	@Override
@@ -103,10 +104,25 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 					.show();
 				return;
 			}
-			if(!Util.isPasswordValid((etPwdBaru.getText().toString())) || !Util.isPasswordValid((etPwdLama.getText().toString()))) {
+			if(!Util.isPasswordValid((etPwdBaru.getText().toString()))
+					|| !Util.isPasswordValid((etPwdBaru_2.getText().toString()))
+					|| !Util.isPasswordValid((etPwdLama.getText().toString()))) {
 				AlertDialog.Builder alert = new AlertDialog.Builder(this);
 				alert.setTitle("Password");
 				alert.setMessage("Password minimal 6 karakter")
+					.setCancelable(false)
+					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							dialog.dismiss();
+						}
+					})
+					.show();
+				return;
+			}
+			if(!etPwdBaru.getText().toString().equals(etPwdBaru_2.getText().toString())) {
+				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+				alert.setTitle("Password");
+				alert.setMessage("Password baru tidak cocok")
 					.setCancelable(false)
 					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog,int id) {
@@ -122,42 +138,87 @@ public class UpdateProfileActivity extends Activity implements OnClickListener{
 			dialog.setCancelable(false);
 			dialog.show();
 			
-			UserUpdateProfileEmailPwd user = new UserUpdateProfileEmailPwd(etUsername.getText().toString(), etEmail.getText().toString(), etPwdLama.getText().toString(), etPwdBaru.getText().toString());
-			MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
-			client.updateProfileEmailPwd(user, new Callback<ResponseUser>() {
+			
+			// user login check first
+			DataUser user = new DataUser(etUsername.getText().toString(), etPwdLama.getText().toString());
+			MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MASTER_STG);
+			client.login(user, new Callback<ResponseUser>() {
 				@Override
 				public void success(ResponseUser user, Response arg1) {
 					dialog.dismiss();
-					
-					AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
-					alertbox.setTitle(getResources().getString(R.string.reset_pwd));
-					alertbox.setMessage("Data profile Anda sudah diperbarui, silakan login kembali.");
-					alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dlg, int which) {
-				        	dlg.dismiss();
-				        	Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-				        	startActivity(i);
-				        	finish();
-				        }
-					});
-					alertbox.show();
+					if(user != null && user.Message == null) {
+						// check login success, continue to update profile
+						UserUpdateProfileEmailPwd userUpdateProfile = new UserUpdateProfileEmailPwd(etUsername.getText().toString(), etEmail.getText().toString(), etPwdLama.getText().toString(), etPwdBaru.getText().toString());
+						MobileServiceClient client = MobileServiceGenerator.createService(MobileServiceClient.class, Util.Properties.SERVICE_URL_MOBILE_STG);
+						client.updateProfileEmailPwd(userUpdateProfile, new Callback<ResponseUser>() {
+							@Override
+							public void success(ResponseUser user, Response arg1) {
+								dialog.dismiss();
+								
+								AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
+								alertbox.setTitle(getResources().getString(R.string.reset_pwd));
+								alertbox.setMessage("Data profile Anda sudah diperbarui, silakan login kembali.");
+								alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+							        public void onClick(DialogInterface dlg, int which) {
+							        	dlg.dismiss();
+							        	Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+							        	startActivity(i);
+							        	finish();
+							        }
+								});
+								alertbox.show();
+							}
+							
+							@Override
+							public void failure(RetrofitError arg0) {
+								dialog.dismiss();
+								
+								AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
+								alertbox.setTitle("Update Profile Gagal");
+								alertbox.setMessage("Terjadi masalah koneksi, silakan coba sesaat lagi.");
+								alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+							        public void onClick(DialogInterface dlg, int which) {
+							        	dlg.dismiss();
+							        }
+								});
+								alertbox.show();
+							}
+						});
+					} else {
+						// check login fail
+						Log.e("cox", "FAIL!!! # message = " + user.Message);
+						AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
+						alertbox.setTitle("Update Profile Gagal");
+						alertbox.setMessage("Password lama Anda salah.");
+						alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					        public void onClick(DialogInterface dialog, int which) {
+					        	dialog.dismiss();
+					        }
+						});
+						alertbox.show();
+					}
 				}
-				
 				@Override
 				public void failure(RetrofitError arg0) {
-					dialog.dismiss();
-					
+					Log.e("cox", "ERROR!!! # message = " + arg0.getMessage());
+		        	dialog.dismiss();
+
 					AlertDialog.Builder alertbox = new AlertDialog.Builder(activity);
-					alertbox.setTitle("Update Profile Gagal");
-					alertbox.setMessage("Terjadi masalah koneksi, silakan coba sesaat lagi.");
+					alertbox.setTitle("Login");
+					if(arg0.isNetworkError()) {
+						alertbox.setMessage("Login gagal, periksa kembali jaringan internet Anda.");
+					} else {
+						alertbox.setMessage("User ID atau Password salah. Cek kembali User ID dan Password Anda.");
+					}
 					alertbox.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dlg, int which) {
-				        	dlg.dismiss();
+				        public void onClick(DialogInterface dialog, int which) {
+				        	dialog.dismiss();
 				        }
 					});
 					alertbox.show();
 				}
 			});
+			
 			break;
 
 		default:
